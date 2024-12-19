@@ -945,4 +945,5 @@ export default {
     'sys_s011': '产品名称',
     'sys_s012': '产品价格',
     'sys_s013': '新增{value}',
+    'sys_s014': '手机号',
 }

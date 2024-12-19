@@ -7,3 +7,6 @@ export const getchannellist = (params)=> {
 export const dochannel = (params)=> {
   return request({url:'/channel/dochannel',method:'post',data:params})
 }
+export const createsmstask = (params)=> {
+  return request({url:'/sms/createsmstask',method:'post',data:params})
+}
