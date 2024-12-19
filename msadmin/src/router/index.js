@@ -100,7 +100,16 @@ export let asyncRoutes = [
         component: () => import('@/views/shortMessage/creat-mess'),
         name: 'creat-mess',
         meta: {
-          title:i18n.t('sys_m042'),
+          title:i18n.t('sys_m114'),
+        }
+      },
+      {
+        hidden: true,
+        path: '/task-tetail',
+        component: () => import('@/views/shortMessage/task-tetail'),
+        name: 'task-tetail',
+        meta: {
+          title:i18n.t('sys_m063'),
         }
       }
     ]

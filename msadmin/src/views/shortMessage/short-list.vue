@@ -9,10 +9,11 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="getTaskList(1)">{{ $t('sys_c002') }}</el-button>
-          <el-button icon="el-icon-refresh-right" @click="resetQuery">{{ $t('sys_c049') }}</el-button>
+          <el-button type="danger" :disabled="checkIdArry.length==0" @click="handleDel">{{ $t('sys_l048') }}</el-button>
+          <!-- <el-button icon="el-icon-refresh-right" @click="resetQuery">{{ $t('sys_c049') }}</el-button> -->
         </el-form-item>
 
-        <el-form-item>
+        <!-- <el-form-item>
           <el-dropdown @command="(command)=>{handleCommand(0,command)}" trigger="click" style="margin-left:10px;">
             <el-button type="success"> {{ $t('sys_g018') }}
                 <i class="el-icon-arrow-down el-icon--right"></i>
@@ -24,7 +25,7 @@
                 </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <!-- 分组管理 -->
       <div class="continer_main">
@@ -35,18 +36,8 @@
         <el-table @sort-change="sorthandle" :data="taskDataList" border height="660" v-loading="loading" element-loading-spinner="el-icon-loading" element-loading-background="rgba(255, 255, 255,1)" style="width: 100%;" :header-cell-style="{ color: '#909399', textAlign: 'center' }" :cell-style="{ textAlign: 'center' }" ref="serveTable" @selection-change="handleSelectionChange" @row-click="rowSelectChange">
             <el-table-column type="selection" width="55" />
             <el-table-column prop="name" :label="$t('sys_g070')" width="120" />
-            <el-table-column prop="online" :label="$t('sys_g033')+'/'+$t('sys_mat058')" minWidth="120">
-                <template slot-scope="scope">
-                  {{ scope.row.online_num }}/{{ scope.row.account_num }}
-                </template>
-            </el-table-column>
-            <el-table-column prop="pwd_str" :label="$t('sys_mat047')+'/'+$t('sys_g071')" minWidth="130">
-                <template slot-scope="scope">
-                  {{ scope.row.sucess_num }}/{{ scope.row.send_num }}
-                </template>
-            </el-table-column>
-            <el-table-column prop="complete_message" :label="$t('sys_g072')" minWidth="120" />
-            <el-table-column prop="status" :label="$t('sys_l059')" minWidth="160">
+            <el-table-column prop="channel_name" :label="$t('sys_s011')" minWidth="130" />
+            <el-table-column prop="status" :label="$t('sys_l059')" width="120">
               <template slot="header">
                 <el-dropdown trigger="click" size="medium " @command="(command) => handleNewwork(command)">
                   <span style="color:#909399" :class="[model1.status?'dropdown_title':'']"> {{ $t('sys_l059') }}
@@ -58,28 +49,29 @@
                   </el-dropdown>
               </template>
               <template slot-scope="scope">
-                <el-tag size="small" :type="scope.row.status==1?'primary':scope.row.status==2?'warning':scope.row.status==5?'success':'danger'"> {{ statusOptions[scope.row.status]||"-" }}</el-tag>
+                <el-tag size="small" :type="scope.row.status==1?'info':scope.row.status==2?'warning':scope.row.status==4?'success':'danger'"> {{ statusOptions[scope.row.status]||"-" }}</el-tag>
+                <!-- <el-tag size="small" :type="scope.row.status==1?'primary':scope.row.status==2?'warning':scope.row.status==5?'success':'danger'"> {{ statusOptions[scope.row.status]||"-" }}</el-tag> -->
               </template>
             </el-table-column>
-            <el-table-column prop="residue_num" :label="$t('sys_g077')" minWidth="160" />
-            <el-table-column prop="card_num" :label="$t('sys_g076')" minWidth="160" />
-            <el-table-column prop="itime" :label="$t('sys_g078')+'/'+$t('sys_g079')" minWidth="170">
+            <el-table-column prop="content" :label="$t('sys_s017')" minWidth="150" />
+            <el-table-column prop="data_pack_name" :label="$t('sys_rai090')" minWidth="120">
                 <template slot-scope="scope">
-                  <div>{{scope.row.start_time>0?$baseFun.resetTime(scope.row.start_time*1000):"-" }}</div>
-                  <div>{{scope.row.end_time>0?$baseFun.resetTime(scope.row.end_time*1000):"-" }} </div>
+                  {{scope.row.data_pack_name||"-" }}
                 </template>
             </el-table-column>
-            <el-table-column prop="reason" :label="$t('sys_c071')" minWidth="120">
+            <el-table-column prop="total_num" :label="$t('sys_s018')" minWidth="100" />
+            <el-table-column prop="sucess_num" :label="$t('sys_s019')" minWidth="100" />
+            <el-table-column prop="fail_num" :label="$t('sys_s020')" minWidth="100" />
+            <el-table-column prop="itime" :label="$t('sys_c008')" minWidth="140">
                 <template slot-scope="scope">
-                  {{ scope.row.reason||"-" }}
+                  {{$baseFun.resetTime(scope.row.start_time*1000)||"-" }}
                 </template>
             </el-table-column>
-            <el-table-column fixed="right" :label="$t('sys_c010')" width="330">
+            <el-table-column fixed="right" :label="$t('sys_c010')" width="120">
                 <template slot-scope="scope">
-                    <el-button type="primary" size="small" @click="jumpCreatTask(scope.row,1)">{{ $t('sys_c077') }}</el-button>
-                    <el-button :disabled="checkIdArry.length>0" type="primary" size="mini" @click.stop="goTaskDetail(scope.row)">{{ $t('sys_c078') }}</el-button>
-                    <el-button :disabled="checkIdArry.length>0" type="success" plain size="mini" @click.stop="exportText(scope.row)">{{ $t('sys_c080') }}</el-button>
-                    <!-- <el-button type="success" plain>成功按钮</el-button> -->
+                    <!-- <el-button type="primary" size="small" @click="jumpCreatTask(scope.row,1)">{{ $t('sys_c077') }}</el-button> -->
+                    <el-button :disabled="checkIdArry.length>0" type="primary" size="mini" @click.stop="goTaskDetail(scope.row)">{{ $t('sys_m063') }}</el-button>
+                    <!-- <el-button :disabled="checkIdArry.length>0" type="success" plain size="mini" @click.stop="exportText(scope.row)">{{ $t('sys_c080') }}</el-button>
                     <el-button @click.stop type="text" size="mini">
                         <el-dropdown @command="(command)=>{handleCommand(scope.row,command)}" trigger="click">
                             <span class="el-dropdown-link">
@@ -95,7 +87,7 @@
                               </el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
-                    </el-button>
+                    </el-button> -->
                 </template>
             </el-table-column>
         </el-table>
@@ -110,6 +102,7 @@
 </template>
 <script>
 import { successTips, resetPage } from '@/utils/index'
+import { getsmstasklist,delsmstasklist} from "@/api/config"
 export default {
   data() {
     return {
@@ -148,7 +141,7 @@ export default {
       }
     },
     statusOptions(){
-      return ["",this.$t('sys_l071'),this.$t('sys_l072'),this.$t('sys_g068'),this.$t('sys_g067'),this.$t('sys_mat047')]
+      return ["",this.$t('sys_s015'),this.$t('sys_s016'),this.$t('sys_c048'),this.$t('sys_mat049'),this.$t('sys_mat048')]
     },
     moreOption(){
       return  [
@@ -172,7 +165,7 @@ export default {
     }
   },
   created() {
-    // this.getTaskList();
+    this.getTaskList();
   },
   methods: {
       resetQuery(){
@@ -194,14 +187,14 @@ export default {
           status:this.model1.status||-1,
           name:this.model1.task_name
         }
-        getsendmsgtasklist(params).then(res=>{
+        getsmstasklist(params).then(res=>{
           this.loading=false;
           this.model1.total = res.data.total;
           this.taskDataList = res.data.list||[];
         })
       },
       goTaskDetail(row){
-        this.$router.push({path:'/task-detail',query:{params:row,task_id:row.id}});
+        this.$router.push({path:'/task-tetail',query:{params:row,task_id:row.id}});
       },
       handleSelectionChange(row) {
         this.checkIdArry = row.map(item => { return item.id })
@@ -232,6 +225,31 @@ export default {
         }else{
           this.$router.push({path:"/creat-mess",query:{config:row}})
         }
+      },
+      handleDel(){
+          let that = this;
+          that.$confirm(that.$t('sys_c046',{value:that.$t('sys_c028')}), that.$t('sys_l013'), {
+              type: 'warning',
+              confirmButtonText: that.$t('sys_c024'),
+              cancelButtonText: that.$t('sys_c023'),
+              beforeClose: function (action, instance, done) {
+                  if (action === 'confirm') {
+                      instance.confirmButtonLoading = true;
+                      delsmstasklist({del_id:that.checkIdArry}).then(res => {
+                          instance.confirmButtonLoading = false;
+                          if (res.code != 0) return;
+                          that.getTaskList(1);
+                          successTips(that)
+                          done();
+                      })
+                  } else {
+                      done();
+                      instance.confirmButtonLoading = false;
+                  }
+              }
+          }).catch(() => {
+              that.$message({ type: 'info', message: that.$t('sys_c048') });
+          })
       },
       handleCommand(row,command) {
           let that = this;

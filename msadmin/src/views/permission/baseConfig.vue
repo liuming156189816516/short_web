@@ -59,6 +59,7 @@
 </template>
 
 <script>
+import { setChannel,getChannel } from '@/utils/auth'
 import { successTips } from '@/utils/index'
 import { getchannellist,dochannel } from "@/api/config"
 export default {
@@ -107,6 +108,8 @@ export default {
 			getchannellist({name:this.good_name}).then(res =>{
                 this.loading = false;
 				this.goodsList = res.data.list || [];
+                setChannel(this.goodsList);
+                this.EventBus.$emit('channel',"ok");
 			})
 		},
         addConfigBtn(val,type){
@@ -141,6 +144,7 @@ export default {
                         this.isLoading = false;
 						this.getConfigList()
 						this.configModel = false;
+                        // this.$store.dispatch('user/initGoodsList');
 					})
                 } else {
                     console.log('error submit!!');

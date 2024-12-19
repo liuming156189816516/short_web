@@ -1,13 +1,13 @@
 import { asyncRoutes, constantRoutes } from '@/router'
 import { getchannellist } from "@/api/config"
 import { login, loginout } from '@/api/login'
-import { setToken,getToken,setUserInfo,getUserInfo,removeToken } from '@/utils/auth'
+import { setToken,getToken,setUserInfo,getUserInfo,removeToken,getChannel,setChannel } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
 const state = {
   roles: [],
   routes: [],
-  goodList:[],
+  goodList:getChannel(),
   addRoutes: [],
   token: getToken(),
   userInfo: getUserInfo(),
@@ -79,7 +79,11 @@ const actions = {
     return new Promise((resolve, reject) => {
       getchannellist().then(res => {
         if (res.code == 0) {
-          commit('SET_GOODS', res.data.list)
+          let list = res.data.list;
+          if(list.length > 0){
+            commit('SET_GOODS', list)
+            setChannel(list);
+          }
           return resolve(true)
         }
         resolve(false)

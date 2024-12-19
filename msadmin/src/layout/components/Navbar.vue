@@ -1,6 +1,7 @@
 <template>
-  <div class="navbar" @click="shwo_goods=false">
+  <div class="navbar">
     <hamburger id="hamburger-container" :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
+    <div class="change_name">产品: {{goods_name.name}}</div>
     <div class="right-menu">
       <div class="goods_menu">
         <el-button icon="iconfont icon-chanpinyuyue" @click.stop="shwo_goods=!shwo_goods">产品</el-button>
@@ -8,13 +9,11 @@
           <div class="good_warp" v-if="shwo_goods">
             <div class="head_title">我的产品</div>
             <div class="good_list">
-              <div :class="['good_item',goodIdx==idx?'good_active':'']" v-for="(item,idx) in goods_list" @click.stop="changeGood(item,idx)">
+              <div :class="['good_item',goods_name.id==item.channel_id?'good_active':'']" v-for="(item,idx) in goods_list" @click.stop="changeGood(item,idx)">
                 <i class="iconfont icon-ui-checks-grid" />
                 <p>{{ item.name }}</p>
               </div>
             </div>
-            
-            <!-- <div class="footer_title">我的产品</div> -->
           </div>
         </transition>
       </div>
@@ -45,13 +44,13 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getchannellist } from "@/api/config"
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 import ErrorLog from '@/components/ErrorLog'
 import Screenfull from '@/components/Screenfull'
 import SizeSelect from '@/components/SizeSelect'
 import Search from '@/components/HeaderSearch'
+import { setGoodName,getGoodName,getChannel } from '@/utils/auth'
 
 export default {
   components: {
@@ -67,14 +66,13 @@ export default {
       goodIdx:1,
       langeIdx: 0,
       activeIndex:0,
+      goods_list:this.$store.state.user.goodList,
+      goods_name:getGoodName(),
       shwo_goods:false
     }
   },
   computed: {
     ...mapGetters(['sidebar','userInfo']),
-    goods_list(){
-      return this.$store.state.user.goodList;
-    },
     expireTime(){
       let expireTime = this.userInfo;
       let currentTimeStamp = Math.floor(Date.now() / 1000);
@@ -90,6 +88,9 @@ export default {
     this.EventBus.$on('message', (data) => {
       this.shwo_goods = false;
     })
+    this.EventBus.$on('channel', (data) => {
+      this.goods_list = getChannel();
+    })
   },
   methods: {
     async logout() {
@@ -97,12 +98,6 @@ export default {
       // this.$router.replace('/login')
       location.reload();
     },
-    // getGoodsList(){
-    //   getchannellist().then(res=>{
-    //     this.goods_list = res.data.list;
-    //     // this.goods_list = list.length>0?this.$baseFun.splitString(list,4):[];
-    //   })
-    // },
     jumpServeTg(){
       window.open(process.env.VUE_APP_TG,'_blank');
     },
@@ -110,15 +105,12 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
     changeGood(row,idx){
-      console.log(row);
       this.goodIdx = idx;
+      this.goods_name={name:row.name,id:row.channel_id};
+      setGoodName({name:row.name,id:row.channel_id});
       this.$message({message:`切换产品：${row.name}`,type: 'success'});
     },
-    handleBlur(){
-      console.log("9999999");
-    },
     closeMenu(e){
-      console.log();
       e.target.nodeName === 'BUTTON' ? e.target.blur() : e.target.parentNode.blur()
     }
   }
@@ -236,6 +228,13 @@ export default {
   .errLog-container {
     display: inline-block;
     vertical-align: top;
+  }
+  .change_name{
+    display: flex;
+    height: 50px;
+    float: left;
+    font-size: 14px;
+    align-items: center;
   }
 
   .right-menu {

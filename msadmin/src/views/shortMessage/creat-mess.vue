@@ -7,10 +7,8 @@
       <div class="continer_main" style="width: 100%;margin-top: 30px;">
             <div class="left_mess">
                 <div class="radio_warp">
-                    <el-radio-group v-model="task_type" size="small">
-                        <el-radio label="1" border>手动上传</el-radio>
-                        <el-radio label="2" border>文件导入</el-radio>
-                        <el-radio label="3" border>从通讯录</el-radio>
+                    <el-radio-group v-model="task_type" size="small" @change="handleTab">
+                        <el-radio :label="idx" border v-for="(item,idx) in labelOption" :key="idx">{{ item }}</el-radio>
                     </el-radio-group>
                 </div>
                 <el-row>
@@ -19,25 +17,39 @@
                             <el-form-item :label="$t('sys_g070')" prop="apply_name">
                                 <el-input clearable v-model="taskForm.apply_name" :placeholder="$t('sys_mat061',{value:$t('sys_g070')})" rows="6" />
                             </el-form-item>
-                            <template v-if="task_type==1">
-                                <el-form-item label="手动上传" prop="apply_mobile">
-                                    <el-input type="textarea" clearable v-model="taskForm.apply_mobile" :placeholder="$t('sys_mat061',{value:$t('sys_s014')})" rows="6" />
+                            <template v-if="task_type==0">
+                                <el-form-item :label="labelOption[task_type]" prop="apply_mobile">
+                                    <el-input type="textarea" clearable v-model="taskForm.apply_mobile" :placeholder="$t('sys_mat061',{value:$t('sys_s021')})" rows="6" />
                                     <p style="margin: 0;color:#99A1B7;line-height: 1;font-size: 14px;margin: 10px 0 5px 0;">手机号以逗号、句号、换行符或制表符分隔，最多100,000个，更多用导入。如：</p>
                                     <p style="margin: 0;color:#99A1B7;line-height: 1;font-size: 14px;">177****7466</p>
                                 </el-form-item>
                             </template>
-                            <template v-if="task_type==2">
-                                <el-form-item label="文件导入">
-                                    <!-- <div class="label_radius_title">{{ $t('sys_c058') }}</div> -->
+                            <template v-if="task_type==1">
+                                <el-form-item :label="labelOption[task_type]" prop="phone_list">
                                     <div>{{ $t('sys_c114') }}</div>
                                     <div class="submit_btn">
-                                        <el-button class="custom_file1" style="margin-top: 0;">{{ $t('sys_c059') }}
+                                        <el-button class="custom_file1" :disabled="stepsHide" :loading="stepsHide" style="margin-top: 0;">{{ stepsHide?$t('sys_q015'):$t('sys_c059') }}
                                             <input type="file" ref='uploadclear' @change="checkDataIsUse" id="uploadFile" />
                                         </el-button>
                                         <span class="export_tips" @click="downLoadTemp">
                                             <i class="el-icon-download" />{{ $t('sys_l066') }}
                                         </span>
                                     </div>
+                                    <transition name="el-zoom-in-top">
+                                        <div class="mobile_list" v-if="showFile">
+                                            <span>有效: <em>{{sucess_num }}</em></span>
+                                            <span>错误: <em>{{fail_num }}</em></span>
+                                            <span>重复: <em>{{repeat_num }}</em></span>
+                                            <span>国家: <em>{{country_num }}</em></span>
+                                        </div>
+                                    </transition>
+                                </el-form-item>
+                            </template>
+                            <template v-if="task_type==2">
+                                <el-form-item :label="labelOption[task_type]" prop="data_pack_id">
+                                    <el-select v-model="taskForm.data_pack_id" :placeholder="$t('sys_c052')">
+                                        <el-option clearable v-for="item in datapackList" :key="item.id" :label="item.name+'(入库数量：'+item.into_num+'，剩余数量：'+item.residue_num+')'"  :value="item.id" />
+                                    </el-select>
                                 </el-form-item>
                             </template>
                             <el-form-item label="SenderID" prop="sender_id">
@@ -98,16 +110,16 @@
                 <div class="model_main">
                     <div class="mobile_cover">
                         <div class="mobile_head">
-                            <span class="local_time">12:58</span>
+                            <span class="local_time">{{ viewTime }}</span>
                         </div>
-                        <div :class="['mess_content',taskForm.reply_name?'mess_cover':'']">
-                            <div class="mess_title" v-if="taskForm.reply_name">
+                        <div :class="['mess_content',taskForm.apply_say?'mess_cover':'']">
+                            <div class="mess_title" v-if="taskForm.apply_say">
                                 <p>信息</p>
-                                <p>今天 12:53</p>
+                                <p>今天 {{ viewTime }}</p>
                             </div>
                             <transition name="run">
-                                <div v-if="taskForm.reply_name" class="talk_dialog">
-                                    {{taskForm.reply_name}}
+                                <div v-if="taskForm.apply_say" class="talk_dialog">
+                                    {{taskForm.apply_say}}
                                     <!-- 习近平在澳门国际机场发表讲话 来源：央视新闻客户端 习近平18日下午乘专机抵达澳门，并在机场发表讲话。 -->
                                 </div>
                             </transition>
@@ -151,9 +163,10 @@
     </div>
   </template>
   
-  <script>
+<script>
   import { successTips } from '@/utils/index'
   import material from '../content/material.vue';
+  import { getdatapacklist } from '@/api/datamanage'
   import { getchannellist,createsmstask,checkfile } from "@/api/config"
   export default {
     components:{material},
@@ -162,7 +175,10 @@
         totalNum:0,
         is_index:"",
         source_type:"",
-        task_type:"1",
+        task_type:0,
+        viewTime:null,
+        stepsHide:false,
+        showFile:false,
         showLink:false,
         isLoading:false,
         showSource:false,
@@ -176,6 +192,8 @@
             apply_mobile:"",
             sender_id:"",
             apply_say:"",
+            data_pack_id:"",
+            phone_list:[],
             materialData:[],
         },
         linkForm:{
@@ -185,6 +203,11 @@
             card_text:"",
             update_text:true
         },
+        sucess_num:0, //有效
+        fail_num:0,    //错误
+        repeat_num:0,  //重复
+        country_num:0, //国家
+        datapackList:[],
         channelkList:[],
         accountGroupList:[],
         marketingList:[],
@@ -192,12 +215,17 @@
       }
     },
     computed: {
+        labelOption(){
+            return ["手动上传","文件导入","从通讯录"]
+        },
         taskRules() {
             return {
                 apply_name: [{ required: true, message: this.$t('sys_mat061',{value:this.$t('sys_g070')}), trigger: 'blur' }],
-                apply_mobile: [{ required: true, message: this.$t('sys_mat061',{value:this.$t('sys_s014')}), trigger: 'blur' }],
+                apply_mobile: [{ required: true, message: this.$t('sys_mat061',{value:this.$t('sys_s021')}), trigger: 'blur' }],
                 apply_say: [{ required: true, message: this.$t('sys_mat061',{value:this.$t('sys_rai091')}), trigger: 'blur' }],
-                sender_id: [{ required: true, message: this.$t('sys_c052'), trigger: 'change' }]
+                sender_id: [{ required: true, message: this.$t('sys_c052'), trigger: 'change' }],
+                data_pack_id: [{type: 'array', required: true, message: this.$t('sys_c089',{value:this.$t('sys_rai090')}), trigger: 'change' }],
+                phone_list: [{type: 'array', required: true, message: this.$t('sys_c089',{value:this.$t('sys_s014')}), trigger: 'change' }],
             }
         },
         linkRules(){
@@ -217,36 +245,78 @@
     },
     created(){
         this.getChanneList();
+        setInterval(this.currentTime,1000);
     },
     methods:{
+        currentTime(){
+            let time = new Date();
+            let Hour = time.getHours();
+            let Minute = time.getMinutes();
+            if (Hour < 10) {
+                Hour = '0' + Hour
+            }
+            if (Minute < 10) {
+                Minute = '0' + Minute
+            }
+            this.viewTime = Hour+":"+Minute;
+        },
+        handleTab(val){
+            if(val == 2){
+                this.getDatalist();
+            }
+            this.$nextTick(()=>{this.$refs.taskForm.resetFields()})
+        },
         async getChanneList() {
             const { data:{list} } = await getchannellist();
             this.channelkList = list || [];
+        },
+        async getDatalist() {
+            const { data:{list} } = await getdatapacklist();
+            this.datapackList = list || [];
         },
         async checkDataIsUse() {
             let formData = new FormData();
             let files = this.$refs.uploadclear.files[0];
             formData.append('file', files);
             this.stepsHide=true;
+            this.$refs.taskForm.clearValidate("phone_list");
             const result = await checkfile(formData);
-            console.log(result);
             this.stepsHide=false;
             this.$refs.uploadclear.value = null;
             if (result.code != 0) return;
+            let {data:{sucess_num,fail_num,repeat_num,country_num,phone_list}} = result;
+            this.sucess_num = sucess_num;
+            this.fail_num = fail_num;
+            this.repeat_num = repeat_num;
+            this.country_num = country_num;
+            this.taskForm.phone_list = phone_list;
+            this.showFile=true;
         },
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
+                    let index = this.task_type+1;
                     let params = {
-                        ptype:"",
-                        name:"",
-                        phone_str:"",
-                        phone_list:"",
-                        data_pack_id:"",
-                        total_num:"",
-                        channel_id:"",
-                        content:"",
+                        ptype:index,
+                        name:this.taskForm.apply_name,
+                        phone_str:this.taskForm.apply_mobile,
+                        phone_list:this.taskForm.phone_list,
+                        data_pack_id:this.taskForm.sender_id,
+                        total_num:this.total_num,
+                        channel_id:this.taskForm.sender_id,
+                        content:this.taskForm.apply_say
                     }
+                    if(index != 1){
+                        delete params.phone_str
+                    }
+                    if(index != 2){
+                        delete params.phone_list
+                    }
+                    if(index != 3){
+                        delete params.total_num;
+                        delete params.data_pack_id;
+                    }
+                    // console.log(params);
                     this.isLoading=true;
                     createsmstask(params).then(res => {
                         this.isLoading=false;
@@ -340,6 +410,16 @@
                     this.taskForm.materialData.splice(k,1)
                 }
             }
+        },
+        downLoadTemp(){
+            var blob = new Blob(["手机号"], { type: 'text/plain' });
+            var a = document.createElement('a');
+            a.href = window.URL.createObjectURL(blob);
+            a.download = "example-wa_export-channe.txt";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(a.href);
         }
     }
   }
@@ -420,17 +500,31 @@
               }
           }
       }
-      .label_radius_title, .label_title{
-        color: #606266;
-        font-size: 14px;
-        font-weight: 700;
-        margin-left: 16px;
-        position: relative;
-        word-break: break-all;
-    }
-    .label_title{
-        margin-left: 0;
-    }
+      .mobile_list{
+        width: 100%;
+        display: flex;
+        margin-top: 10px;
+        padding: 6px 10px;
+        border-radius: 4px;
+        box-sizing: border-box;
+        background: #FFF8DD;
+        span{
+            flex: 1;
+            color: #624d00;
+            display: flex;
+            justify-content: center;
+            em{
+                font-weight: 600;
+                font-style: normal;
+            }
+        }
+        span:first-child{
+            justify-content: flex-start;
+        }
+        span:last-child{
+            justify-content: flex-end;
+        }
+      }
     .label_radius_title::after{
         content: "";
         width: 4px;

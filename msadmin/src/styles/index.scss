@@ -443,3 +443,6 @@ aside {
 //     left: 30px !important;
 //   }
 // }
+input[aria-hidden=true]{
+  display: none !important;
+}

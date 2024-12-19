@@ -1,7 +1,8 @@
 import Cookies from 'js-cookie'
 
-const TokenKey = 'Admin-Token'
 const UserInfo = 'Admin'
+const TokenKey = 'Admin-Token'
+const channelName = 'Channel'
 
 export function getToken() {
   return Cookies.get(TokenKey)
@@ -21,4 +22,20 @@ export function setUserInfo(info) {
 
 export function removeToken() {
   return Cookies.remove(TokenKey)
+}
+
+export function getChannel() {
+  return JSON.parse(localStorage.getItem("channel"))
+}
+
+export function getGoodName() {
+  return Cookies.get(channelName)?JSON.parse(Cookies.get(channelName)):"";
+}
+
+export function setGoodName(data) {
+  return Cookies.set(channelName,JSON.stringify(data))
+}
+
+export function setChannel(list) {
+  localStorage.setItem("channel",JSON.stringify(list))
 }

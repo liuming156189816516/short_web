@@ -447,6 +447,8 @@ export function resetTime(date, type) {
     return  Year + "," + Month + "," + Dates;
   } else if (type == 8) {
     return new Date(Year + "," + Month + "," + Dates + ",10:30");
+  }  else if (type == 9)  {
+    return Hour + ":" + Minute;
   } else {
     return Year + "-" + Month + "-" + Dates + " " + Hour + ":" + Minute + ":" + Seconds;
   }
