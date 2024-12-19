@@ -3,7 +3,7 @@
     <hamburger id="hamburger-container" :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
     <div class="right-menu">
       <div class="goods_menu">
-        <el-button icon="iconfont icon-scan-barcode" @click.stop="shwo_goods=!shwo_goods">产品</el-button>
+        <el-button icon="iconfont icon-chanpinyuyue" @click.stop="shwo_goods=!shwo_goods">产品</el-button>
         <transition name="el-zoom-in-top">
           <div class="good_warp" v-if="shwo_goods">
             <div class="head_title">我的产品</div>
@@ -13,6 +13,7 @@
                 <p>{{ item.name }}</p>
               </div>
             </div>
+            
             <!-- <div class="footer_title">我的产品</div> -->
           </div>
         </transition>

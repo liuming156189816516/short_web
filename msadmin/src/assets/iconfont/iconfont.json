@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "740847",
+      "name": "产品预约",
+      "font_class": "chanpinyuyue",
+      "unicode": "e692",
+      "unicode_decimal": 59026
+    },
+    {
+      "icon_id": "18297970",
+      "name": "产品咨询",
+      "font_class": "chanpinzixun",
+      "unicode": "e6f1",
+      "unicode_decimal": 59121
+    },
+    {
       "icon_id": "19544301",
       "name": "产品管理",
       "font_class": "chanpinguanli",
