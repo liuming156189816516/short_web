@@ -10,3 +10,6 @@ export const dochannel = (params)=> {
 export const createsmstask = (params)=> {
   return request({url:'/sms/createsmstask',method:'post',data:params})
 }
+export const checkfile = (params)=> {
+  return request({url:'/sms/checkfile',method:'post',data:params})
+}

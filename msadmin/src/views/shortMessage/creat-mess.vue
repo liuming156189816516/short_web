@@ -13,7 +13,7 @@
                         <el-radio label="3" border>从通讯录</el-radio>
                     </el-radio-group>
                 </div>
-                <el-row >
+                <el-row>
                     <el-col :span="24">
                         <el-form size="small" style="width:100%;" :model="taskForm" :rules="taskRules" ref="taskForm" label-width="100px" class="demo-ruleForm">
                             <el-form-item :label="$t('sys_g070')" prop="apply_name">
@@ -27,7 +27,18 @@
                                 </el-form-item>
                             </template>
                             <template v-if="task_type==2">
-
+                                <el-form-item label="文件导入">
+                                    <!-- <div class="label_radius_title">{{ $t('sys_c058') }}</div> -->
+                                    <div>{{ $t('sys_c114') }}</div>
+                                    <div class="submit_btn">
+                                        <el-button class="custom_file1" style="margin-top: 0;">{{ $t('sys_c059') }}
+                                            <input type="file" ref='uploadclear' @change="checkDataIsUse" id="uploadFile" />
+                                        </el-button>
+                                        <span class="export_tips" @click="downLoadTemp">
+                                            <i class="el-icon-download" />{{ $t('sys_l066') }}
+                                        </span>
+                                    </div>
+                                </el-form-item>
                             </template>
                             <el-form-item label="SenderID" prop="sender_id">
                                 <el-select v-model="taskForm.sender_id" :placeholder="$t('sys_c052')">
@@ -143,7 +154,7 @@
   <script>
   import { successTips } from '@/utils/index'
   import material from '../content/material.vue';
-  import { getchannellist,createsmstask } from "@/api/config"
+  import { getchannellist,createsmstask,checkfile } from "@/api/config"
   export default {
     components:{material},
     data() {
@@ -211,6 +222,17 @@
         async getChanneList() {
             const { data:{list} } = await getchannellist();
             this.channelkList = list || [];
+        },
+        async checkDataIsUse() {
+            let formData = new FormData();
+            let files = this.$refs.uploadclear.files[0];
+            formData.append('file', files);
+            this.stepsHide=true;
+            const result = await checkfile(formData);
+            console.log(result);
+            this.stepsHide=false;
+            this.$refs.uploadclear.value = null;
+            if (result.code != 0) return;
         },
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
@@ -398,6 +420,29 @@
               }
           }
       }
+      .label_radius_title, .label_title{
+        color: #606266;
+        font-size: 14px;
+        font-weight: 700;
+        margin-left: 16px;
+        position: relative;
+        word-break: break-all;
+    }
+    .label_title{
+        margin-left: 0;
+    }
+    .label_radius_title::after{
+        content: "";
+        width: 4px;
+        height: 4px;
+        font-size: 20px;
+        border-radius: 50%;
+        position: absolute;
+        left: -16px;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: #606266;
+    }
   }
   .modile_model{
       display: flex;
