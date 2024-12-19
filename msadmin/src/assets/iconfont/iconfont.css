@@ -1,0 +1,25 @@
+@font-face {
+  font-family: "iconfont"; /* Project id  */
+  src: url('iconfont.ttf?t=1734602733394') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-chanpinguanli:before {
+  content: "\e72e";
+}
+
+.icon-scan-barcode:before {
+  content: "\e87a";
+}
+
+.icon-ui-checks-grid:before {
+  content: "\e62c";
+}
+

@@ -1,0 +1,30 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "19544301",
+      "name": "产品管理",
+      "font_class": "chanpinguanli",
+      "unicode": "e72e",
+      "unicode_decimal": 59182
+    },
+    {
+      "icon_id": "26148322",
+      "name": "scan-barcode",
+      "font_class": "scan-barcode",
+      "unicode": "e87a",
+      "unicode_decimal": 59514
+    },
+    {
+      "icon_id": "26867449",
+      "name": "ui-checks-grid",
+      "font_class": "ui-checks-grid",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    }
+  ]
+}
