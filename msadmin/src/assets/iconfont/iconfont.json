@@ -25,6 +25,13 @@
       "font_class": "ui-checks-grid",
       "unicode": "e62c",
       "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "38890767",
+      "name": "Bulk_Scan - Barcode",
+      "font_class": "a-Bulk_Scan-Barcode",
+      "unicode": "e7f8",
+      "unicode_decimal": 59384
     }
   ]
 }
