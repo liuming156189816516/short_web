@@ -146,6 +146,7 @@ export default {
             const isOk = await this.$store.dispatch('user/login', this.loginForm);
             if (isOk) {
               this.$store.dispatch('user/getMenuInfo');
+              // this.$store.dispatch('user/initGoodsList');
               if (this.userInfo.account_type == 3) {
                 this.$router.push({ path: '/chatroom' })
               } else {

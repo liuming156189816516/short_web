@@ -1,10 +1,10 @@
 <template>
   <div class="navbar">
     <hamburger id="hamburger-container" :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
-    <div class="change_name">产品: {{goods_name.name}}</div>
+    <div class="change_name" v-if="goods_name.name">产品: {{goods_name.name}}</div>
     <div class="right-menu">
       <div class="goods_menu">
-        <el-button icon="iconfont icon-chanpinyuyue" @click.stop="shwo_goods=!shwo_goods">产品</el-button>
+        <el-button icon="iconfont icon-chanpinyuyue" @click.stop="viewChannle">产品</el-button>
         <transition name="el-zoom-in-top">
           <div class="good_warp" v-if="shwo_goods">
             <div class="head_title">我的产品</div>
@@ -66,7 +66,7 @@ export default {
       goodIdx:1,
       langeIdx: 0,
       activeIndex:0,
-      goods_list:this.$store.state.user.goodList,
+      goods_list:getChannel(),
       goods_name:getGoodName(),
       shwo_goods:false
     }
@@ -109,6 +109,10 @@ export default {
       this.goods_name={name:row.name,id:row.channel_id};
       setGoodName({name:row.name,id:row.channel_id});
       this.$message({message:`切换产品：${row.name}`,type: 'success'});
+    },
+    viewChannle(){
+      this.goods_list = getChannel();
+      this.shwo_goods =! this.shwo_goods;
     },
     closeMenu(e){
       e.target.nodeName === 'BUTTON' ? e.target.blur() : e.target.parentNode.blur()

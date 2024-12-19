@@ -13,22 +13,28 @@
                         </div>
                     </el-col>
                     <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
-                        <div class="carousel_main">
-                            <h3>我的产品</h3>
-                            <el-carousel :interval="2000" indicator-position="none" trigger="click" height="150px">
-                                <el-carousel-item v-for="(item,i) in goods_list" :key="i">
-                                    <div class="product_list" v-for="(val,idx) in item" :key="idx"> 
-                                        <span class="left_icon" :style="{background:idx==0?'#C4CADA':idx==1?'#FFF8DD':idx==2?'#FFEEF3':'#DFFFEA'}">
-                                            <i class="iconfont icon-ui-checks-grid" :style="{color:idx==0?'#0b3566':idx==1?'#624d00':idx==2?'#631024':'#094f21'}" />
-                                        </span>
-                                        <div class="right_desc">
-                                            <h4>{{ val.name }}</h4>
-                                            <p>spId: {{ val.channel_id }}</p>
+                        <template v-if="isLoading">
+                            <el-button class="loading_main" :loading="true">加载中</el-button>
+                        </template>
+                        <template v-else >
+                            <div class="carousel_main" v-if="goods_list&&goods_list.length>0">
+                                <h3>我的产品</h3>
+                                <el-carousel :interval="2000" indicator-position="none" trigger="click" height="150px">
+                                    <el-carousel-item v-for="(item,i) in goods_list" :key="i">
+                                        <div class="product_list" v-for="(val,idx) in item" :key="idx"> 
+                                            <span class="left_icon" :style="{background:idx==0?'#C4CADA':idx==1?'#FFF8DD':idx==2?'#FFEEF3':'#DFFFEA'}">
+                                                <i class="iconfont icon-ui-checks-grid" :style="{color:idx==0?'#0b3566':idx==1?'#624d00':idx==2?'#631024':'#094f21'}" />
+                                            </span>
+                                            <div class="right_desc">
+                                                <h4>{{ val.name }}</h4>
+                                                <p>spId: {{ val.channel_id }}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </el-carousel-item>
-                            </el-carousel>
-                        </div>
+                                    </el-carousel-item>
+                                </el-carousel>
+                            </div>
+                            <div class="loading_main" v-else>暂无数据...</div>
+                        </template>
                     </el-col>
                 </el-row>
             </div>
@@ -49,11 +55,14 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { getChannel,setChannel } from '@/utils/auth'
 import { getchannellist } from "@/api/config"
 export default {
     components: {},
     data() {
         return {
+            isLoading:false,
+            goods_list:[],
             bannerList: [require("../../assets/banner/banner1.jpg"), require("../../assets/banner/banner2.jpg")]
         }
     },
@@ -61,17 +70,21 @@ export default {
         ...mapGetters([
             'userInfo',
             'goodList'
-        ]),
-        goods_list(){
-            let list = this.$store.state.user.goodList;
-            if(list.length>0){
-                return this.$baseFun.splitString(list,4);
-            }
-            return []
-        }
+        ])
     },
-    mounted(){
-        this.$store.dispatch('user/initGoodsList');
+    created(){
+        this.initChannel();
+    },
+    methods:{
+        async initChannel(){
+            this.isLoading = true;
+            let {data:{list}} = await getchannellist();
+            this.isLoading = false;
+            if(list.length>0){
+                setChannel(list);
+                this.goods_list = this.$baseFun.splitString(list,4);
+            }
+        }
     }
 }
 </script>
@@ -112,7 +125,7 @@ export default {
             align-items: center;
             background-color: #fff;
         }
-        .carousel_main{
+        .carousel_main, .loading_main{
             align-items: initial;
             flex-direction: column;
             .el-carousel--horizontal{
@@ -164,6 +177,17 @@ export default {
                     }
                 }
             }
+        }
+        .loading_main{
+            width: 100%;
+            height: 224px;
+            border: none;
+            display: flex;
+            font-size: 12px;
+            border-radius: 5px;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
         }
 
         .index-head-centent-left-text {
