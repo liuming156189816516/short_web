@@ -261,6 +261,7 @@
             this.viewTime = Hour+":"+Minute;
         },
         handleTab(val){
+            this.showFile=false;
             if(val == 2){
                 this.getDatalist();
             }
