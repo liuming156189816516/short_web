@@ -19,10 +19,10 @@
 			<div class="consun_list handel_area">
 				<el-table :data="goodsList" border style="width: 100%" height="700" v-loading="loading" element-loading-spinner="el-icon-loading" :header-cell-style="{background:'#eef1f6',color:'#606266'}">
                     <el-table-column prop="name" :label="$t('sys_s011')" minWidth="230" align="center" />
-                    <el-table-column prop="channel_id" label="channel_id" minWidth="230" align="center" />
+                    <el-table-column prop="channel_id" label="SenderId" minWidth="230" align="center" />
                     <!-- <el-table-column prop="user_account" label="user_account" minWidth="230" align="center" /> -->
                     <!-- <el-table-column prop="user_secret" label="user_secret" minWidth="230" align="center" /> -->
-                    <el-table-column prop="price" :label="$t('sys_s012')" minWidth="230" align="center" />
+                    <el-table-column prop="price" :label="$t('sys_s026')" minWidth="230" align="center" />
                     <el-table-column width="160" :label="$t('sys_c010')" align="center" fixed="right">
 						<template slot-scope="scope">
 							<el-button type="primary" size="mini" plain @click="addConfigBtn(scope.row,2)">{{ $t('sys_c027') }}</el-button>
@@ -37,7 +37,7 @@
                 <el-form-item :label="$t('sys_s011')" prop="good_name">
                     <el-input clearable v-model="configForm.good_name" :placeholder="$t('sys_mat061',{value:$t('sys_s011')})" style="width:100%;" />
                 </el-form-item>
-                <el-form-item label="spid" prop="channel_id">
+                <el-form-item label="SenderId" prop="channel_id">
                     <el-input clearable v-model="configForm.channel_id" oninput="value=value.replace(/[\u4E00-\u9FA5]/g,'')" :placeholder="$t('sys_mat061',{value:'spid'})" />
                 </el-form-item>
                 <!-- <el-form-item label="user_account" prop="good_account">
@@ -46,7 +46,7 @@
                 <el-form-item label="user_secret" prop="good_secret">
                     <el-input clearable v-model="configForm.good_secret" oninput="value=value.replace(/[\u4E00-\u9FA5]/g,'')" :placeholder="$t('sys_mat061',{value:'user_secret'})" />
                 </el-form-item> -->
-                <el-form-item :label="$t('sys_s012')" prop="good_price">
+                <el-form-item :label="$t('sys_s026')" prop="good_price">
                     <el-input clearable v-model="configForm.good_price" oninput="value=value.replace(/[^\d]/g,'')" :placeholder="$t('sys_mat061',{value: $t('sys_s012')})" />
                 </el-form-item>
                 <el-form-item label-width="0" style="text-align:center;">
@@ -73,12 +73,12 @@ export default {
             configModel:false,
             configForm:{
 				id:"",
-                good_name:"巴西OD3直连营销",
+                good_name:"",
                 good_spid:"",
-                channel_id:"45262",
+                channel_id:"",
                 good_account:"",
                 good_secret:"",
-                good_price:"85",
+                good_price:""
             }
 		}
 	},
@@ -115,17 +115,16 @@ export default {
         addConfigBtn(val,type){
             this.type = type;
             this.configModel=true;
-            this.$nextTick(()=>{
-                this.$refs.configForm.resetFields();
-            })
-            if(type==2){
-                this.configForm.id=val.channel_id;
-                this.configForm.good_name=val.name;
-                // this.configForm.good_spid=val.spid;
-                this.configForm.channel_id=val.channel_id;
-                // this.configForm.good_account=val.user_account;
-                // this.configForm.good_secret=val.user_secret;
-                this.configForm.good_price=val.price;
+            this.configForm.id=val.channel_id;
+            this.configForm.good_name=val.name;
+            this.configForm.channel_id=val.channel_id;
+            this.configForm.good_price=val.price;
+            if(type==1){
+                this.$refs.configForm.resetFields()
+                this.configForm.id="";
+                this.configForm.good_name="";
+                this.configForm.channel_id="";
+                this.configForm.good_price="";
             }
         },
         //提交

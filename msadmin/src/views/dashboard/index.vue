@@ -27,7 +27,7 @@
                                             </span>
                                             <div class="right_desc">
                                                 <h4>{{ val.name }}</h4>
-                                                <p>spId: {{ val.channel_id }}</p>
+                                                <p>SenderId: {{ val.channel_id }}</p>
                                             </div>
                                         </div>
                                     </el-carousel-item>

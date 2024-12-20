@@ -36,7 +36,7 @@
         <el-table @sort-change="sorthandle" :data="taskDataList" border height="660" v-loading="loading" element-loading-spinner="el-icon-loading" element-loading-background="rgba(255, 255, 255,1)" style="width: 100%;" :header-cell-style="{ color: '#909399', textAlign: 'center' }" :cell-style="{ textAlign: 'center' }" ref="serveTable" @selection-change="handleSelectionChange" @row-click="rowSelectChange">
             <el-table-column type="selection" width="55" />
             <el-table-column prop="name" :label="$t('sys_g070')" width="120" />
-            <el-table-column prop="channel_name" :label="$t('sys_s011')" minWidth="130" />
+            <el-table-column prop="channel_name" show-overflow-tooltip :label="$t('sys_s011')" minWidth="130" />
             <el-table-column prop="status" :label="$t('sys_l059')" width="120">
               <template slot="header">
                 <el-dropdown trigger="click" size="medium " @command="(command) => handleNewwork(command)">
@@ -60,8 +60,10 @@
                 </template>
             </el-table-column>
             <el-table-column prop="total_num" :label="$t('sys_s018')" minWidth="100" />
+            <el-table-column prop="in_pro_num" :label="$t('sys_s029')" minWidth="100" />
             <el-table-column prop="sucess_num" :label="$t('sys_s019')" minWidth="100" />
             <el-table-column prop="fail_num" :label="$t('sys_s020')" minWidth="100" />
+            <el-table-column prop="expend" :label="$t('sys_s028')" width="100" />
             <el-table-column prop="itime" :label="$t('sys_c008')" minWidth="140">
                 <template slot-scope="scope">
                   {{$baseFun.resetTime(scope.row.start_time*1000)||"-" }}

@@ -15,7 +15,7 @@
                     <el-col :span="24">
                         <el-form size="small" style="width:100%;" :model="taskForm" :rules="taskRules" ref="taskForm" label-width="100px" class="demo-ruleForm">
                             <el-form-item :label="$t('sys_g070')" prop="apply_name">
-                                <el-input clearable v-model="taskForm.apply_name" :placeholder="$t('sys_mat061',{value:$t('sys_g070')})" rows="6" />
+                                <el-input clearable v-model="taskForm.apply_name" :placeholder="$t('sys_mat061',{value:$t('sys_g070')})"/>
                             </el-form-item>
                             <template v-if="task_type==0">
                                 <el-form-item :label="labelOption[task_type]" prop="apply_mobile">
@@ -51,13 +51,19 @@
                                         <el-option clearable v-for="item in datapackList" :key="item.id" :label="item.name+'(入库数量：'+item.into_num+'，剩余数量：'+item.residue_num+')'"  :value="item.id" />
                                     </el-select>
                                 </el-form-item>
+                                <el-form-item :label="$t('sys_s027')" prop="apply_total">
+                                    <el-input clearable v-model="taskForm.apply_total" oninput="value=value.replace(/[^\d]/g,'')"  :placeholder="$t('sys_mat061',{value:$t('sys_s027')})"/>
+                                </el-form-item>
                             </template>
-                            <el-form-item label="SenderID" prop="sender_id">
+                            <el-form-item label="SenderId">
                                 <el-select v-model="taskForm.sender_id" :placeholder="$t('sys_c052')">
-                                    <el-option v-for="item in channelkList" :key="item.id" :label="item.name+'(价格：'+item.price+')'" :value="item.channel_id" />
+                                    <el-option v-for="item in channelkList" :key="item.id" :label="item.name+' (单价:'+item.price+'; SenderId:'+item.channel_id+')'" :value="item.channel_id" />
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="发送话术" prop="apply_say">
+                                <el-row style="margin-bottom: 10px;">
+                                    <el-button type="primary" plain @click="showShortList">常用短信</el-button>
+                                </el-row>
                                 <el-input type="textarea" clearable v-model="taskForm.apply_say" :placeholder="$t('sys_mat061',{value:$t('sys_rai091')})" rows="6" />
                             </el-form-item>
                             <el-form-item style="display: flex;justify-content: center;" label-width="0">
@@ -128,6 +134,56 @@
                 </div>
             </div>
         </div>
+        <el-dialog title="短信列表" center :visible.sync="shortSource" width="800px">
+            <el-button type="primary" size="mini" class="fr" style="margin-bottom: 10px;" @click="creatShrtBtn(0,1)">{{ $t('sys_s025') }}</el-button>
+            <el-table :data="datashortList" ref="el_table" @row-click="rowSelectChange" border v-loading="isSloading" element-loading-spinner="el-icon-loading" element-loading-background="rgba(255, 255, 255,1)" :header-cell-style="{ color: '#909399', textAlign: 'center' }" :cell-style="{ textAlign: 'center' }"  :close-on-click-modal="false" style="width: 100%;">
+                <el-table-column label="#" width="55" align="center">
+                    <template slot-scope="scope">
+                        <el-checkbox v-model="scope.row.checked"></el-checkbox>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="channel_name" :label="$t('sys_s011')" minWidth="100" />
+                <el-table-column prop="channel_id" label="channel_id" width="100" />
+                <el-table-column prop="content" show-overflow-tooltip :label="$t('sys_mat019')" minWidth="160" />
+                <el-table-column fixed="right" :label="$t('sys_c010')" width="160">
+                    <template slot-scope="scope">
+                        <el-button type="primary" size="mini" plain @click="creatShrtBtn(scope.row,2)">{{ $t('sys_c027') }}</el-button>
+                        <el-popconfirm :confirm-button-text="$t('sys_c024')" @confirm="delGroup(scope.row)" :cancel-button-text="$t('sys_c023')" icon="el-icon-info" icon-color="red" title="容确定删除吗？">
+                            <!-- <el-button slot="reference">删除</el-button> -->
+                            <el-button slot="reference" type="danger" @click.stop size="mini" plain style="margin-left: 10px;">{{ $t('sys_c028') }}</el-button>
+                        </el-popconfirm>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <el-form size="small" style="width:100%;margin-top: 20px;">
+                <el-form-item style="display: flex;justify-content: center;">
+                    <el-button @click="shortSource=false">{{ $t('sys_c023') }}</el-button>
+                    <el-button type="primary" :disabled="!store_row" @click="submitBtn">确认</el-button>
+                </el-form-item>
+            </el-form>
+        </el-dialog>
+        <el-dialog title="新增短信" center :visible.sync="creatSource" :close-on-click-modal="false" width="500px">
+            <el-form size="small" style="width:100%;" :model="taskForm" :rules="taskRules" ref="taskForm" label-width="100px" class="demo-ruleForm">
+                <el-form-item :label="$t('sys_s017')" prop="content">
+                    <el-input type="textarea" clearable v-model="taskForm.content" :placeholder="$t('sys_mat061',{value:$t('sys_s017')})" rows="4" />
+                </el-form-item>
+                <el-form-item style="display: flex;justify-content: center;" label-width="0">
+                    <el-button @click="creatSource=false">{{ $t('sys_c023') }}</el-button>
+                    <el-button type="primary" :loading="showtloading" @click="createForm('taskForm')">{{ $t('sys_c024') }}</el-button>
+                </el-form-item>
+            </el-form>
+            <!-- <el-table :data="shortList" border v-loading="isSloading" element-loading-spinner="el-icon-loading" element-loading-background="rgba(255, 255, 255,1)" style="width: 100%;" :header-cell-style="{ color: '#909399', textAlign: 'center' }" :cell-style="{ textAlign: 'center' }">
+                <el-table-column prop="date" label="ID" minWidth="100" />
+                <el-table-column prop="date" label="spid" minWidth="100" />
+                <el-table-column prop="date" label="描述" minWidth="160" />
+                <el-table-column fixed="right" :label="$t('sys_c010')" width="160">
+                    <template slot-scope="scope">
+                        <el-button type="primary" size="mini" plain>{{ $t('sys_c027') }}</el-button>
+                        <el-button type="primary" size="mini" plain>{{ $t('sys_c028') }}</el-button>
+                    </template>
+                </el-table-column>
+            </el-table> -->
+        </el-dialog>
         <el-dialog title="选择素材" center :visible.sync="showSource" :close-on-click-modal="false" width="60%">
             <material :key="source_type==1?Math.floor(new Date().getTime()):''" @changeEle="getChildren" @closeDialog="showSource=false" :message="childMess" />
         </el-dialog>
@@ -164,10 +220,11 @@
   </template>
   
 <script>
+  import { getGoodName } from '@/utils/auth'
   import { successTips } from '@/utils/index'
   import material from '../content/material.vue';
   import { getdatapacklist } from '@/api/datamanage'
-  import { getchannellist,createsmstask,checkfile } from "@/api/config"
+  import { getsmstalklist,dosmstalk,getchannellist,createsmstask,checkfile } from "@/api/config"
   export default {
     components:{material},
     data() {
@@ -182,17 +239,25 @@
         showLink:false,
         isLoading:false,
         showSource:false,
+        shortSource:false,
+        isSloading:false,
+        creatSource:false,
+        showtloading:false,
         childMess:{
             check:false,
             is_show:1,
             type:0
         },
         taskForm:{
+            id:"",
+            ptype:null,
             apply_name:"",
             apply_mobile:"",
             sender_id:"",
             apply_say:"",
             data_pack_id:"",
+            content:"",
+            apply_total:null,
             phone_list:[],
             materialData:[],
         },
@@ -203,15 +268,20 @@
             card_text:"",
             update_text:true
         },
+        rowShort:null,
         sucess_num:0, //有效
         fail_num:0,    //错误
         repeat_num:0,  //重复
         country_num:0, //国家
+        sure_row:null,
+        store_row:null,
         datapackList:[],
         channelkList:[],
+        datashortList:[],
         accountGroupList:[],
         marketingList:[],
-        embeddedList:[]
+        embeddedList:[],
+        checkIdArry:[]
       }
     },
     computed: {
@@ -224,8 +294,10 @@
                 apply_mobile: [{ required: true, message: this.$t('sys_mat061',{value:this.$t('sys_s021')}), trigger: 'blur' }],
                 apply_say: [{ required: true, message: this.$t('sys_mat061',{value:this.$t('sys_rai091')}), trigger: 'blur' }],
                 sender_id: [{ required: true, message: this.$t('sys_c052'), trigger: 'change' }],
-                data_pack_id: [{type: 'array', required: true, message: this.$t('sys_c089',{value:this.$t('sys_rai090')}), trigger: 'change' }],
+                apply_total:[{ required: true, message: this.$t('sys_mat061',{value:this.$t('sys_s027')}), trigger: 'blur' }],
+                data_pack_id: [{required: true, message: this.$t('sys_c089',{value:this.$t('sys_rai090')}), trigger: 'change' }],
                 phone_list: [{type: 'array', required: true, message: this.$t('sys_c089',{value:this.$t('sys_s014')}), trigger: 'change' }],
+                content: [{ required: true, message: this.$t('sys_mat061',{value:this.$t('sys_mat019')}), trigger: 'blur' }],
             }
         },
         linkRules(){
@@ -260,12 +332,38 @@
             }
             this.viewTime = Hour+":"+Minute;
         },
+        rowSelectChange(row){
+            for (let i = 0; i < this.datashortList.length; i++) {
+                this.datashortList[i].checked = false;
+                if (this.datashortList[i].id == row.id && !row.checked) {
+                    let item = this.datashortList[i];
+                    this.store_row = item;
+                    item.checked = true;
+                    this.$set(this.datashortList, i, item);
+                }
+            }
+        },
+        submitBtn(){
+            this.sure_row = this.store_row;
+            this.taskForm.sender_id=this.sure_row.channel_id,
+            this.taskForm.apply_say=this.sure_row.content,
+            this.shortSource=false;
+        },
         handleTab(val){
             this.showFile=false;
             if(val == 2){
                 this.getDatalist();
             }
-            this.$nextTick(()=>{this.$refs.taskForm.resetFields()})
+            this.total_num="";
+            this.sure_row=null;
+            this.store_row=null;
+            this.taskForm.apply_name="";
+            this.taskForm.apply_mobile="";
+            this.taskForm.phone_list="";
+            this.taskForm.sender_id="";
+            this.taskForm.apply_say="";
+            this.taskForm.data_pack_id="";
+            this.$refs.taskForm.resetFields();
         },
         async getChanneList() {
             const { data:{list} } = await getchannellist();
@@ -274,6 +372,18 @@
         async getDatalist() {
             const { data:{list} } = await getdatapacklist();
             this.datapackList = list || [];
+        },
+        showShortList(){
+            this.store_row=null;
+            this.getShortlist();
+            this.shortSource=true;
+        },
+        creatShrtBtn(row,idx){
+            this.taskForm.ptype=idx;
+            this.taskForm.id=row.id||"";
+            this.taskForm.content=row.content||"";
+            this.creatSource=true;
+            idx==1?this.$refs.taskForm.resetFields():"";
         },
         async checkDataIsUse() {
             let formData = new FormData();
@@ -293,19 +403,63 @@
             this.taskForm.phone_list = phone_list;
             this.showFile=true;
         },
+        async getShortlist() {
+            this.isSloading=true;
+            const { data:{list} } = await getsmstalklist();
+            this.isSloading=false;
+            this.datashortList = list.map(item=>{return {...item,checked:false}}) || [];
+            if(this.sure_row){
+                for (let i = 0; i < this.datashortList.length; i++) {
+                    this.datashortList[i].checked = false;
+                    if (this.datashortList[i].id == this.sure_row.id) {
+                        let item = this.datashortList[i];
+                        this.store_row = item;
+                        item.checked = true;
+                        this.$set(this.datashortList, i, item);
+                    }
+                }
+            }
+        },
+        async delGroup(row) {
+            this.datashortList = this.datashortList.filter(item=>item.id!==row.id);
+            const res = await dosmstalk({ptype:3,del_id:[row.id] });
+            if(res.code)return;
+            successTips(this)
+        },
+        createForm(formName){
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    let params = {
+                        id:this.taskForm.id,
+                        ptype:this.taskForm.ptype,
+                        total_num:this.taskForm.apply_total,
+                        channel_id:getGoodName().channel_id||"",
+                        content:this.taskForm.content,
+                    }
+                    this.showtloading=true;
+                    this.taskForm.ptype==1?delete params.id:"";
+                    dosmstalk(params).then( res =>{
+                        this.showtloading=false;
+                        if(res.code)return;
+                        this.getShortlist();
+                        this.creatSource=false;
+                    })
+                }
+            })      
+        },
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     let index = this.task_type+1;
                     let params = {
                         ptype:index,
+                        total_num:this.total_num,
                         name:this.taskForm.apply_name,
+                        content:this.taskForm.apply_say,
                         phone_str:this.taskForm.apply_mobile,
                         phone_list:this.taskForm.phone_list,
-                        data_pack_id:this.taskForm.sender_id,
-                        total_num:this.total_num,
                         channel_id:this.taskForm.sender_id,
-                        content:this.taskForm.apply_say
+                        data_pack_id:this.taskForm.data_pack_id
                     }
                     if(index != 1){
                         delete params.phone_str

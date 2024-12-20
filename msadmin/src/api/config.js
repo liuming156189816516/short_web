@@ -28,5 +28,12 @@ export const changechannel = (params)=> {
 export const getuidchannel = (params)=> {
   return request({url:'/channel/getuidchannel',method:'post',data:params})
 }
+export const getsmstalklist = (params)=> {
+  return request({url:'/sms/getsmstalklist',method:'post',data:params})
+}
+export const dosmstalk = (params)=> {
+  return request({url:'/sms/dosmstalk',method:'post',data:params})
+}
+
 
 
