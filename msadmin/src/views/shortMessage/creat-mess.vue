@@ -572,7 +572,7 @@
             var blob = new Blob(["手机号"], { type: 'text/plain' });
             var a = document.createElement('a');
             a.href = window.URL.createObjectURL(blob);
-            a.download = "example-wa_export-channe.txt";
+            a.download = "phone.txt";
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
