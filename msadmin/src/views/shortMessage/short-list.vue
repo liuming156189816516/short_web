@@ -53,7 +53,7 @@
                 <!-- <el-tag size="small" :type="scope.row.status==1?'primary':scope.row.status==2?'warning':scope.row.status==5?'success':'danger'"> {{ statusOptions[scope.row.status]||"-" }}</el-tag> -->
               </template>
             </el-table-column>
-            <el-table-column prop="content" :label="$t('sys_s017')" minWidth="150" />
+            <el-table-column prop="content" show-overflow-tooltip :label="$t('sys_s017')" minWidth="150" />
             <el-table-column prop="data_pack_name" :label="$t('sys_rai090')" minWidth="120">
                 <template slot-scope="scope">
                   {{scope.row.data_pack_name||"-" }}

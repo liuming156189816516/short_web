@@ -21,7 +21,7 @@
                                 <el-form-item :label="labelOption[task_type]" prop="apply_mobile">
                                     <el-input type="textarea" clearable v-model="taskForm.apply_mobile" :placeholder="$t('sys_mat061',{value:$t('sys_s021')})" rows="6" />
                                     <p style="margin: 0;color:#99A1B7;line-height: 1;font-size: 14px;margin: 10px 0 5px 0;">手机号以逗号、句号、换行符或制表符分隔，最多100,000个，更多用导入。如：</p>
-                                    <p style="margin: 0;color:#99A1B7;line-height: 1;font-size: 14px;">177****7466</p>
+                                    <p style="margin: 0;color:#99A1B7;line-height: 1;font-size: 14px;">55177****7466</p>
                                 </el-form-item>
                             </template>
                             <template v-if="task_type==1">
@@ -143,7 +143,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="channel_name" :label="$t('sys_s011')" minWidth="100" />
-                <el-table-column prop="channel_id" label="channel_id" width="100" />
+                <el-table-column prop="channel_id" label="SenderId" width="100" />
                 <el-table-column prop="content" show-overflow-tooltip :label="$t('sys_mat019')" minWidth="160" />
                 <el-table-column fixed="right" :label="$t('sys_c010')" width="160">
                     <template slot-scope="scope">
@@ -363,6 +363,7 @@
             this.taskForm.sender_id="";
             this.taskForm.apply_say="";
             this.taskForm.data_pack_id="";
+            this.taskForm.apply_total=null;
             this.$refs.taskForm.resetFields();
         },
         async getChanneList() {
@@ -453,12 +454,12 @@
                     let index = this.task_type+1;
                     let params = {
                         ptype:index,
-                        total_num:this.total_num,
                         name:this.taskForm.apply_name,
                         content:this.taskForm.apply_say,
                         phone_str:this.taskForm.apply_mobile,
                         phone_list:this.taskForm.phone_list,
                         channel_id:this.taskForm.sender_id,
+                        total_num:Number(this.taskForm.apply_total),
                         data_pack_id:this.taskForm.data_pack_id
                     }
                     if(index != 1){
@@ -468,6 +469,7 @@
                         delete params.phone_list
                     }
                     if(index != 3){
+                        delete params.total_num;
                         delete params.total_num;
                         delete params.data_pack_id;
                     }
