@@ -84,14 +84,14 @@ export let asyncRoutes = [
     path: '/shortMessage',
     component: Layout,
     name: 'shortMessage',
-    meta: { title:i18n.t('sys_m041'),icon: 'el-icon-s-data' },
+    meta: { title:i18n.t('sys_s022'),icon: 'el-icon-s-data' },
     children: [
       {
         path: '/short-list',
         component: () => import('@/views/shortMessage/short-list'),
         name: 'short-list',
         meta: {
-          title:i18n.t('sys_m042'),
+          title:i18n.t('sys_s024'),
         }
       },
       {
