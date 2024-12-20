@@ -22,5 +22,11 @@ export const getsmstaskinfolist = (params)=> {
 export const delsmstasklist = (params)=> {
   return request({url:'/sms/delsmstasklist',method:'post',data:params})
 }
+export const changechannel = (params)=> {
+  return request({url:'/channel/changechannel',method:'post',data:params})
+}
+export const getuidchannel = (params)=> {
+  return request({url:'/channel/getuidchannel',method:'post',data:params})
+}
 
 

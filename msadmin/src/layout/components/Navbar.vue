@@ -1,15 +1,15 @@
 <template>
   <div class="navbar">
     <hamburger id="hamburger-container" :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
-    <div class="change_name" v-if="goods_name.name">产品: {{goods_name.name}}</div>
+    <div class="change_name" v-if="goods_name">产品: {{goods_name.name}}</div>
     <div class="right-menu">
       <div class="goods_menu">
-        <el-button icon="iconfont icon-chanpinyuyue" @click.stop="viewChannle">产品</el-button>
+        <el-button icon="iconfont icon-chanpinyuyue" @click.stop="shwo_goods=!shwo_goods">产品</el-button>
         <transition name="el-zoom-in-top">
           <div class="good_warp" v-if="shwo_goods">
             <div class="head_title">我的产品</div>
             <div class="good_list">
-              <div :class="['good_item',goods_name.id==item.channel_id?'good_active':'']" v-for="(item,idx) in goods_list" @click.stop="changeGood(item,idx)">
+              <div :class="['good_item',goods_name.channel_id==item.channel_id?'good_active':'']" v-for="(item,idx) in goods_list" @click.stop="changeGood(item,idx)">
                 <i class="iconfont icon-ui-checks-grid" />
                 <p>{{ item.name }}</p>
               </div>
@@ -50,6 +50,7 @@ import ErrorLog from '@/components/ErrorLog'
 import Screenfull from '@/components/Screenfull'
 import SizeSelect from '@/components/SizeSelect'
 import Search from '@/components/HeaderSearch'
+import { changechannel,getuidchannel} from "@/api/config"
 import { setGoodName,getGoodName,getChannel } from '@/utils/auth'
 
 export default {
@@ -63,11 +64,10 @@ export default {
   },
   data() {
     return {
-      goodIdx:1,
       langeIdx: 0,
       activeIndex:0,
       goods_list:[],
-      goods_name:getGoodName(),
+      goods_name:null,
       shwo_goods:false
     }
   },
@@ -91,6 +91,7 @@ export default {
     this.EventBus.$on('channel', (data) => {
       this.goods_list = getChannel();
     })
+    this.getUserGood();
   },
   methods: {
     async logout() {
@@ -98,24 +99,37 @@ export default {
       // this.$router.replace('/login')
       location.reload();
     },
+    async getUserGood(){
+      this.checkChannel( async(value) => {
+        this.goods_list = value;
+        let res = await getuidchannel();
+        if(res.data&&value.length>0){
+          let data = value.filter(item=> item.channel_id==res.data.channel_id)[0];
+          this.goods_name = data;
+          setGoodName(data);
+        }
+      })
+    },
+    checkChannel(callback){
+      const time = setInterval(() => {
+        const list = getChannel();
+        if (list&&list.length>0) {
+          clearInterval(time);
+          callback(list);
+        }
+      },200);
+    },
     jumpServeTg(){
       window.open(process.env.VUE_APP_TG,'_blank');
     },
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
-    changeGood(row,idx){
-      this.goodIdx = idx;
-      this.goods_name={name:row.name,id:row.channel_id};
-      setGoodName({name:row.name,id:row.channel_id});
+    async changeGood(row,idx){
+      setGoodName(row);
+      this.goods_name = row;
       this.$message({message:`切换产品：${row.name}`,type: 'success'});
-    },
-    viewChannle(){
-      this.goods_list = getChannel();
-      this.shwo_goods =! this.shwo_goods;
-    },
-    closeMenu(e){
-      e.target.nodeName === 'BUTTON' ? e.target.blur() : e.target.parentNode.blur()
+      await changechannel({channel_id:row.channel_id});
     }
   }
 }

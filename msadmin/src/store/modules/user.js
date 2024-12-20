@@ -1,7 +1,7 @@
 import { asyncRoutes, constantRoutes } from '@/router'
 import { getchannellist } from "@/api/config"
 import { login, loginout } from '@/api/login'
-import { setToken,getToken,setUserInfo,getUserInfo,removeToken,getChannel,setChannel } from '@/utils/auth'
+import { setToken,getToken,setUserInfo,getUserInfo,removeToken,getChannel,setChannel,removeChannel,removeGoodName } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
 const state = {
@@ -100,6 +100,8 @@ const actions = {
         if(res.code != 0) return;
         resetRouter()
         removeToken()
+        removeChannel()
+        removeGoodName()
         resolve()
       }).catch(error => {
         reject(error)

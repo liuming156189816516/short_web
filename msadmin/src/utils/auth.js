@@ -24,9 +24,6 @@ export function removeToken() {
   return Cookies.remove(TokenKey)
 }
 
-export function getChannel() {
-  return JSON.parse(localStorage.getItem("channel"))
-}
 
 export function getGoodName() {
   return Cookies.get(channelName)?JSON.parse(Cookies.get(channelName)):"";
@@ -35,7 +32,17 @@ export function getGoodName() {
 export function setGoodName(data) {
   return Cookies.set(channelName,JSON.stringify(data))
 }
+export function removeGoodName() {
+  return Cookies.remove(channelName)
+}
 
+export function getChannel() {
+  return JSON.parse(localStorage.getItem("channel"))
+}
 export function setChannel(list) {
-  localStorage.setItem("channel",JSON.stringify(list))
+  return localStorage.setItem("channel",JSON.stringify(list))
+}
+
+export function removeChannel() {
+  return localStorage.removeItem("channel")
 }
