@@ -66,7 +66,7 @@ export default {
       goodIdx:1,
       langeIdx: 0,
       activeIndex:0,
-      goods_list:getChannel(),
+      goods_list:[],
       goods_name:getGoodName(),
       shwo_goods:false
     }
