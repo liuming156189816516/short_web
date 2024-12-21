@@ -39,31 +39,31 @@
                 </el-row>
             </div>
         </div>
-        <!-- <div class="index-banner">
-            <el-row>
-                <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-                    <el-carousel indicator-position="outside" interval="5000" height="480px">
-                        <el-carousel-item v-for="item in bannerList" :key="item">
-                            <img :src="item" alt="" srcset="">
-                        </el-carousel-item>
-                    </el-carousel>
-                </el-col>
-            </el-row>
-        </div> -->
+        <div class="index-sales" style="margin-top: -95px;">
+            <div class="index-head">
+                <el-row :gutter="10">
+                    <el-col :xs="24" :sm="24" :md="16" :lg="16" :xl="16">
+                        <div class="chart-stack" ref="chart_ele" />
+                    </el-col>
+                </el-row>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import * as echarts from 'echarts';
 import { getChannel,setChannel } from '@/utils/auth'
 import { getchannellist } from "@/api/config"
+import Visitors from '@/icons/svg/visitors.svg'
 export default {
-    components: {},
+    components: {Visitors},
     data() {
         return {
+            value1:'',
             isLoading:false,
-            goods_list:[],
-            bannerList: [require("../../assets/banner/banner1.jpg"), require("../../assets/banner/banner2.jpg")]
+            goods_list:[]
         }
     },
     computed: {
@@ -74,6 +74,26 @@ export default {
     },
     created(){
         this.initChannel();
+    },
+    mounted(){
+        var myChart = echarts.init(this.$refs.chart_ele);
+        myChart.setOption({
+            title: {
+                text: '短信流量'
+            },
+            tooltip: {},
+            xAxis: {
+                data: ['1月', '2月', '2月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+            },
+            yAxis: {},
+            series: [
+                {
+                    name: '月流量',
+                    type: 'bar',
+                    data: [5000, 2000, 3600, 1000, 1000, 3500, 4600, 8600, 2700, 4100, 8100, 9500]
+                }
+            ]
+        });
     },
     methods:{
         async initChannel(){
@@ -105,7 +125,14 @@ export default {
     }
     .index-head {
         width: 100%;
-        // border-bottom: 1px solid #dcdfe6;
+        .chart-stack{
+            width: 100%;
+            height: 500px;
+            padding: 15px;
+            border-radius: 5px;
+            box-sizing: border-box;
+            background: #fff;
+        }
         .index-head-title {
             width: 100%;
             height: 30px;

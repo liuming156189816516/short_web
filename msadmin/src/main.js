@@ -15,7 +15,8 @@ import './assets/iconfont/iconfont'
 import './assets/iconfont/iconfont.css'
 import * as filters from './filters' // global filters
 import funHandle from '@/utils/index';
-// import locale from 'umy-ui/lib/locale/lang/en'
+// 引入图表
+
 Vue.prototype.$baseFun = funHandle;
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
