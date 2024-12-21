@@ -569,7 +569,7 @@
             }
         },
         downLoadTemp(){
-            var blob = new Blob(["手机号"], { type: 'text/plain' });
+            var blob = new Blob(["556920354896\n","556920354898"], { type: 'text/plain' });
             var a = document.createElement('a');
             a.href = window.URL.createObjectURL(blob);
             a.download = "phone.txt";
