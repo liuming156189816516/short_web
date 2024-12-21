@@ -9,7 +9,8 @@
           <div class="good_warp" v-if="shwo_goods">
             <div class="head_title">我的产品</div>
             <div class="good_list">
-              <div :class="['good_item',goods_name.channel_id==item.channel_id?'good_active':'']" v-for="(item,idx) in goods_list" @click.stop="changeGood(item,idx)">
+              <!-- ,goods_name.channel_id||''==item.channel_id?'good_active':'' -->
+              <div :class="['good_item',goods_name&&goods_name.channel_id==item.channel_id?'good_active':'']" v-for="(item,idx) in goods_list" @click.stop="changeGood(item,idx)">
                 <i class="iconfont icon-ui-checks-grid" />
                 <p>{{ item.name }}</p>
               </div>
