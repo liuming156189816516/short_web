@@ -147,7 +147,7 @@
                 <el-table-column prop="content" show-overflow-tooltip :label="$t('sys_mat019')" minWidth="160" />
                 <el-table-column fixed="right" :label="$t('sys_c010')" width="160">
                     <template slot-scope="scope">
-                        <el-button type="primary" size="mini" plain @click="creatShrtBtn(scope.row,2)">{{ $t('sys_c027') }}</el-button>
+                        <el-button type="primary" size="mini" plain @click.stop="creatShrtBtn(scope.row,2)">{{ $t('sys_c027') }}</el-button>
                         <el-popconfirm :confirm-button-text="$t('sys_c024')" @confirm="delGroup(scope.row)" :cancel-button-text="$t('sys_c023')" icon="el-icon-info" icon-color="red" title="容确定删除吗？">
                             <!-- <el-button slot="reference">删除</el-button> -->
                             <el-button slot="reference" type="danger" @click.stop size="mini" plain style="margin-left: 10px;">{{ $t('sys_c028') }}</el-button>
@@ -162,7 +162,7 @@
                 </el-form-item>
             </el-form>
         </el-dialog>
-        <el-dialog title="新增短信" center :visible.sync="creatSource" :close-on-click-modal="false" width="500px">
+        <el-dialog :title="this.taskForm.ptype==1?'新增短信':'编辑短信'" center :visible.sync="creatSource" :close-on-click-modal="false" width="500px">
             <el-form size="small" style="width:100%;" :model="taskForm" :rules="taskRules" ref="taskForm" label-width="100px" class="demo-ruleForm">
                 <el-form-item :label="$t('sys_s017')" prop="content">
                     <el-input type="textarea" clearable v-model="taskForm.content" :placeholder="$t('sys_mat061',{value:$t('sys_s017')})" rows="4" />
