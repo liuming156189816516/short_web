@@ -21,7 +21,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="role_name" :label="$t('sys_c004')" minWidth="100" />
-      <el-table-column prop="invite_code" :label="$t('sys_q133')" minWidth="100" />
+      <!-- <el-table-column prop="invite_code" :label="$t('sys_q133')" minWidth="100" /> -->
       <el-table-column prop="status" :label="$t('sys_c005')" minWidth="100">
         <template slot="header">
           <el-dropdown trigger="click" size="medium " @command="(command) => handleNewwork(command)">
