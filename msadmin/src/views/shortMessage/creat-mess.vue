@@ -158,7 +158,7 @@
             <el-form size="small" style="width:100%;margin-top: 20px;">
                 <el-form-item style="display: flex;justify-content: center;">
                     <el-button @click="shortSource=false">{{ $t('sys_c023') }}</el-button>
-                    <el-button type="primary" :disabled="!store_row" @click="submitBtn">确认</el-button>
+                    <el-button type="primary" :disabled="!store_row" @click="submitBtn">{{ $t('sys_c024') }}</el-button>
                 </el-form-item>
             </el-form>
         </el-dialog>
