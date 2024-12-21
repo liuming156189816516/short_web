@@ -384,7 +384,10 @@
             this.taskForm.id=row.id||"";
             this.taskForm.content=row.content||"";
             this.creatSource=true;
-            idx==1?this.$refs.taskForm.resetFields():"";
+            if(idx == 1){
+                this.$refs.taskForm.resetFields();
+                this.taskForm.content="";
+            }
         },
         async checkDataIsUse() {
             let formData = new FormData();
