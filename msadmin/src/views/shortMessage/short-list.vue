@@ -38,7 +38,7 @@
             <i slot="reference" class="el-icon-info"></i>
             <div v-html="$t('sys_mat007',{value:checkIdArry.length})"></div>
         </div>
-        <el-table @sort-change="sorthandle" :data="taskDataList" border height="660" v-loading="loading" element-loading-spinner="el-icon-loading" element-loading-background="rgba(255, 255, 255,1)" style="width: 100%;" :header-cell-style="{ color: '#909399', textAlign: 'center' }" :cell-style="{ textAlign: 'center' }" ref="serveTable" @selection-change="handleSelectionChange" @row-click="rowSelectChange">
+        <el-table :data="taskDataList" border height="660" v-loading="loading" element-loading-spinner="el-icon-loading" element-loading-background="rgba(255, 255, 255,1)" style="width: 100%;" :header-cell-style="{ color: '#909399', textAlign: 'center' }" :cell-style="{ textAlign: 'center' }" ref="serveTable" @selection-change="handleSelectionChange" @row-click="rowSelectChange">
             <el-table-column type="selection" width="55" />
             <el-table-column prop="name" :label="$t('sys_g070')" width="120" />
             <el-table-column prop="channel_name" show-overflow-tooltip :label="$t('sys_s011')" minWidth="130" />
@@ -192,7 +192,6 @@ export default {
       },
       handleNewwork(status) {
         this.model1.status = status;
-        console.log(this.model1.status);
         this.getTaskList(1);
       },
       getTaskList(num){
@@ -225,9 +224,6 @@ export default {
             return;
         }
         refsElTable.toggleRowSelection(row,true);
-      },
-      sorthandle({ column, prop, order }) {
-        console.log(column);
       },
       sizeHandle(val){
         this.model1.limit=val;
