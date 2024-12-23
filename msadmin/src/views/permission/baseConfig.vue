@@ -114,17 +114,19 @@ export default {
 		},
         addConfigBtn(val,type){
             this.type = type;
-            this.configModel=true;
             this.configForm.id=val.channel_id;
             this.configForm.good_name=val.name;
             this.configForm.channel_id=val.channel_id;
             this.configForm.good_price=val.price;
+            this.configModel=true;
             if(type==1){
-                this.$refs.configForm.resetFields()
-                this.configForm.id="";
-                this.configForm.good_name="";
-                this.configForm.channel_id="";
-                this.configForm.good_price="";
+                this.$nextTick(()=>{
+                    this.$refs.configForm.resetFields()
+                    this.configForm.id="";
+                    this.configForm.good_name="";
+                    this.configForm.channel_id="";
+                    this.configForm.good_price="";
+                })
             }
         },
         //提交
