@@ -111,6 +111,14 @@ export let asyncRoutes = [
         meta: {
           title:i18n.t('sys_m063'),
         }
+      },
+      {
+        path: '/ms-statistics',
+        component: () => import('@/views/shortMessage/ms-statistics'),
+        name: 'ms-statistics',
+        meta: {
+          title:i18n.t('sys_s007'),
+        }
       }
     ]
   },

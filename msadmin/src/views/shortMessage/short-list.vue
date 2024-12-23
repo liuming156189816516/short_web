@@ -186,7 +186,7 @@ export default {
       },
       //获取配置列表
       getGoodsList(){
-        getchannellist({name:this.good_name}).then(res =>{
+        getchannellist().then(res =>{
           this.goodsList = res.data.list || [];
         })
       },
