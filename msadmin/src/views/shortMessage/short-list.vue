@@ -8,6 +8,11 @@
           <el-input clearable v-model="model1.task_name" :placeholder="$t('sys_mat024')"></el-input>
         </el-form-item>
         <el-form-item>
+          <el-select v-model="model1.channel_id" clearable placeholder="请选择产品">
+            <el-option v-for="item in goodsList" :key="item.channel_id" :label="item.name" :value="item.channel_id" />
+          </el-select>
+        </el-form-item>
+        <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="getTaskList(1)">{{ $t('sys_c002') }}</el-button>
           <el-button type="danger" :disabled="checkIdArry.length==0" @click="handleDel">{{ $t('sys_l048') }}</el-button>
           <!-- <el-button icon="el-icon-refresh-right" @click="resetQuery">{{ $t('sys_c049') }}</el-button> -->
@@ -104,7 +109,7 @@
 </template>
 <script>
 import { successTips, resetPage } from '@/utils/index'
-import { getsmstasklist,delsmstasklist} from "@/api/config"
+import { getsmstasklist,delsmstasklist,getchannellist} from "@/api/config"
 export default {
   data() {
     return {
@@ -114,9 +119,11 @@ export default {
         total: 0,
         status:"",
         task_name: "",
+        channel_id:""
       },
       loading:false,
       checkIdArry:[],
+      goodsList:[],
       pageOption: resetPage(),
       taskDataList:[
         {
@@ -143,7 +150,7 @@ export default {
       }
     },
     statusOptions(){
-      return ["",this.$t('sys_s015'),this.$t('sys_s016'),this.$t('sys_c048'),this.$t('sys_mat049'),this.$t('sys_mat048')]
+      return ["",this.$t('sys_s015'),this.$t('sys_s016'),this.$t('sys_c048'),this.$t('sys_mat047')]
     },
     moreOption(){
       return  [
@@ -168,12 +175,20 @@ export default {
   },
   created() {
     this.getTaskList();
+    this.getGoodsList();
   },
   methods: {
       resetQuery(){
         this.model1.status="";
         this.model1.task_name="";
+        this.model1.channel_id="";
         this.getTaskList(1);
+      },
+      //获取配置列表
+      getGoodsList(){
+        getchannellist({name:this.good_name}).then(res =>{
+          this.goodsList = res.data.list || [];
+        })
       },
       handleNewwork(status) {
         this.model1.status = status;
@@ -187,7 +202,8 @@ export default {
           page:this.model1.page,
           limit:this.model1.limit,
           status:this.model1.status||-1,
-          name:this.model1.task_name
+          name:this.model1.task_name,
+          channel_id:this.model1.channel_id
         }
         getsmstasklist(params).then(res=>{
           this.loading=false;

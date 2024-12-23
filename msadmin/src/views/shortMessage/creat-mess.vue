@@ -20,7 +20,7 @@
                             <template v-if="task_type==0">
                                 <el-form-item :label="labelOption[task_type]" prop="apply_mobile">
                                     <el-input type="textarea" clearable v-model="taskForm.apply_mobile" :placeholder="$t('sys_mat061',{value:$t('sys_s021')})" rows="6" />
-                                    <p style="margin: 0;color:#99A1B7;line-height: 1;font-size: 14px;margin: 10px 0 5px 0;">手机号以逗号、句号、换行符或制表符分隔，最多100,000个，更多用导入。如：</p>
+                                    <p style="margin: 0;color:#99A1B7;line-height: 1;font-size: 14px;margin: 10px 0 5px 0;">手机号以换行符分隔，最多100,000个，更多用导入。如：</p>
                                     <p style="margin: 0;color:#99A1B7;line-height: 1;font-size: 14px;">55177****7466</p>
                                 </el-form-item>
                             </template>
@@ -286,7 +286,7 @@
     },
     computed: {
         labelOption(){
-            return ["手动上传","文件导入","从通讯录"]
+            return ["手动上传","文件导入","从数据包"]
         },
         taskRules() {
             return {
