@@ -86,7 +86,7 @@
     },
     computed:{
       statusOptions(){
-        return ["",this.$t('sys_s015'),this.$t('sys_s016'),this.$t('sys_c048'),this.$t('sys_mat049'),this.$t('sys_mat048')]
+        return ["",this.$t('sys_s015'),this.$t('sys_s016'),this.$t('sys_c048'),this.$t('sys_mat047')]
       }
     },
     created() {
