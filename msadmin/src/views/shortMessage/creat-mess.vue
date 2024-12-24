@@ -136,10 +136,10 @@
         </div>
         <el-dialog title="短信列表" center :visible.sync="shortSource" width="800px">
             <el-button type="primary" size="mini" class="fr" style="margin-bottom: 10px;" @click="creatShrtBtn(0,1)">新增短信</el-button>
-            <el-table :data="datashortList" ref="el_table" @row-click="rowSelectChange" border v-loading="isSloading" element-loading-spinner="el-icon-loading" element-loading-background="rgba(255, 255, 255,1)" :header-cell-style="{ color: '#909399', textAlign: 'center' }" :cell-style="{ textAlign: 'center' }"  :close-on-click-modal="false" style="width: 100%;">
+            <el-table :data="datashortList" highlight-current-row ref="el_table" @cell-click="rowSelectChange" border v-loading="isSloading" element-loading-spinner="el-icon-loading" element-loading-background="rgba(255, 255, 255,1)" :header-cell-style="{ color: '#909399', textAlign: 'center' }" :cell-style="{ textAlign: 'center' }"  :close-on-click-modal="false" style="width: 100%;">
                 <el-table-column label="#" width="55" align="center">
                     <template slot-scope="scope">
-                        <el-checkbox v-model="scope.row.checked"></el-checkbox>
+                        <el-checkbox v-model="scope.row.checked" @change="handleAllChange(scope.row)"></el-checkbox>
                     </template>
                 </el-table-column>
                 <el-table-column prop="channel_name" :label="$t('sys_s011')" minWidth="100" />
@@ -287,7 +287,8 @@
         accountGroupList:[],
         marketingList:[],
         embeddedList:[],
-        checkIdArry:[]
+        checkIdArry:[],
+        currentRow:null
       }
     },
     computed: {
@@ -344,8 +345,19 @@
                 this.datashortList[i].checked = false;
                 if (this.datashortList[i].id == row.id && !row.checked) {
                     let item = this.datashortList[i];
-                    this.store_row = item;
                     item.checked = true;
+                    this.store_row = item;
+                    this.$set(this.datashortList, i, item);
+                }
+            }
+        },
+        handleAllChange(row){
+            for (let i = 0; i < this.datashortList.length; i++) {
+                this.datashortList[i].checked = false;
+                if (this.datashortList[i].id === row.id && !row.checked) {
+                    let item = this.datashortList[i];
+                    item.checked = true;
+                    this.store_row = item;
                     this.$set(this.datashortList, i, item);
                 }
             }
