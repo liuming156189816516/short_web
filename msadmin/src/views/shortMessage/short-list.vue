@@ -41,7 +41,7 @@
           <i slot="reference" class="el-icon-info"></i>
           <div v-html="$t('sys_mat007',{value:checkIdArry.length})"></div>
         </div>
-        <el-table :data="taskDataList" border height="660" v-loading="loading" element-loading-spinner="el-icon-loading" element-loading-background="rgba(255, 255, 255,1)" style="width: 100%;" :header-cell-style="{ color: '#909399', textAlign: 'center' }" :cell-style="{ textAlign: 'center' }" ref="serveTable" @selection-change="handleSelectionChange" @row-click="rowSelectChange">
+        <el-table :data="taskDataList" border height="760" v-loading="loading" element-loading-spinner="el-icon-loading" element-loading-background="rgba(255, 255, 255,1)" style="width: 100%;" :header-cell-style="{ color: '#909399', textAlign: 'center' }" :cell-style="{ textAlign: 'center' }" ref="serveTable" @selection-change="handleSelectionChange" @row-click="rowSelectChange" :summary-method="getSummaries" show-summary>
             <el-table-column type="selection" width="55" />
             <el-table-column prop="name" :label="$t('sys_g070')" width="120" />
             <el-table-column prop="channel_name" show-overflow-tooltip :label="$t('sys_s011')" minWidth="130" />
@@ -135,18 +135,8 @@ export default {
       checkIdArry:[],
       goodsList:[],
       pageOption: resetPage(),
-      taskDataList:[
-        {
-          task_name:"测试001",
-          task_num:10,
-          finish_num:12,
-        },
-        {
-          task_name:"测试001",
-          task_num:10,
-          finish_num:12,
-        }
-      ]
+      taskDataList:[],
+      showNum: [8,9,10,11,12]
     }
   },
   computed: {
@@ -222,6 +212,11 @@ export default {
           this.loading=false;
           this.model1.total = res.data.total;
           this.taskDataList = res.data.list||[];
+          this.$nextTick(()=>{
+            if (this.$refs.serveTable) {
+                this.$refs.serveTable.doLayout(); 
+            }
+          })
         })
       },
       goTaskDetail(row){
@@ -309,6 +304,29 @@ export default {
         }).catch(() => {
             that.$message({ type: 'info', message: that.$t('sys_c048') });
         })
+      },
+      getSummaries(param) {
+        const { columns, data } = param;
+        const sums = [];
+        columns.forEach((column, index) => {
+          const values = data.map(item => Number(item[column.property]));
+          if (index === 0) {
+            sums[index] = this.$t('sys_c125');
+            return;
+          }else if(this.showNum.indexOf(index) > -1){
+            sums[index] = values.reduce((prev, curr) => {
+              const value = Number(curr);
+              if (!isNaN(value)) {
+                return prev+curr;
+              } else {
+                return prev;
+              }
+            },0);
+          }else{
+            sums[index] = '--';	
+          }
+        });
+        return sums;
       },
       exportText(row){
         doouttaskexcel({id:row.id}).then(res=>{
