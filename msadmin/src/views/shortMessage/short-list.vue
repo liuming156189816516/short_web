@@ -72,6 +72,7 @@
             <el-table-column prop="sucess_num" :label="$t('sys_s019')" minWidth="100">
                 <template slot-scope="scope">
                   {{ scope.row.sucess_num }} ({{ scope.row.sucess_rate*100 }}%)
+                  <!-- {{ scope.row.sucess_num }} ({{ Math.round(scope.row.sucess_rate * 100)}}%) -->
                 </template>
             </el-table-column>
             <el-table-column prop="fail_num" :label="$t('sys_s020')" minWidth="100" />
