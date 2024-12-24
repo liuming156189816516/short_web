@@ -8,12 +8,12 @@
           <el-input clearable v-model="model1.task_name" :placeholder="$t('sys_mat024')"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-date-picker v-model="model1.task_time" type="daterange" :range-separator="$t('sys_c108')" :start-placeholder="$t('sys_c109')" :end-placeholder="$t('sys_c110')" style="width: 230px;" />
-        </el-form-item>
-        <el-form-item>
           <el-select v-model="model1.channel_id" clearable placeholder="请选择产品">
             <el-option v-for="item in goodsList" :key="item.channel_id" :label="item.name" :value="item.channel_id" />
           </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-date-picker v-model="model1.task_time" type="daterange" :range-separator="$t('sys_c108')" :start-placeholder="$t('sys_c109')" :end-placeholder="$t('sys_c110')" style="width: 260px;" />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="getTaskList(1)">{{ $t('sys_c002') }}</el-button>
