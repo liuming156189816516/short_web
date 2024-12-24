@@ -4,16 +4,19 @@
         <div class="detail_card">
             <el-button v-if="isLoading" class="loading_icon" style="margin-top: 10px;" type="primary" :loading="true"></el-button>
             <template v-else>
-                <div class="card_item" v-for="(item,idx) in statisticsList" :key="idx" :style="{background:cardOption[idx].b_g}" @click="getStatistics">
-                    <span :style="{color:cardOption[idx].t_c}">{{ item.channel_name }}</span>
-                    <div>
-                        <span>提交总数({{item.total_num}})</span>
+                <template v-if="statisticsList&&statisticsList.length>0">
+                    <div class="card_item" v-for="(item,idx) in statisticsList" :key="idx" :style="{background:cardOption[idx].b_g}" @click="getStatistics">
+                        <span class="channel_name" :style="{color:cardOption[idx].t_c}">{{ item.channel_name }}</span>
+                        <div>
+                            <span>提交总数({{item.total_num}})</span>
+                        </div>
+                        <div class="card_number">
+                            <span>成功数({{item.sucess_num}})</span>
+                            <span>失败数({{item.fail_num}})</span>
+                        </div>
                     </div>
-                    <div class="card_number">
-                        <span>成功数({{item.sucess_num}})</span>
-                        <span>失败数({{item.fail_num}})</span>
-                    </div>
-                </div>
+                </template>
+                <el-button v-else class="loading_icon" style="margin-top: 10px;" type="primary">暂无数据...</el-button>
             </template>
         </div>
         <el-form size="small" :inline="true" style="margin-top: 10px;">
@@ -78,7 +81,50 @@ export default {
             goodsList:[],
             checkIdArry:[],
             checkAccount:[],
-            statisticsList:[],
+            statisticsList:[
+                // {
+                //     channel_name:"测试001",
+                //     total_num:200,
+                //     sucess_num:50,
+                //     fail_num:10
+                // },
+                // {
+                //     channel_name:"测试001",
+                //     total_num:200,
+                //     sucess_num:50,
+                //     fail_num:10
+                // },
+                // {
+                //     channel_name:"测试001",
+                //     total_num:200,
+                //     sucess_num:50,
+                //     fail_num:10
+                // },
+                // {
+                //     channel_name:"测试001",
+                //     total_num:200,
+                //     sucess_num:50,
+                //     fail_num:10
+                // },
+                // {
+                //     channel_name:"测试001",
+                //     total_num:200,
+                //     sucess_num:50,
+                //     fail_num:10
+                // },
+                // {
+                //     channel_name:"测试001",
+                //     total_num:200,
+                //     sucess_num:50,
+                //     fail_num:10
+                // },
+                // {
+                //     channel_name:"测试001",
+                //     total_num:200,
+                //     sucess_num:50,
+                //     fail_num:10
+                // }
+            ],
             accountDataList:[],
             pageOption: resetPage(),
             showNum: [2,3,4]
@@ -91,69 +137,42 @@ export default {
         cardOption(){
             return [
                 {
-                    label:this.$t('sys_m086'),
-                    num:0,
                     b_g:"#fef4e9",
                     t_c:"#ff8400"
                 },
                 {
-                    label:this.$t('sys_m101'),
-                    num:0,
                     b_g:"#dbfeff",
                     t_c:"#1dcfdb"
                 },
                 {
-                    label:this.$t('sys_m088'),
-                    num:0,
                     b_g:"#dbfff1",
                     t_c:"#02c97a"
                 },
                 {
-                    label:this.$t('sys_c143'),
-                    num:0,
                     b_g:"#f9edff",
                     t_c:"#b357ff"
                 },
                 {
-                    label:this.$t('sys_rai122'),
-                    num:0,
-                    num1:0,
-                    b_g:"#ffebeb",
-                    t_c:"#ff0f0"
+                    b_g:"#dbfeff",
+                    t_c:"#1dcfdb"
                 },
                 {
-                    label:this.$t('sys_m090'),
-                    num:0,
-                    num1:0,
-                    num2:0,
                     b_g:"#fffee6",
                     t_c:"#f2bb16"
                 },
                 {
-                    label:this.$t('sys_m102'),
-                    num:0,
-                    num1:0,
-                    num2:0,
                     b_g:"#ffebeb",
                     t_c:"#ff0f0"
                 },
                 {
-                    label:this.$t('sys_m103'),
-                    num:0,
-                    num1:0,
-                    num2:0,
                     b_g:"#f9edff",
                     t_c:"#b357ff"
                 },
                 {
-                    label:this.$t('sys_m091'),
-                    num:0,
                     b_g:"#fffee6",
                     t_c:"#f2bb16"
                 },
-                 {
-                    label: this.$t('sys_m092'),
-                    num:0,
+                {
                     b_g:"#dbfeff",
                     t_c:"#1dcfdb"
                 }
@@ -288,28 +307,27 @@ export default {
 </script>
 <style scoped lang="scss">
 .detail_card{
-    // width: 100%;
     width: 100%;
     margin-bottom: 10px;
     min-height: 90px;
     display: flex;
-		flex-wrap: wrap;
-		justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between;
     .card_item{
-      gap: 10px;
+      display: flex;
+      gap: 6px;
       height: 90px;
       width: calc((100% - (6 - 1) * 30px) / 6);
-      display: flex;
       font-size: 14px;
       cursor: pointer;
       flex-direction: column;
       align-items: center;
-      border-radius: 10px;
-      padding: 0 20px;
-      margin-left: 30px;
 	  border-radius: 6px;
       justify-content: center;
-    //   justify-content: space-between;
+      .channel_name{
+        font-weight: 600;
+      }
       .card_num{
         display: flex;
         font-weight: 600;
@@ -326,9 +344,9 @@ export default {
         justify-content: center;
       }
     }
-    .card_item:nth-of-type(5n + 1) {
-        margin-left: 0;
-    }
+    // .card_item:nth-of-type(5n + 1) {
+    //     margin-left: 0;
+    // }
   }
 ::v-deep .el-card__body {
     width: 100%;
@@ -744,7 +762,15 @@ export default {
     }
 }
 .loading_icon{
+    height: 90px;
+    align-items: center;
     margin-top: 10px;
+}
+.loading_icon:hover{
+    border: none;
+    color: #409eff;
+    border-color: transparent;
+    background: transparent;
 }
 </style>
 <style lang="scss">
