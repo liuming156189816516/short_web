@@ -22,6 +22,11 @@
                     <el-table-column prop="channel_id" label="SenderId" minWidth="230" align="center" />
                     <!-- <el-table-column prop="user_account" label="user_account" minWidth="230" align="center" /> -->
                     <!-- <el-table-column prop="user_secret" label="user_secret" minWidth="230" align="center" /> -->
+                    <el-table-column minWidth="160" :label="$t('sys_c005')" align="center" fixed="right">
+						<template slot-scope="scope">
+                            <el-tag :type="scope.row.status==1?'success':'danger'">{{ scope.row.status==1?$t('sys_c025'):$t('sys_c026')}}</el-tag>
+                        </template>
+					</el-table-column>
                     <el-table-column prop="price" :label="$t('sys_s026')" minWidth="230" align="center" />
                     <el-table-column width="160" :label="$t('sys_c010')" align="center" fixed="right">
 						<template slot-scope="scope">
@@ -51,8 +56,8 @@
                 </el-form-item>
                 <el-form-item :label="$t('sys_c005')" prop="status">
                     <el-radio-group v-model="configForm.status" :disabled="type==2">
-                        <el-radio :label="1">启用</el-radio>
-                        <el-radio :label="2">备用</el-radio>
+                        <el-radio :label="1">{{ $t('sys_c025') }}</el-radio>
+                        <el-radio :label="2">{{ $t('sys_c026') }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label-width="0" style="text-align:center;">
