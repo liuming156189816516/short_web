@@ -8,7 +8,7 @@
                             <img src="@/assets/login/avatar.png" style="width: 46px;height: 46px;border-radius: 50%; overflow: hidden; margin-right: 10px;" :size="56">
                             <div class="index-head-centent-left-text">
                                 <p>{{$t('sys_m053',{value:userInfo.account})}}</p>
-                                <el-button class="blame_num">余额：4522</el-button>
+                                <!-- <el-button class="blame_num">余额：4522</el-button> -->
                             </div>
                         </div>
                     </el-col>
@@ -146,7 +146,7 @@ export default {
             width: 100%;
             display: flex;
             border-radius: 5px;
-            padding: 0 15px 15px 15px;
+            padding: 0 15px;
             box-sizing: border-box;
             // justify-content: flex-start;
             align-items: center;

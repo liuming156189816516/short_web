@@ -47,7 +47,7 @@
                     <el-input clearable v-model="configForm.good_secret" oninput="value=value.replace(/[\u4E00-\u9FA5]/g,'')" :placeholder="$t('sys_mat061',{value:'user_secret'})" />
                 </el-form-item> -->
                 <el-form-item :label="$t('sys_s026')" prop="good_price">
-                    <el-input clearable v-model="configForm.good_price" oninput="value=value.replace(/[^\d]/g,'')" :placeholder="$t('sys_mat061',{value: $t('sys_s012')})" />
+                    <el-input clearable v-model="configForm.good_price" oninput="value=value.replace(/[\u4E00-\u9FA5]/g,'')" :placeholder="$t('sys_mat061',{value: $t('sys_s012')})" />
                 </el-form-item>
                 <el-form-item label-width="0" style="text-align:center;">
                     <el-button @click="configModel=false">{{ $t('sys_c023') }}</el-button>
