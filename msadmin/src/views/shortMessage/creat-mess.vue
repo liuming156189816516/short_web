@@ -135,7 +135,7 @@
             </div>
         </div>
         <el-dialog title="短信列表" center :visible.sync="shortSource" width="800px">
-            <el-button type="primary" size="mini" class="fr" style="margin-bottom: 10px;" @click="creatShrtBtn(0,1)">{{ $t('sys_s025') }}</el-button>
+            <el-button type="primary" size="mini" class="fr" style="margin-bottom: 10px;" @click="creatShrtBtn(0,1)">新增短信</el-button>
             <el-table :data="datashortList" ref="el_table" @row-click="rowSelectChange" border v-loading="isSloading" element-loading-spinner="el-icon-loading" element-loading-background="rgba(255, 255, 255,1)" :header-cell-style="{ color: '#909399', textAlign: 'center' }" :cell-style="{ textAlign: 'center' }"  :close-on-click-modal="false" style="width: 100%;">
                 <el-table-column label="#" width="55" align="center">
                     <template slot-scope="scope">
@@ -162,8 +162,13 @@
                 </el-form-item>
             </el-form>
         </el-dialog>
-        <el-dialog :title="this.taskForm.ptype==1?'新增短信':'编辑短信'" center :visible.sync="creatSource" :close-on-click-modal="false" width="500px">
+        <el-dialog :title="this.taskForm.ptype==1?'新增短信':'编辑短信'" center :visible.sync="creatSource" :close-on-click-modal="false" width="560px">
             <el-form size="small" style="width:100%;" :model="taskForm" :rules="taskRules" ref="taskForm" label-width="100px" class="demo-ruleForm">
+                <el-form-item label="SenderId" prop="sender_ids">
+                    <el-select v-model="taskForm.sender_ids" :placeholder="$t('sys_c089',{value:'SenderId'})">
+                        <el-option v-for="item in channelkList" :key="item.id" :label="item.name+' (单价:'+item.price+'; SenderId:'+item.channel_id+')'" :value="item.channel_id" />
+                    </el-select>
+                </el-form-item>
                 <el-form-item :label="$t('sys_s017')" prop="content">
                     <el-input type="textarea" clearable v-model="taskForm.content" :placeholder="$t('sys_mat061',{value:$t('sys_s017')})" rows="4" />
                 </el-form-item>
@@ -257,6 +262,7 @@
             apply_say:"",
             data_pack_id:"",
             content:"",
+            sender_ids:"",
             apply_total:null,
             phone_list:[],
             materialData:[],
@@ -293,7 +299,8 @@
                 apply_name: [{ required: true, message: this.$t('sys_mat061',{value:this.$t('sys_g070')}), trigger: 'blur' }],
                 apply_mobile: [{ required: true, message: this.$t('sys_mat061',{value:this.$t('sys_s021')}), trigger: 'blur' }],
                 apply_say: [{ required: true, message: this.$t('sys_mat061',{value:this.$t('sys_rai091')}), trigger: 'blur' }],
-                sender_id: [{ required: true, message: this.$t('sys_c052'), trigger: 'change' }],
+                sender_id: [{ required: true, message: this.$t('sys_c089',{value:'SenderId'}), trigger: 'change' }],
+                sender_ids: [{ required: true, message: this.$t('sys_c089',{value:'SenderId'}), trigger: 'change' }],
                 apply_total:[{ required: true, message: this.$t('sys_mat061',{value:this.$t('sys_s027')}), trigger: 'blur' }],
                 data_pack_id: [{required: true, message: this.$t('sys_c089',{value:this.$t('sys_rai090')}), trigger: 'change' }],
                 phone_list: [{type: 'array', required: true, message: this.$t('sys_c089',{value:this.$t('sys_s014')}), trigger: 'change' }],
@@ -436,8 +443,8 @@
                     let params = {
                         id:this.taskForm.id,
                         ptype:this.taskForm.ptype,
+                        channel_id:this.taskForm.sender_ids,
                         total_num:this.taskForm.apply_total,
-                        channel_id:getGoodName().channel_id||"",
                         content:this.taskForm.content,
                     }
                     this.showtloading=true;
