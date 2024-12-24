@@ -169,7 +169,7 @@
                         <el-option v-for="item in channelkList" :key="item.id" :label="item.name+' (单价:'+item.price+'; SenderId:'+item.channel_id+')'" :value="item.channel_id" />
                     </el-select>
                 </el-form-item>
-                <el-form-item :label="$t('sys_s017')" prop="content">
+                <el-form-item :label="$t('sys_c005')" prop="content">
                     <el-input type="textarea" clearable v-model="taskForm.content" :placeholder="$t('sys_mat061',{value:$t('sys_s017')})" rows="4" />
                 </el-form-item>
                 <el-form-item style="display: flex;justify-content: center;" label-width="0">

@@ -64,14 +64,16 @@
                   {{scope.row.data_pack_name||"-" }}
                 </template>
             </el-table-column>
-            <el-table-column prop="total_num" :label="$t('sys_s018')" minWidth="100" />
-            <el-table-column prop="in_pro_num" :label="$t('sys_s029')" minWidth="100" />
+            <el-table-column prop="total_num" :label="$t('sys_s027')" minWidth="100" />
+            <el-table-column prop="not_start_num" :label="$t('sys_s015')" minWidth="100" />
             <el-table-column prop="sucess_num" :label="$t('sys_s019')" minWidth="100" />
             <el-table-column prop="fail_num" :label="$t('sys_s020')" minWidth="100" />
+            <el-table-column prop="expend_num" :label="$t('sys_s032')" minWidth="100" />
+            <el-table-column prop="unknown_num" :label="$t('sys_s033')" minWidth="100" />
             <el-table-column prop="expend" :label="$t('sys_s028')" width="100" />
-            <el-table-column prop="itime" :label="$t('sys_c008')" minWidth="140">
+            <el-table-column prop="itime" :label="$t('sys_c008')" minWidth="160">
                 <template slot-scope="scope">
-                  {{$baseFun.resetTime(scope.row.start_time*1000)||"-" }}
+                  {{$baseFun.resetTime(scope.row.itime*1000)||"-" }}
                 </template>
             </el-table-column>
             <el-table-column fixed="right" :label="$t('sys_c010')" width="120">
@@ -150,7 +152,7 @@ export default {
       }
     },
     statusOptions(){
-      return ["",this.$t('sys_s015'),this.$t('sys_s016'),this.$t('sys_c048'),this.$t('sys_mat047')]
+      return ["",this.$t('sys_s015'),this.$t('sys_s031'),this.$t('sys_c048'),this.$t('sys_mat047')]
     },
     moreOption(){
       return  [

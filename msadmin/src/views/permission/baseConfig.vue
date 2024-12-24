@@ -49,6 +49,12 @@
                 <el-form-item :label="$t('sys_s026')" prop="good_price">
                     <el-input clearable v-model="configForm.good_price" oninput="value=value.replace(/[\u4E00-\u9FA5]/g,'')" :placeholder="$t('sys_mat061',{value: $t('sys_s012')})" />
                 </el-form-item>
+                <el-form-item :label="$t('sys_c005')" prop="status">
+                    <el-radio-group v-model="configForm.status" :disabled="type==2">
+                        <el-radio :label="1">启用</el-radio>
+                        <el-radio :label="2">备用</el-radio>
+                    </el-radio-group>
+                </el-form-item>
                 <el-form-item label-width="0" style="text-align:center;">
                     <el-button @click="configModel=false">{{ $t('sys_c023') }}</el-button>
                     <el-button type="primary" @click="submitSendBtn('configForm')" :loading="isLoading">{{ $t('sys_c024') }}</el-button>
@@ -73,6 +79,7 @@ export default {
             configModel:false,
             configForm:{
 				id:"",
+                status:1,
                 good_name:"",
                 good_spid:"",
                 channel_id:"",
@@ -89,7 +96,8 @@ export default {
 				channel_id: [{ required: true, message:this.$t('sys_mat061',{value:'spid'}), trigger: 'blur' }],
 				good_account: [{ required: true, message:this.$t('sys_mat061',{value:'user_account'}), trigger: 'blur' }],
                 good_secret: [{ required: true, message:this.$t('sys_mat061',{value:'user_secret'}), trigger: 'blur' }],
-                good_price: [{ required: true, message:this.$t('sys_mat061',{value:this.$t('sys_s012')}), trigger: 'blur' }]
+                good_price: [{ required: true, message:this.$t('sys_mat061',{value:this.$t('sys_s012')}), trigger: 'blur' }],
+                status: [{ required: true, message: this.$t('sys_c089',{value:'SenderId'}), trigger: 'change' }]
             }
         }
     },
@@ -114,27 +122,22 @@ export default {
 		},
         addConfigBtn(val,type){
             this.type = type;
+            this.configForm.status=val.status||1;
+            this.configForm.id=val.channel_id;
             this.configForm.id=val.channel_id;
             this.configForm.good_name=val.name;
             this.configForm.channel_id=val.channel_id;
             this.configForm.good_price=val.price;
             this.configModel=true;
-            if(type==1){
-                this.$nextTick(()=>{
-                    this.$refs.configForm.resetFields()
-                    this.configForm.id="";
-                    this.configForm.good_name="";
-                    this.configForm.channel_id="";
-                    this.configForm.good_price="";
-                })
-            }
         },
         //提交
         submitSendBtn(formName){
+            console.log(this.configForm.status);
             this.$refs[formName].validate((valid) => {
                 if (valid) {
 					let data = {
 						ptype:this.type,
+                        status:this.configForm.status,
                         name:this.configForm.good_name,
                         channel_id:this.configForm.channel_id,
                         price:Number(this.configForm.good_price)
@@ -177,7 +180,19 @@ export default {
                 that.$message({type: 'info',message: '已取消'});          
             })
         }
-	}
+	},
+    watch:{
+        configModel(val){
+            if(!val){
+                this.$refs.configForm.resetFields();
+                this.configForm.id="";
+                this.configForm.type=1;
+                this.configForm.good_name="";
+                this.configForm.channel_id="";
+                this.configForm.good_price="";
+            }
+        }
+    }
 }
 </script>
 <style lang="scss" scoped>
