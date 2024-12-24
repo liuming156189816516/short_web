@@ -43,7 +43,7 @@
                     <el-input clearable v-model="configForm.good_name" :placeholder="$t('sys_mat061',{value:$t('sys_s011')})" style="width:100%;" />
                 </el-form-item>
                 <el-form-item label="SenderId" prop="channel_id">
-                    <el-input clearable v-model="configForm.channel_id" oninput="value=value.replace(/[\u4E00-\u9FA5]/g,'')" :placeholder="$t('sys_mat061',{value:'SenderId'})" />
+                    <el-input clearable v-model="configForm.channel_id" :disabled="type==2" oninput="value=value.replace(/[\u4E00-\u9FA5]/g,'')" :placeholder="$t('sys_mat061',{value:'SenderId'})" />
                 </el-form-item>
                 <!-- <el-form-item label="user_account" prop="good_account">
                     <el-input clearable v-model="configForm.good_account" oninput="value=value.replace(/[\u4E00-\u9FA5]/g,'')" :placeholder="$t('sys_mat061',{value:'user_account'})" />
@@ -55,7 +55,7 @@
                     <el-input clearable v-model="configForm.good_price" oninput="value=value.replace(/[\u4E00-\u9FA5]/g,'')" :placeholder="$t('sys_mat061',{value: $t('sys_s012')})" />
                 </el-form-item>
                 <el-form-item :label="$t('sys_c005')" prop="status">
-                    <el-radio-group v-model="configForm.status" :disabled="type==2">
+                    <el-radio-group v-model="configForm.status">
                         <el-radio :label="1">{{ $t('sys_c025') }}</el-radio>
                         <el-radio :label="2">{{ $t('sys_c026') }}</el-radio>
                     </el-radio-group>
