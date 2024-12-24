@@ -8,6 +8,9 @@
           <el-input clearable v-model="model1.task_name" :placeholder="$t('sys_mat024')"></el-input>
         </el-form-item>
         <el-form-item>
+          <el-date-picker v-model="model1.task_time" type="daterange" :range-separator="$t('sys_c108')" :start-placeholder="$t('sys_c109')" :end-placeholder="$t('sys_c110')" style="width: 230px;" />
+        </el-form-item>
+        <el-form-item>
           <el-select v-model="model1.channel_id" clearable placeholder="请选择产品">
             <el-option v-for="item in goodsList" :key="item.channel_id" :label="item.name" :value="item.channel_id" />
           </el-select>
@@ -35,8 +38,8 @@
       <!-- 分组管理 -->
       <div class="continer_main">
         <div class="tab_check_warp">
-            <i slot="reference" class="el-icon-info"></i>
-            <div v-html="$t('sys_mat007',{value:checkIdArry.length})"></div>
+          <i slot="reference" class="el-icon-info"></i>
+          <div v-html="$t('sys_mat007',{value:checkIdArry.length})"></div>
         </div>
         <el-table :data="taskDataList" border height="660" v-loading="loading" element-loading-spinner="el-icon-loading" element-loading-background="rgba(255, 255, 255,1)" style="width: 100%;" :header-cell-style="{ color: '#909399', textAlign: 'center' }" :cell-style="{ textAlign: 'center' }" ref="serveTable" @selection-change="handleSelectionChange" @row-click="rowSelectChange">
             <el-table-column type="selection" width="55" />
@@ -66,7 +69,11 @@
             </el-table-column>
             <el-table-column prop="total_num" :label="$t('sys_s027')" minWidth="100" />
             <el-table-column prop="not_start_num" :label="$t('sys_s015')" minWidth="100" />
-            <el-table-column prop="sucess_num" :label="$t('sys_s019')" minWidth="100" />
+            <el-table-column prop="sucess_num" :label="$t('sys_s019')" minWidth="100">
+                <template slot-scope="scope">
+                  {{ scope.row.sucess_num }}({{ scope.row.sucess_rate }}%)
+                </template>
+            </el-table-column>
             <el-table-column prop="fail_num" :label="$t('sys_s020')" minWidth="100" />
             <el-table-column prop="expend_num" :label="$t('sys_s032')" minWidth="100" />
             <el-table-column prop="unknown_num" :label="$t('sys_s033')" minWidth="100" />
@@ -120,6 +127,7 @@ export default {
         limit: 10,
         total: 0,
         status:"",
+        task_time: "",
         task_name: "",
         channel_id:""
       },
@@ -182,6 +190,7 @@ export default {
   methods: {
       resetQuery(){
         this.model1.status="";
+        this.model1.task_time="";
         this.model1.task_name="";
         this.model1.channel_id="";
         this.getTaskList(1);
@@ -198,13 +207,16 @@ export default {
       },
       getTaskList(num){
         this.loading=true;
+        const sTime = this.model1.task_time;
         this.model1.page=num?num:this.model1.page;
         let params = {
           page:this.model1.page,
           limit:this.model1.limit,
           status:this.model1.status||-1,
           name:this.model1.task_name,
-          channel_id:this.model1.channel_id
+          channel_id:this.model1.channel_id,
+          start_time: sTime ? this.$baseFun.mexicoTime(sTime[0], 1) : -1,
+          end_time: sTime ? this.$baseFun.mexicoTime(sTime[1], 2) : -1
         }
         getsmstasklist(params).then(res=>{
           this.loading=false;
