@@ -8,11 +8,10 @@
                             <img src="@/assets/login/avatar.png" style="width: 46px;height: 46px;border-radius: 50%; overflow: hidden; margin-right: 10px;" :size="56">
                             <div class="index-head-centent-left-text">
                                 <p>{{$t('sys_m053',{value:userInfo.account})}}</p>
-                                <!-- <el-button class="blame_num">余额：4522</el-button> -->
                             </div>
                         </div>
                     </el-col>
-                    <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
+                    <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8" style="float: right;">
                         <template v-if="isLoading">
                             <el-button class="loading_main" :loading="true">加载中</el-button>
                         </template>
@@ -36,13 +35,7 @@
                             <div class="loading_main" v-else>暂无数据...</div>
                         </template>
                     </el-col>
-                </el-row>
-            </div>
-        </div>
-        <div class="index-sales" style="margin-top: -95px;">
-            <div class="index-head">
-                <el-row :gutter="10">
-                    <el-col :xs="24" :sm="24" :md="16" :lg="16" :xl="16">
+                    <el-col :xs="24" :sm="24" :md="16" :lg="16" :xl="16" style="margin-top: 10px;">
                         <div class="chart-stack" ref="chart_ele" />
                     </el-col>
                 </el-row>
@@ -61,16 +54,12 @@ export default {
     components: {Visitors},
     data() {
         return {
-            value1:'',
             isLoading:false,
             goods_list:[]
         }
     },
     computed: {
-        ...mapGetters([
-            'userInfo',
-            'goodList'
-        ])
+        ...mapGetters(['userInfo'])
     },
     created(){
         this.initChannel();
@@ -124,7 +113,9 @@ export default {
         justify-content: center;
     }
     .index-head {
+        // display: flex;
         width: 100%;
+        // justify-content: space-between;
         .chart-stack{
             width: 100%;
             height: 500px;
