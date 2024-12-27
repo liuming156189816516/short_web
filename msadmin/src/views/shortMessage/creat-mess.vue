@@ -57,7 +57,7 @@
                             </template>
                             <el-form-item label="SenderId">
                                 <el-select v-model="taskForm.sender_id" clearable :placeholder="$t('sys_c052')">
-                                    <el-option v-for="item in channelkList" :key="item.id" :label="item.name+' (单价:'+item.price+'; SenderId:'+item.channel_id+')'" :value="item.channel_id" />
+                                    <el-option v-for="item in channelkList" :key="item.id" v-show="item.status==1" :label="item.name+' (单价:'+item.price+'; SenderId:'+item.channel_id+')'" :value="item.channel_id" />
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="发送话术" prop="apply_say">

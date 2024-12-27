@@ -122,7 +122,7 @@ export default {
                 this.loading = false;
 				this.goodsList = res.data.list || [];
                 setChannel(this.goodsList);
-                this.EventBus.$emit('channel',"ok");
+                this.EventBus.$emit('channel',this.goodsList);
 			})
 		},
         addConfigBtn(val,type){
@@ -137,7 +137,6 @@ export default {
         },
         //提交
         submitSendBtn(formName){
-            console.log(this.configForm.status);
             this.$refs[formName].validate((valid) => {
                 if (valid) {
 					let data = {
