@@ -10,7 +10,7 @@
             <div class="head_title">我的产品</div>
             <div class="good_list">
               <!-- ,goods_name.channel_id||''==item.channel_id?'good_active':'' -->
-              <div :class="['good_item',goods_name&&goods_name.channel_id==item.channel_id?'good_active':'']" v-for="(item,idx) in goods_list" v-show="item.status==1" @click.stop="changeGood(item,idx)">
+              <div :class="['good_item',goods_name&&goods_name.channel_id==item.channel_id?'good_active':'']" v-for="(item,idx) in goods_list" v-if="item.status==1" @click.stop="changeGood(item,idx)">
                 <i class="iconfont icon-ui-checks-grid" />
                 <p>{{ item.name }}</p>
               </div>

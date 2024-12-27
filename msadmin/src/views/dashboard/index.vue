@@ -164,7 +164,6 @@ export default {
                             border-radius: 10px;
                             align-items: center;
                             justify-content: center;
-                            background: darkcyan;
                             i{
                                 // color: red;
                                 font-size: 32px;
