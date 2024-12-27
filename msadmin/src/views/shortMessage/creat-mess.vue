@@ -29,7 +29,7 @@
                                     <div>{{ $t('sys_c114') }}</div>
                                     <div class="submit_btn">
                                         <el-button class="custom_file1" :disabled="stepsHide" :loading="stepsHide" style="margin-top: 0;">{{ stepsHide?$t('sys_q015'):$t('sys_c059') }}
-                                            <input type="file" ref='uploadclear' @change="checkDataIsUse" id="uploadFile" />
+                                            <input type="file" accept=".txt" ref='uploadclear' @change="checkDataIsUse" id="uploadFile" />
                                         </el-button>
                                         <span class="export_tips" @click="downLoadTemp">
                                             <i class="el-icon-download" />{{ $t('sys_l066') }}
