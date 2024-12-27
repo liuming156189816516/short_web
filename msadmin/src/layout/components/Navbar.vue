@@ -52,7 +52,7 @@ import Screenfull from '@/components/Screenfull'
 import SizeSelect from '@/components/SizeSelect'
 import Search from '@/components/HeaderSearch'
 import { changechannel,getuidchannel} from "@/api/config"
-import { setGoodName,getGoodName,getChannel } from '@/utils/auth'
+import { setGoodName,getGoodName,getChannel,removeGoodName } from '@/utils/auth'
 
 export default {
   components: {
@@ -105,9 +105,14 @@ export default {
         this.goods_list = value;
         let res = await getuidchannel();
         if(res.data&&value.length>0){
-          let data = value.filter(item=> item.channel_id==res.data.channel_id)[0];
-          this.goods_name = data;
-          setGoodName(data);
+          let list = value.filter(item=> item.channel_id==res.data.channel_id&&item.status==1);
+          if(list&&list.length>0){
+            this.goods_name = list[0];
+            setGoodName(list[0]);
+          }else{
+            this.goods_name = null;
+            removeGoodName();
+          }
         }
       })
     },
