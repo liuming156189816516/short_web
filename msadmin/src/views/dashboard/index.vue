@@ -92,7 +92,7 @@ export default {
             if(list.length>0){
                 let r_list = list.filter(item=>item.status==1);
                 setChannel(list);
-                this.goods_list = this.$baseFun.splitString(list,4);
+                this.goods_list = this.$baseFun.splitString(r_list,4);
             }
         }
     }
