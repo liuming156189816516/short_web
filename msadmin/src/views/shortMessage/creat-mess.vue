@@ -364,7 +364,6 @@
         },
         submitBtn(){
             this.sure_row = this.store_row;
-            this.taskForm.sender_id=this.sure_row.channel_id,
             this.taskForm.apply_say=this.sure_row.content,
             this.shortSource=false;
         },
