@@ -20,7 +20,7 @@
                                 <h3>我的产品</h3>
                                 <el-carousel :interval="2000" indicator-position="none" trigger="click" height="150px">
                                     <el-carousel-item v-for="(item,i) in goods_list" :key="i">
-                                        <div class="product_list" v-for="(val,idx) in item" :key="idx" v-show="item.status==1"> 
+                                        <div class="product_list" v-for="(val,idx) in item" :key="idx"> 
                                             <span class="left_icon" :style="{background:idx==0?'#C4CADA':idx==1?'#FFF8DD':idx==2?'#FFEEF3':'#DFFFEA'}">
                                                 <i class="iconfont icon-ui-checks-grid" :style="{color:idx==0?'#0b3566':idx==1?'#624d00':idx==2?'#631024':'#094f21'}" />
                                             </span>
@@ -90,6 +90,7 @@ export default {
             let {data:{list}} = await getchannellist();
             this.isLoading = false;
             if(list.length>0){
+                let r_list = list.filter(item=>item.status==1);
                 setChannel(list);
                 this.goods_list = this.$baseFun.splitString(list,4);
             }
