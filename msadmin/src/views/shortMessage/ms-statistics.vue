@@ -321,6 +321,7 @@ export default {
       width: calc((100% - (6 - 1) * 30px) / 6);
       font-size: 14px;
       cursor: pointer;
+      flex-shrink: 0;
       flex-direction: column;
       align-items: center;
 	  border-radius: 6px;
