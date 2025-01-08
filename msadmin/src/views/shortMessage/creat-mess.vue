@@ -376,8 +376,8 @@
         submitBtn(){
             this.sure_row = this.store_row;
             this.taskForm.apply_say=this.sure_row.content,
-            this.checkTxt();
             this.shortSource=false;
+            this.checkTxt();
         },
         handleTab(val){
             this.showFile=false;
