@@ -392,22 +392,23 @@ export function mexicoTime(date, type){
   var Month = myDate.getMonth() + 1; //获取月，默认从0开始，所以要加一
   var Dates = myDate.getDate(); //获取日
   if(type == 1){
-    Time = Year + "-" + Month + "-" + Dates + " 04:00:00";
+    Time = Year + "-" + Month + "-" + Dates + " 00:00:00";
   }else if(type == 2){
-    Time = Year + "-" + Month + "-" + (Dates+1) + " 03:59:59";
+    Time = Year + "-" + Month + "-" + Dates + " 23:59:59";
   }else if(type == 3){
     let Afr_time = date.toLocaleString('en-US', { timeZone: 'America/Sao_Paulo' });
     let formatMexico = (Date.parse(Afr_time)/1000) + (5 * 3600);
     return formatMexico;
   }
-  let Afr_time = Time.toLocaleString('en-US', { timeZone: 'America/Sao_Paulo' });
-  return Date.parse(Afr_time)/1000
+  console.log(Time);
+  // let Afr_time = Time.toLocaleString('en-US', { timeZone: 'America/Sao_Paulo' });
+  return Date.parse(Time)/1000
 }
 
 //将时间戳转成年月日时分秒
 export function resetTime(date, type) {
-  let Afr_time = new Date().toLocaleString('en-US', { timeZone: 'America/Sao_Paulo' });
-  const newYork = date? new Date(type == 4 ? date * 1000 : date).toLocaleString('en-US', { timeZone: 'America/Sao_Paulo' }):Afr_time;
+  // let Afr_time = new Date().toLocaleString('en-US', { timeZone: 'America/Sao_Paulo' });
+  const newYork = date? new Date(type == 4 ? date * 1000 : date):new Date();
   let myDate = new Date(newYork);
   var Year = myDate.getFullYear(); //获取年
   var Month = myDate.getMonth() + 1; //获取月，默认从0开始，所以要加一
