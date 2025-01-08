@@ -385,6 +385,9 @@
             if(val == 2){
                 this.getDatalist();
             }
+            this.sendcode="";
+            this.strlen="";
+            this.sendlen="";
             this.total_num="";
             this.sure_row=null;
             this.store_row=null;
