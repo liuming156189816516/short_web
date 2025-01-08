@@ -394,7 +394,7 @@ export function mexicoTime(date, type){
   if(type == 1){
     Time = Year + "-" + Month + "-" + Dates + " 00:00:00";
   }else if(type == 2){
-    Time = Year + "-" + Month + "-" + Dates + " 23:59:59";
+    Time = Year + "-" + Month + "-" + (Dates+1) + " 23:59:59";
   }else if(type == 3){
     let Afr_time = date.toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" });
     let formatMexico = (Date.parse(Afr_time)/1000) + (5 * 3600);
@@ -402,12 +402,14 @@ export function mexicoTime(date, type){
   }
   let Afr_time = Time.toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" });
   return Date.parse(Afr_time)/1000
+
+  // .toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" })
 }
 
 //将时间戳转成年月日时分秒
 export function resetTime(date, type) {
   let Afr_time = new Date().toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" });
-  const newYork = date? new Date(type == 4 ? date * 1000 : date):Afr_time;
+  const newYork = date? new Date(type == 4 ? date * 1000 : date).toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" }):Afr_time;
   let myDate = new Date(newYork);
   var Year = myDate.getFullYear(); //获取年
   var Month = myDate.getMonth() + 1; //获取月，默认从0开始，所以要加一
