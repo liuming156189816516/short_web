@@ -378,6 +378,7 @@
             this.taskForm.apply_say=this.sure_row.content,
             this.shortSource=false;
             this.checkTxt();
+            this.$refs.taskForm.clearValidate('apply_say');
         },
         handleTab(val){
             this.showFile=false;
