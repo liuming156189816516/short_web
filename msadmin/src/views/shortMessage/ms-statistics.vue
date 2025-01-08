@@ -5,8 +5,8 @@
             <el-button v-if="isLoading" class="loading_icon" style="margin-top: 10px;" type="primary" :loading="true"></el-button>
             <template v-else>
                 <template v-if="statisticsList&&statisticsList.length>0">
-                    <div class="card_item" v-for="(item,idx) in statisticsList" :key="idx" :style="{background:cardOption[idx].b_g}" @click="getStatistics">
-                        <span class="channel_name" :style="{color:cardOption[idx].t_c}">{{ item.channel_name }}</span>
+                    <div class="card_item" v-for="(item,idx) in statisticsList" :key="idx" :style="{background:getBgFun().b_g}" @click="getStatistics">
+                        <span class="channel_name" :style="{color:getBgFun().t_c}">{{ item.channel_name }}</span>
                         <div>
                             <span>提交总数({{item.total_num}})</span>
                         </div>
@@ -192,6 +192,10 @@ export default {
                 this.isLoading=false;
             })
         },
+        getBgFun(){
+            const randomIndex = Math.floor(Math.random() * this.cardOption.length);
+            return this.cardOption[randomIndex];
+        },
          //获取配置列表
         getGoodsList(){
             getchannellist().then(res =>{
@@ -308,8 +312,10 @@ export default {
 <style scoped lang="scss">
 .detail_card{
     width: 100%;
+    overflow-y: auto;
     margin-bottom: 10px;
-    min-height: 90px;
+    height: 180px;
+    // max-height: 180px;
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
@@ -763,7 +769,7 @@ export default {
     }
 }
 .loading_icon{
-    height: 90px;
+    height: 180px;
     align-items: center;
     margin-top: 10px;
 }
