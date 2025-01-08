@@ -374,6 +374,7 @@
             }
         },
         submitBtn(){
+            this.checkTxt();
             this.sure_row = this.store_row;
             this.taskForm.apply_say=this.sure_row.content,
             this.shortSource=false;
