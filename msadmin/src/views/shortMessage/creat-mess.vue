@@ -75,7 +75,7 @@
                             </el-form-item>
                             <el-form-item style="display: flex;justify-content: center;" label-width="0">
                                 <el-button @click="$router.go(-1)">{{ $t('sys_c023') }}</el-button>
-                                <el-button type="primary" :loading="isLoading" @click="submitForm('taskForm')">提交表单</el-button>
+                                <el-button type="primary" :disabled="sendlen!=1" :loading="isLoading" @click="submitForm('taskForm')">提交表单</el-button>
                             </el-form-item>
                             <!-- <el-form-item :label="$t('sys_q131')+'：'" prop="materialData" class="custom_say">
                                 <div class="mess_01">
