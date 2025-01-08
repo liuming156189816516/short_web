@@ -34,6 +34,8 @@ export const getsmstalklist = (params)=> {
 export const dosmstalk = (params)=> {
   return request({url:'/sms/dosmstalk',method:'post',data:params})
 }
-
+export const getcontentnum = (params)=> {
+  return request({url:'/sms/getcontentnum',method:'post',data:params})
+}
 
 

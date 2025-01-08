@@ -64,7 +64,14 @@
                                 <el-row style="margin-bottom: 10px;">
                                     <el-button type="primary" plain @click="showShortList">常用短信</el-button>
                                 </el-row>
-                                <el-input type="textarea" clearable v-model="taskForm.apply_say" :placeholder="$t('sys_mat061',{value:$t('sys_rai091')})" rows="6" />
+                                <el-input type="textarea" clearable v-model="taskForm.apply_say" @input="checkTxt" :placeholder="$t('sys_mat061',{value:$t('sys_rai091')})" rows="6" />
+                                <transition name="el-zoom-in-top">
+                                    <div class="text_check" v-if="sendcode">
+                                        <div>
+                                            编码：<span>{{ sendcode }}</span> 共计：<span>{{ strlen }}</span> 个字，共发送 <span>{{ sendlen }}</span> 条
+                                        </div>
+                                    </div>
+                                </transition>
                             </el-form-item>
                             <el-form-item style="display: flex;justify-content: center;" label-width="0">
                                 <el-button @click="$router.go(-1)">{{ $t('sys_c023') }}</el-button>
@@ -229,7 +236,7 @@
   import { successTips } from '@/utils/index'
   import material from '../content/material.vue';
   import { getdatapacklist } from '@/api/datamanage'
-  import { getsmstalklist,dosmstalk,getchannellist,createsmstask,checkfile } from "@/api/config"
+  import { getsmstalklist,dosmstalk,getchannellist,createsmstask,checkfile,getcontentnum } from "@/api/config"
   export default {
     components:{material},
     data() {
@@ -288,7 +295,11 @@
         marketingList:[],
         embeddedList:[],
         checkIdArry:[],
-        currentRow:null
+        currentRow:null,
+        sendcode:"",
+        strlen:"",
+        sendlen:"",
+        waitTimer:null
       }
     },
     computed: {
@@ -445,8 +456,21 @@
         async delGroup(row) {
             this.datashortList = this.datashortList.filter(item=>item.id!==row.id);
             const res = await dosmstalk({ptype:3,del_id:[row.id] });
-            if(res.code)return;
             successTips(this)
+        },
+        async checkTxt(){
+            clearTimeout(this.waitTimer);
+            this.waitTimer = setTimeout(async() => {
+                const {data:{code,count,num}} = await getcontentnum({content:this.taskForm.apply_say});
+                this.sendcode = code;
+                this.strlen = count;
+                this.sendlen = num;
+                if(!this.taskForm.apply_say){
+                    this.sendcode = "";
+                    this.strlen = "";
+                    this.sendlen = "";
+                }
+            }, 2000 * Math.random());
         },
         createForm(formName){
             this.$refs[formName].validate((valid) => {
@@ -672,9 +696,27 @@
           justify-content: center;
           .el-radio-group{
               .el-radio{
-                  margin-right: 0;
+                 margin-right: 0;
               }
           }
+      }
+      .text_check{
+        width: 100%;
+        height: 46px;
+        display: flex;
+        margin-top: -2px;
+        padding-left: 20px;
+        align-items: center;
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+        background: #F9F9F9;
+        border: 1px solid #DCDFE6;
+        border-top: none;
+        font-size: 14px;
+        span{
+            color: #f56c6c;
+            font-weight: bold;
+        }
       }
       .mobile_list{
         width: 100%;
