@@ -460,18 +460,18 @@
             successTips(this)
         },
         async checkTxt(){
-            clearTimeout(this.waitTimer);
-            this.waitTimer = setTimeout(async() => {
-                const {data:{code,count,num}} = await getcontentnum({content:this.taskForm.apply_say});
-                this.sendcode = code;
-                this.strlen = count;
-                this.sendlen = num;
-                if(!this.taskForm.apply_say){
-                    this.sendcode = "";
-                    this.strlen = "";
-                    this.sendlen = "";
-                }
-            }, 2000 * Math.random());
+            // clearTimeout(this.waitTimer);
+            // this.waitTimer = setTimeout(async() => {
+            const {data:{code,count,num}} = await getcontentnum({content:this.taskForm.apply_say});
+            this.sendcode = code;
+            this.strlen = count;
+            this.sendlen = num;
+            if(!this.taskForm.apply_say){
+                this.sendcode = "";
+                this.strlen = "";
+                this.sendlen = "";
+            }
+            // }, 2000 * Math.random());
         },
         createForm(formName){
             this.$refs[formName].validate((valid) => {
