@@ -175,7 +175,7 @@
             </el-form>
         </el-dialog>
         <el-dialog :title="this.taskForm.ptype==1?'新增短信':'编辑短信'" center :visible.sync="creatSource" :close-on-click-modal="false" width="560px">
-            <el-form size="small" style="width:100%;" :model="taskForm" :rules="taskRules" ref="taskForm" label-width="100px" class="demo-ruleForm">
+            <el-form size="small" style="width:100%;" :model="taskForm" :rules="taskRules" ref="taskForm" label-width="60px" class="demo-ruleForm">
                 <!-- <el-form-item label="SenderId" prop="sender_ids">
                     <el-select v-model.trim="taskForm.sender_ids" :placeholder="$t('sys_c089',{value:'SenderId'})">
                         <el-option v-for="item in channelkList" :key="item.id" :label="item.name+' (单价:'+item.price+'; SenderId:'+item.channel_id+')'" :value="item.channel_id" />
@@ -183,6 +183,9 @@
                 </el-form-item> -->
                 <el-form-item :label="$t('sys_mat019')" prop="content">
                     <el-input type="textarea" clearable v-model="taskForm.content" :placeholder="$t('sys_mat061',{value:$t('sys_s017')})" rows="4" />
+                </el-form-item>
+                <el-form-item :label="$t('sys_l062')">
+                    <el-input type="textarea" clearable v-model="taskForm.remark" :placeholder="$t('sys_mat061',{value:$t('sys_l062')})" rows="2" />
                 </el-form-item>
                 <el-form-item style="display: flex;justify-content: center;" label-width="0">
                     <el-button @click="creatSource=false">{{ $t('sys_c023') }}</el-button>
@@ -274,6 +277,7 @@
             apply_say:"",
             data_pack_id:"",
             content:"",
+            remark:"",
             sender_ids:"",
             apply_total:null,
             phone_list:[],
@@ -322,6 +326,7 @@
                 data_pack_id: [{required: true, message: this.$t('sys_c089',{value:this.$t('sys_rai090')}), trigger: 'change' }],
                 phone_list: [{type: 'array', required: true, message: this.$t('sys_c089',{value:this.$t('sys_s014')}), trigger: 'change' }],
                 content: [{ required: true, message: this.$t('sys_mat061',{value:this.$t('sys_mat019')}), trigger: 'blur' }],
+                remark: [{ required: true, message: this.$t('sys_mat061',{value:this.$t('sys_l062')}), trigger: 'blur' }]
             }
         },
         linkRules(){
@@ -421,6 +426,7 @@
         creatShrtBtn(row,idx){
             this.taskForm.ptype=idx;
             this.taskForm.id=row.id||"";
+            this.taskForm.remark=row.remark||"";
             this.taskForm.content=row.content||"";
             this.creatSource=true;
             if(idx == 1){
@@ -488,6 +494,7 @@
                     let params = {
                         id:this.taskForm.id,
                         ptype:this.taskForm.ptype,
+                        remark:this.taskForm.remark,
                         content:this.taskForm.content,
                     }
                     this.showtloading=true;
