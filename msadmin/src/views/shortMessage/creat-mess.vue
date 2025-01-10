@@ -141,7 +141,7 @@
                 </div>
             </div>
         </div>
-        <el-dialog title="短信列表" center :visible.sync="shortSource" width="800px">
+        <el-dialog title="短信列表" center :visible.sync="shortSource" width="850px">
             <el-button type="primary" size="mini" class="fr" style="margin-bottom: 10px;" @click="creatShrtBtn(0,1)">新增短信</el-button>
             <el-table :data="datashortList" highlight-current-row ref="el_table" @cell-click="rowSelectChange" border v-loading="isSloading" element-loading-spinner="el-icon-loading" element-loading-background="rgba(255, 255, 255,1)" :header-cell-style="{ color: '#909399', textAlign: 'center' }" :cell-style="{ textAlign: 'center' }"  :close-on-click-modal="false" style="width: 100%;">
                 <el-table-column label="#" width="55" align="center">
@@ -151,8 +151,13 @@
                 </el-table-column>
                 <!-- <el-table-column prop="channel_name" :label="$t('sys_s011')" minWidth="100" />
                 <el-table-column prop="channel_id" label="SenderId" width="100" /> -->
-                <el-table-column prop="content" show-overflow-tooltip :label="$t('sys_mat019')" minWidth="160" />
-                <el-table-column fixed="right" :label="$t('sys_c010')" width="160">
+                <el-table-column prop="content" show-overflow-tooltip :label="$t('sys_mat019')" minWidth="240" />
+                <el-table-column prop="content" show-overflow-tooltip :label="$t('sys_l062')" minWidth="130">
+                    <template slot-scope="scope">
+                        {{ scope.row.remark||"-" }}
+                    </template>
+                </el-table-column>
+                <el-table-column fixed="right" :label="$t('sys_c010')" width="150">
                     <template slot-scope="scope">
                         <el-button type="primary" size="mini" plain @click.stop="creatShrtBtn(scope.row,2)">{{ $t('sys_c027') }}</el-button>
                         <el-popconfirm :confirm-button-text="$t('sys_c024')" @confirm="delGroup(scope.row)" :cancel-button-text="$t('sys_c023')" icon="el-icon-info" icon-color="red" title="容确定删除吗？">
