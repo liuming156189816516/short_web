@@ -37,5 +37,8 @@ export const dosmstalk = (params)=> {
 export const getcontentnum = (params)=> {
   return request({url:'/sms/getcontentnum',method:'post',data:params})
 }
+export const exportsmstaskinfolist = (params)=> {
+  return request({url:'/sms/exportsmstaskinfolist',method:'post',data:params})
+}
 
 

@@ -84,27 +84,27 @@
                   {{$baseFun.resetTime(scope.row.itime*1000)||"-" }}
                 </template>
             </el-table-column>
-            <el-table-column fixed="right" :label="$t('sys_c010')" width="120">
+            <el-table-column fixed="right" :label="$t('sys_c010')" width="200">
                 <template slot-scope="scope">
                     <!-- <el-button type="primary" size="small" @click="jumpCreatTask(scope.row,1)">{{ $t('sys_c077') }}</el-button> -->
                     <el-button :disabled="checkIdArry.length>0" type="primary" size="mini" @click.stop="goTaskDetail(scope.row)">{{ $t('sys_m063') }}</el-button>
-                    <!-- <el-button :disabled="checkIdArry.length>0" type="success" plain size="mini" @click.stop="exportText(scope.row)">{{ $t('sys_c080') }}</el-button>
+                    <!-- <el-button :disabled="checkIdArry.length>0" type="success" plain size="mini" @click.stop="exportText(scope.row)">{{ $t('sys_c080') }}</el-button> -->
                     <el-button @click.stop type="text" size="mini">
                         <el-dropdown @command="(command)=>{handleCommand(scope.row,command)}" trigger="click">
                             <span class="el-dropdown-link">
-                              <el-button type="warning" plain size="mini" :disabled="checkIdArry.length>0">
-                                {{ $t('sys_c079') }}
+                              <el-button type="warning" size="mini" :disabled="checkIdArry.length>0">
+                                {{ $t('sys_c080') }}
                                 <i class="el-icon-arrow-down el-icon--right"></i>
                               </el-button>
                             </span>
                             <el-dropdown-menu slot="dropdown">
                               <el-dropdown-item v-for="(item,idx) in moreOption" :key="idx" :command="{item,idx}" v-show="idx!=0">
-                                <i :class="'el-icon-' + item.icon"></i>
-                                {{ item.label }}
+                                <!-- <i :class="'el-icon-' + item.icon"></i> -->
+                                {{ item }}
                               </el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
-                    </el-button> -->
+                    </el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -119,7 +119,7 @@
 </template>
 <script>
 import { successTips, resetPage } from '@/utils/index'
-import { getsmstasklist,delsmstasklist,getchannellist} from "@/api/config"
+import { getsmstasklist,delsmstasklist,getchannellist,exportsmstaskinfolist} from "@/api/config"
 export default {
   data() {
     return {
@@ -154,24 +154,7 @@ export default {
       return ["",this.$t('sys_s015'),this.$t('sys_s031'),this.$t('sys_c048'),this.$t('sys_mat047')]
     },
     moreOption(){
-      return  [
-        {
-          icon: "switch-button",
-          label: this.$t('sys_g067')
-        },
-        // {
-        //   icon: "refresh",
-        //   label: this.$t('sys_c081')
-        // },
-        {
-          icon: "close",
-          label: this.$t('sys_g068')
-        },
-        {
-          icon: "delete",
-          label: this.$t('sys_g069')
-        }
-      ]
+      return  ["","全部数据","异常数据"]
     }
   },
   created() {
@@ -275,37 +258,42 @@ export default {
               that.$message({ type: 'info', message: that.$t('sys_c048') });
           })
       },
-      handleCommand(row,command) {
-          let that = this;
-          that.setIpType = command.idx;
-          that.setIpName = command.item.label;
-          if (that.checkIdArry.length==0 && row==0) {
-            return successTips(that, "error",that.$t('sys_c126'));
-          }
-          that.$confirm(that.$t('sys_c046',{value:that.setIpName}),that.$t('sys_l013'), {
-            type: 'warning',
-            confirmButtonText: that.$t('sys_c024'),
-            cancelButtonText: that.$t('sys_c023'),
-            beforeClose: function (action, instance, done) {
-                if (action === 'confirm') {
-                  let reqApi = that.setIpType==0?dobatchstopsendmsgtask:that.setIpType==1?dobatchclosesendmsgtask:that.setIpType==2?dobatchdelsendmsgtask:"";
-                  instance.confirmButtonLoading = true;
-                  reqApi({ids:row==0?that.checkIdArry:[row.id]}).then(res=>{
-                    instance.confirmButtonLoading = false;
-                    if (res.code != 0) return;
-                    that.getTaskList();
-                    successTips(that)
-                    done();
-                  })
-                } else {
-                  done();
-                  instance.confirmButtonLoading = false;
-                }
-            }
-        }).catch(() => {
-            that.$message({ type: 'info', message: that.$t('sys_c048') });
-        })
+      async handleCommand(row,command){
+        const {data:{url}} = await exportsmstaskinfolist({task_id:row.id,type:command.idx});
+        window.location.href = url;
+        successTips(this)
       },
+      // handleCommand(row,command) {
+      //     let that = this;
+      //     that.setIpType = command.idx;
+      //     that.setIpName = command.item.label;
+      //     if (that.checkIdArry.length==0 && row==0) {
+      //       return successTips(that, "error",that.$t('sys_c126'));
+      //     }
+      //     that.$confirm(that.$t('sys_c046',{value:that.setIpName}),that.$t('sys_l013'), {
+      //       type: 'warning',
+      //       confirmButtonText: that.$t('sys_c024'),
+      //       cancelButtonText: that.$t('sys_c023'),
+      //       beforeClose: function (action, instance, done) {
+      //           if (action === 'confirm') {
+      //             let reqApi = that.setIpType==0?dobatchstopsendmsgtask:that.setIpType==1?dobatchclosesendmsgtask:that.setIpType==2?dobatchdelsendmsgtask:"";
+      //             instance.confirmButtonLoading = true;
+      //             reqApi({ids:row==0?that.checkIdArry:[row.id]}).then(res=>{
+      //               instance.confirmButtonLoading = false;
+      //               if (res.code != 0) return;
+      //               that.getTaskList();
+      //               successTips(that)
+      //               done();
+      //             })
+      //           } else {
+      //             done();
+      //             instance.confirmButtonLoading = false;
+      //           }
+      //       }
+      //   }).catch(() => {
+      //       that.$message({ type: 'info', message: that.$t('sys_c048') });
+      //   })
+      // },
       getSummaries(param) {
         const { columns, data } = param;
         const sums = [];
