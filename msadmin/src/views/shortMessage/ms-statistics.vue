@@ -8,11 +8,11 @@
                     <div class="card_item" v-for="(item,idx) in statisticsList" :key="idx" :style="{background:getBgFun().b_g}" @click="getStatistics">
                         <span class="channel_name" :style="{color:getBgFun().t_c}">{{ item.channel_name }}</span>
                         <div>
-                            <span>提交总数({{item.total_num}})</span>
+                            <span>提交总数：{{item.total_num}}</span>
                         </div>
                         <div class="card_number">
-                            <span>成功数{{item.sucess_num}} ({{ parseFloat((item.sucess_rate*100).toFixed(2))}}%)</span>
-                            <span>失败数({{item.fail_num}})</span>
+                            <span>成功数：{{item.sucess_num}} ({{ parseFloat((item.sucess_rate*100).toFixed(2))}}%)</span>
+                            <span>失败数：{{item.fail_num}}</span>
                         </div>
                     </div>
                 </template>
@@ -47,7 +47,7 @@
                     <el-table-column prop="statis_time_str" :label="$t('sys_c134')" width="120" />
                     <el-table-column prop="channel_name" :label="$t('sys_s011')" minWidth="100" />
                     <el-table-column prop="total_num" :label="$t('sys_s018')" minWidth="100" />
-                    <el-table-column prop="sucess_rate" :label="$t('sys_s019')" minWidth="120">
+                    <el-table-column prop="sucess_num" :label="$t('sys_s019')" minWidth="120">
                         <template slot-scope="scope">
                         {{ scope.row.sucess_num }} ({{ parseFloat((scope.row.sucess_rate*100).toFixed(2))}}%)
                         </template>
@@ -351,7 +351,7 @@ export default {
       .card_number{
         width: 100%;
         display: flex;
-        gap: 20px;
+        gap: 10px;
         justify-content: center;
       }
     }
