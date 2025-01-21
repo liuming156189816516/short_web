@@ -258,6 +258,7 @@ export default {
     'sys_c141': '奖金',
     'sys_c142': '登录IP',
     'sys_c143': '新增挂机',
+    'sys_c144': '成功率',
 
     'sys_g001': '用户UID',
     'sys_g002': '用户名',

@@ -11,7 +11,7 @@
                             <span>提交总数({{item.total_num}})</span>
                         </div>
                         <div class="card_number">
-                            <span>成功数({{item.sucess_num}})</span>
+                            <span>成功数{{item.sucess_num}} ({{ parseFloat((item.sucess_rate*100).toFixed(2))}}%)</span>
                             <span>失败数({{item.fail_num}})</span>
                         </div>
                     </div>
@@ -47,7 +47,11 @@
                     <el-table-column prop="statis_time_str" :label="$t('sys_c134')" width="120" />
                     <el-table-column prop="channel_name" :label="$t('sys_s011')" minWidth="100" />
                     <el-table-column prop="total_num" :label="$t('sys_s018')" minWidth="100" />
-                    <el-table-column prop="sucess_num" :label="$t('sys_s019')" minWidth="120" />
+                    <el-table-column prop="sucess_rate" :label="$t('sys_s019')" minWidth="120">
+                        <template slot-scope="scope">
+                        {{ scope.row.sucess_num }} ({{ parseFloat((scope.row.sucess_rate*100).toFixed(2))}}%)
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="fail_num" :label="$t('sys_s020')" minWidth="100" />
                 </el-table>
                 <div class="layui_page">
