@@ -8,11 +8,11 @@
                     <div class="card_item" v-for="(item,idx) in statisticsList" :key="idx" :style="{background:getBgFun().b_g}" @click="getStatistics">
                         <span class="channel_name" :style="{color:getBgFun().t_c}">{{ item.channel_name }}</span>
                         <div>
-                            <span>提交总数:{{item.total_num}}</span>
+                            <span>提交总数: {{item.total_num}}</span>
                         </div>
                         <div class="card_number">
-                            <span>成功数:{{item.sucess_num}} ({{ parseFloat((item.sucess_rate*100).toFixed(2))}}%)</span>
-                            <span>失败数:{{item.fail_num}}</span>
+                            <span>成功数: {{item.sucess_num}} ({{ parseFloat((item.sucess_rate*100).toFixed(2))}}%)</span>
+                            <span>失败数: {{item.fail_num}}</span>
                         </div>
                     </div>
                 </template>
