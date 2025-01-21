@@ -337,6 +337,7 @@ export default {
 	  border-radius: 6px;
       justify-content: center;
       .channel_name{
+        font-size: 18px;
         font-weight: 600;
       }
       .card_num{
