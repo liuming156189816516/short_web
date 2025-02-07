@@ -151,7 +151,7 @@ export default {
       }
     },
     statusOptions(){
-      return ["",this.$t('sys_s015'),this.$t('sys_s031'),this.$t('sys_c048'),this.$t('sys_mat047')]
+      return ["",this.$t('sys_s015'),this.$t('sys_s030'),this.$t('sys_c048'),this.$t('sys_mat047')]
     },
     moreOption(){
       return  ["","全部数据","异常数据"]
