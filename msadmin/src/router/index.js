@@ -123,6 +123,48 @@ export let asyncRoutes = [
     ]
   },
   {
+    path: '/rcsMessage',
+    component: Layout,
+    name: 'rcsMessage',
+    meta: { title:i18n.t('sys_r001'),icon: 'el-icon-s-data' },
+    children: [
+      {
+        path: '/rcs-list',
+        component: () => import('@/views/rcsMessage/rcs-list'),
+        name: 'rcs-list',
+        meta: {
+          title:i18n.t('sys_r002'),
+        }
+      },
+      {
+        hidden: true,
+        path: '/creat-rcs',
+        component: () => import('@/views/rcsMessage/creat-rcs'),
+        name: 'creat-rcs',
+        meta: {
+          title:i18n.t('sys_r005'),
+        }
+      },
+      {
+        hidden: true,
+        path: '/rcs-tetail',
+        component: () => import('@/views/rcsMessage/rcs-tetail'),
+        name: 'rcs-tetail',
+        meta: {
+          title:i18n.t('sys_r003'),
+        }
+      },
+      {
+        path: '/rcs-statistics',
+        component: () => import('@/views/rcsMessage/rcs-statistics'),
+        name: 'rcs-statistics',
+        meta: {
+          title:i18n.t('sys_r004'),
+        }
+      }
+    ]
+  },
+  {
     path: '/content',
     component: Layout,
     name: 'content',
