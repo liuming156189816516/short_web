@@ -55,11 +55,11 @@
                                     <el-input clearable v-model="taskForm.apply_total" oninput="value=value.replace(/[^\d]/g,'')"  :placeholder="$t('sys_mat061',{value:$t('sys_s027')})"/>
                                 </el-form-item>
                             </template>
-                            <el-form-item label="SenderId">
+                            <!-- <el-form-item label="SenderId">
                                 <el-select v-model="taskForm.sender_id" clearable :placeholder="$t('sys_c052')">
                                     <el-option v-for="item in channelkList" :key="item.id" v-show="item.status==1" :label="item.name+' (单价:'+item.price+'; SenderId:'+item.channel_id+')'" :value="item.channel_id" />
                                 </el-select>
-                            </el-form-item>
+                            </el-form-item> -->
                             <el-form-item label="发送话术" prop="apply_say">
                                 <el-row style="margin-bottom: 10px;">
                                     <el-button type="primary" plain @click="showShortList">常用短信</el-button>
@@ -518,7 +518,6 @@
                         content:this.taskForm.apply_say,
                         phone_str:this.taskForm.apply_mobile,
                         phone_list:this.taskForm.phone_list,
-                        channel_id:this.taskForm.sender_id,
                         total_num:Number(this.taskForm.apply_total),
                         data_pack_id:this.taskForm.data_pack_id
                     }
