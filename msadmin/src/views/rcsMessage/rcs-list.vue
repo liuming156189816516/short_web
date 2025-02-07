@@ -188,7 +188,6 @@ export default {
           limit:this.model1.limit,
           status:this.model1.status||-1,
           name:this.model1.task_name,
-          channel_id:this.model1.channel_id,
           start_time: sTime ? this.$baseFun.mexicoTime(sTime[0], 1) : -1,
           end_time: sTime ? this.$baseFun.mexicoTime(sTime[1], 2) : -1
         }
