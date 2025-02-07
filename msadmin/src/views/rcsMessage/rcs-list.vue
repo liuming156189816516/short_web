@@ -7,11 +7,11 @@
         <el-form-item>
           <el-input clearable v-model="model1.task_name" :placeholder="$t('sys_mat024')"></el-input>
         </el-form-item>
-        <el-form-item>
+        <!-- <el-form-item>
           <el-select v-model="model1.channel_id" clearable placeholder="请选择产品">
             <el-option v-for="item in goodsList" :key="item.channel_id" :label="item.name" :value="item.channel_id" />
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item>
           <el-date-picker v-model="model1.task_time" type="daterange" :range-separator="$t('sys_c108')" :start-placeholder="$t('sys_c109')" :end-placeholder="$t('sys_c110')" style="width: 260px;" />
         </el-form-item>
@@ -44,7 +44,7 @@
         <el-table :data="taskDataList" border height="760" v-loading="loading" element-loading-spinner="el-icon-loading" element-loading-background="rgba(255, 255, 255,1)" style="width: 100%;" :header-cell-style="{ color: '#909399', textAlign: 'center' }" :cell-style="{ textAlign: 'center' }" ref="serveTable" @selection-change="handleSelectionChange" @row-click="rowSelectChange" :summary-method="getSummaries" show-summary>
             <el-table-column type="selection" width="55" />
             <el-table-column prop="name" :label="$t('sys_g070')" width="120" />
-            <el-table-column prop="channel_name" show-overflow-tooltip :label="$t('sys_s011')" minWidth="130" />
+            <!-- <el-table-column prop="channel_name" show-overflow-tooltip :label="$t('sys_s011')" minWidth="130" /> -->
             <el-table-column prop="status" :label="$t('sys_l059')" width="120">
               <template slot="header">
                 <el-dropdown trigger="click" size="medium " @command="(command) => handleNewwork(command)">
