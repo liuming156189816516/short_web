@@ -244,7 +244,9 @@
   import { successTips } from '@/utils/index'
   import material from '../content/material.vue';
   import { getdatapacklist } from '@/api/datamanage'
-  import { getsmstalklist,dosmstalk,getchannellist,createsmstask,checkfile,getcontentnum } from "@/api/rcs"
+  
+   import { getsmstalklist,dosmstalk } from "@/api/config"
+  import { getchannellist,createsmstask,checkfile,getcontentnum } from "@/api/rcs"
   export default {
     components:{material},
     data() {
