@@ -66,7 +66,7 @@
 </template>
 <script>
 import { resetPage } from '@/utils/index'
-import { getchannellist} from "@/api/config"
+import { getchannellist} from "@/api/rcs"
 import { getstatislist,gettodaystatisinfo } from '@/api/statistics'
 export default {
     data() {

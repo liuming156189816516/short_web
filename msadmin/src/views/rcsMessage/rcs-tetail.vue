@@ -69,7 +69,7 @@
   
   <script>
   import { successTips,resetPage } from '@/utils/index'
-  import { getsmstaskinfolist } from '@/api/config'
+  import { getsmstaskinfolist } from '@/api/rcs'
   export default {
     data() {
       return {

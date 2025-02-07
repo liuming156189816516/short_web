@@ -119,7 +119,7 @@
 </template>
 <script>
 import { successTips, resetPage } from '@/utils/index'
-import { getsmstasklist,delsmstasklist,getchannellist,exportsmstaskinfolist} from "@/api/config"
+import { getsmstasklist,delsmstasklist,getchannellist,exportsmstaskinfolist} from "@/api/rcs"
 export default {
   data() {
     return {
