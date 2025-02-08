@@ -151,8 +151,8 @@ export default {
                 {
                     label: this.$t('sys_s018'),
                     num: 0,
-                    b_g: "#fef4e9",
-                    t_c: "#ff8400"
+                    b_g: "#dbfeff",
+                    t_c: "#1dcfdb"
                 },
                 {
                     label: this.$t('sys_s019'),
@@ -164,8 +164,8 @@ export default {
                 {
                     label: this.$t('sys_s020'),
                     num: 0,
-                    b_g: "#dbfeff",
-                    t_c: "#1dcfdb"
+                    b_g: "#fef4e9",
+                    t_c: "#ff8400"
                 },
                 // {
                 //     label: this.$t('sys_rai122'),
