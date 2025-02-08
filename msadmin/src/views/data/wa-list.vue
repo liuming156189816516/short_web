@@ -271,7 +271,7 @@ export default {
             return ["", this.$t('sys_c025'), this.$t('sys_c026')]
         },
         moreOption(){
-            return ["",this.$t('sys_mat035'), this.$t('sys_mat036'), this.$t('sys_mat105')]
+            return ["",this.$t('sys_mat035'), this.$t('sys_mat036')]
         }
     },
     created() {
