@@ -26,11 +26,11 @@
                     <el-table-column prop="name" :label="$t('sys_mat027')" minWidth="140" />
                     <el-table-column prop="invalid_num" :label="$t('sys_mat042')" minWidth="100" />
                     <el-table-column prop="up_num" :label="$t('sys_mat028')" minWidth="100" />
-                    <el-table-column prop="source_repeat_num" :label="$t('sys_mat029')" minWidth="100" />
+                    <!-- <el-table-column prop="source_repeat_num" :label="$t('sys_mat029')" minWidth="100" /> -->
                     <el-table-column prop="repeat_num" :label="$t('sys_mat030')" minWidth="100" />
                     <el-table-column prop="into_num" :label="$t('sys_mat031')" minWidth="100" />
                     <el-table-column prop="residue_num" :label="$t('sys_mat032')" minWidth="100" />
-                    <el-table-column prop="err_num" :label="$t('sys_mat106')" minWidth="100" />
+                    <!-- <el-table-column prop="err_num" :label="$t('sys_mat106')" minWidth="100" /> -->
                     <el-table-column prop="up_status" :label="$t('sys_l059')" minWidth="100">
                         <template slot-scope="scope">
                             <el-tag :type="scope.row.up_status==1?'warning':'success'" size="small"> {{ taskOption[scope.row.up_status] }}</el-tag>
@@ -107,14 +107,14 @@
                                 <el-input v-model="ipForm.file_name" :placeholder="$t('sys_mat024')"></el-input>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="24">
+                        <!-- <el-col :span="24">
                             <el-form-item prop="data_way">
                                 <div class="label_title">{{ $t('sys_g130') }}</div>
                                 <el-radio-group v-model="ipForm.data_way">
                                     <el-radio :label="idx" v-for="(item,idx) in dataOption" :key="idx" v-show="item!=''">{{ item }}</el-radio>
                                 </el-radio-group>
                             </el-form-item>
-                        </el-col>
+                        </el-col> -->
                         <el-col :span="24" >
                             <el-form-item>
                                 <div class="label_title">{{ $t('sys_c058') }}</div>
@@ -385,7 +385,7 @@ export default {
             formData.append('file', files);
             formData.append('ptype',this.ipModelType);
             formData.append('name', this.ipForm.file_name);
-            formData.append('into_type',this.ipForm.data_way);
+            // formData.append('into_type',this.ipForm.data_way);
             if (this.ipModelType == 2) {
                 formData.append('id',this.ipForm.id);
             }
