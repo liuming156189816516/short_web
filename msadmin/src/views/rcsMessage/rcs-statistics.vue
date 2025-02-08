@@ -353,14 +353,13 @@ export default {
 </script>
 <style scoped lang="scss">
 .detail_card{
-    width: 100%;
-    overflow-y: auto;
-    margin-bottom: 10px;
-    height: 180px;
-    // max-height: 180px;
+    height: 90px;
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    justify-content: flex-start;
+    display: flex;
+    flex-wrap: wrap;
+    // gap: 10px;
     justify-content: space-between;
     .card_item{
       display: flex;
@@ -812,7 +811,7 @@ export default {
     }
 }
 .loading_icon{
-    height: 180px;
+    height: 90px;
     align-items: center;
     margin-top: 10px;
 }
