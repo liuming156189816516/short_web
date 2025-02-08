@@ -36,5 +36,11 @@ export const getcontentnum = (params)=> {
 export const exportsmstaskinfolist = (params)=> {
   return request({url:'/rcs/exportrcstaskinfolist',method:'post',data:params})
 }
+export const getrcstodaystatisinfo = (params)=> {
+  return request({url:'/statis/getrcstodaystatisinfo',method:'post',data:params})
+} 
+export const getrcsstatislist = (params)=> {
+  return request({url:'/statis/getrcsstatislist',method:'post',data:params})
+} 
 
 

@@ -1,7 +1,6 @@
 <template>
     <div style="width:100%;height: 100%; float: left; position: relative;">
-        <!-- 筛选条件 -->
-        <div class="detail_card">
+        <!-- <div class="detail_card">
             <el-button v-if="isLoading" class="loading_icon" style="margin-top: 10px;" type="primary" :loading="true"></el-button>
             <template v-else>
                 <template v-if="statisticsList&&statisticsList.length>0">
@@ -18,6 +17,16 @@
                 </template>
                 <el-button v-else class="loading_icon" style="margin-top: 10px;" type="primary">暂无数据...</el-button>
             </template>
+        </div> -->
+        <div class="detail_card">
+            <el-button v-if="isLoading" class="loading_icon" style="margin-top: 10px;" type="primary" :loading="true"></el-button>
+            <template v-else>
+                <div class="card_item" v-for="(item,idx) in cardOption" :key="idx" :style="{background:`${item.b_g}`}" @click="getStatistics">
+                    <span>{{ item.label }}</span>
+                    <span class="card_num" :style="{color:`${item.t_c}`}" v-text="item.num+' ('+item.num1+')%'" v-if="idx==1"></span>
+                    <span class="card_num" :style="{color:`${item.t_c}`}" v-text="item.num" v-else></span>
+                </div>
+            </template>
         </div>
         <el-form size="small" :inline="true" style="margin-top: 10px;">
             <el-form-item v-if="task_id">
@@ -26,11 +35,11 @@
                     <span>{{$t('sys_q006')}}</span>
                 </el-button>
             </el-form-item>
-            <el-form-item>
+            <!-- <el-form-item>
                 <el-select v-model="channel_id" clearable placeholder="请选择产品">
                     <el-option v-for="item in goodsList" :key="item.channel_id" :label="item.name" :value="item.channel_id" />
                 </el-select>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item>
                 <el-date-picker v-model="task_time" type="daterange" :range-separator="$t('sys_c108')" :start-placeholder="$t('sys_c109')" :end-placeholder="$t('sys_c110')" />
             </el-form-item>
@@ -45,7 +54,7 @@
                 <el-table :data="accountDataList" row-key="id" use-virtual border height="680" v-loading="loading" ref="serveTable"
                     element-loading-spinner="el-icon-loading" style="width: 100%;" :summary-method="getSummaries" show-summary>
                     <el-table-column prop="statis_time_str" :label="$t('sys_c134')" width="120" />
-                    <el-table-column prop="channel_name" :label="$t('sys_s011')" minWidth="100" />
+                    <!-- <el-table-column prop="channel_name" :label="$t('sys_s011')" minWidth="100" /> -->
                     <el-table-column prop="total_num" :label="$t('sys_s018')" minWidth="100" />
                     <el-table-column prop="sucess_num" :label="$t('sys_s019')" minWidth="120">
                         <template slot-scope="scope">
@@ -66,8 +75,7 @@
 </template>
 <script>
 import { resetPage } from '@/utils/index'
-import { getchannellist} from "@/api/rcs"
-import { getstatislist,gettodaystatisinfo } from '@/api/statistics'
+import { getchannellist,getrcsstatislist,getrcstodaystatisinfo} from "@/api/rcs"
 export default {
     data() {
         return {
@@ -138,61 +146,91 @@ export default {
         taskOption(){
             return ["",this.$t('sys_m069'),this.$t('sys_m070')]
         },
-        cardOption(){
+        cardOption() {
             return [
                 {
-                    b_g:"#fef4e9",
-                    t_c:"#ff8400"
+                    label: this.$t('sys_s018'),
+                    num: 0,
+                    b_g: "#fef4e9",
+                    t_c: "#ff8400"
                 },
                 {
-                    b_g:"#dbfeff",
-                    t_c:"#1dcfdb"
+                    label: this.$t('sys_s019'),
+                    num: 0,
+                    num1:0,
+                    b_g: "#dbfeff",
+                    t_c: "#1dcfdb"
                 },
                 {
-                    b_g:"#dbfff1",
-                    t_c:"#02c97a"
+                    label: this.$t('sys_s020'),
+                    num: 0,
+                    b_g: "#dbfff1",
+                    t_c: "#02c97a"
                 },
-                {
-                    b_g:"#f9edff",
-                    t_c:"#b357ff"
-                },
-                {
-                    b_g:"#dbfeff",
-                    t_c:"#1dcfdb"
-                },
-                {
-                    b_g:"#fffee6",
-                    t_c:"#f2bb16"
-                },
-                {
-                    b_g:"#ffebeb",
-                    t_c:"#ff0f0"
-                },
-                {
-                    b_g:"#f9edff",
-                    t_c:"#b357ff"
-                },
-                {
-                    b_g:"#fffee6",
-                    t_c:"#f2bb16"
-                },
-                {
-                    b_g:"#dbfeff",
-                    t_c:"#1dcfdb"
-                }
+                // {
+                //     label: this.$t('sys_rai122'),
+                //     num: 0,
+                //     num1: 0,
+                //     b_g: "#ffebeb",
+                //     t_c: "#ff0f0"
+                // },
+                // {
+                //     label: this.$t('sys_m090'),
+                //     num: 0,
+                //     num1: 0,
+                //     b_g: "#fffee6",
+                //     t_c: "#f2bb16"
+                // },
+                // {
+                //     label: this.$t('sys_m102'),
+                //     num: 0,
+                //     num1: 0,
+                //     b_g: "#ffebeb",
+                //     t_c: "#ff0f0"
+                // },
+                // {
+                //     label: this.$t('sys_m103'),
+                //     num: 0,
+                //     num1: 0,
+                //     b_g: "#f9edff",
+                //     t_c: "#b357ff"
+                // },
+                // {
+                //     label: this.$t('sys_m091'),
+                //     num: 0,
+                //     b_g: "#fffee6",
+                //     t_c: "#f2bb16"
+                // },
+                // {
+                //     label: this.$t('sys_m092'),
+                //     num: 0,
+                //     b_g: "#dbfeff",
+                //     t_c: "#1dcfdb"
+                // }
             ]
-        }
+    }
     },
     created() {
         this.task_id = this.$route.query.id;
-        this.getGoodsList();
+        // this.getGoodsList();
         this.initTaskList();
     },
     methods: {
         getStatistics(){
             this.isLoading=true;
-            gettodaystatisinfo().then(res=>{
-                this.statisticsList = res.data.list||[];
+            getrcstodaystatisinfo().then(res=>{
+                let vita = res.data;
+                for (let k = 0; k < this.cardOption.length; k++) {
+                    let item = this.cardOption[k];
+                    if (k == 0) {
+                        item.num = vita.total_num||0;
+                    }else if(k == 1){
+                        item.num = vita.sucess_num||0;
+                        item.num1 = vita.sucess_rate||0;
+                    }else if(k == 2){
+                       item.num = vita.fail_num||0;
+                    }
+                }
                 this.isLoading=false;
             })
         },
@@ -238,7 +276,7 @@ export default {
             }
             this.task_id?params.uid=this.task_id:"";
             this.getStatistics();
-            getstatislist(params).then(res => {
+            getrcsstatislist(params).then(res => {
                 this.loading = false;
                 this.total = res.data.total;
                 this.accountDataList = res.data.list || [];
