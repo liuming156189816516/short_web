@@ -23,7 +23,7 @@
             <template v-else>
                 <div class="card_item" v-for="(item,idx) in cardOption" :key="idx" :style="{background:`${item.b_g}`}" @click="getStatistics">
                     <span>{{ item.label }}</span>
-                    <span class="card_num" :style="{color:`${item.t_c}`}" v-text="item.num+' ('+item.num1+')%'" v-if="idx==1"></span>
+                    <span class="card_num" :style="{color:`${item.t_c}`}" v-if="idx==1">{{item.num}} ({{ parseFloat((item.num1*100).toFixed(2))}}%)</span>
                     <span class="card_num" :style="{color:`${item.t_c}`}" v-text="item.num" v-else></span>
                 </div>
             </template>
