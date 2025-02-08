@@ -26,8 +26,8 @@
                     <el-table-column prop="name" :label="$t('sys_mat027')" minWidth="140" />
                     <el-table-column prop="invalid_num" :label="$t('sys_mat042')" minWidth="100" />
                     <el-table-column prop="up_num" :label="$t('sys_mat028')" minWidth="100" />
-                    <!-- <el-table-column prop="source_repeat_num" :label="$t('sys_mat029')" minWidth="100" /> -->
-                    <el-table-column prop="repeat_num" :label="$t('sys_mat030')" minWidth="100" />
+                    <el-table-column prop="source_repeat_num" :label="$t('sys_mat029')" minWidth="100" />
+                    <!-- <el-table-column prop="repeat_num" :label="$t('sys_mat030')" minWidth="100" /> -->
                     <el-table-column prop="into_num" :label="$t('sys_mat031')" minWidth="100" />
                     <el-table-column prop="residue_num" :label="$t('sys_mat032')" minWidth="100" />
                     <!-- <el-table-column prop="err_num" :label="$t('sys_mat106')" minWidth="100" /> -->
