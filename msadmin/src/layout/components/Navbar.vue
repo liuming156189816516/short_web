@@ -4,12 +4,12 @@
     <div class="change_name" v-if="goods_name">产品: {{goods_name.name}}</div>
     <div class="right-menu">
       <div class="goods_menu">
-        <div class="set_time">
+        <!-- <div class="set_time">
           <span class="time_name">系统时区：</span>
           <el-select size="small" v-model="currentTime" placeholder="请选择" @change="changeTIme" style="width: 160px;">
             <el-option v-for="(item,idx) in timeOption" :key="idx" :label="item.label" :value="item.value" />
           </el-select>
-        </div>
+        </div> -->
         <el-button icon="iconfont icon-chanpinyuyue" @click.stop="shwo_goods=!shwo_goods">产品</el-button>
         <transition name="el-zoom-in-top">
           <div class="good_warp" v-if="shwo_goods">
