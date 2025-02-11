@@ -305,6 +305,7 @@ export default {
     .set_time{
       display: flex;
       flex-shrink: 0;
+      align-items: center;
       margin-right: 20px;
       .time_name{
         display: flex;
