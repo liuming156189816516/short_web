@@ -966,6 +966,7 @@ export default {
     'sys_s031': '已提交',
     'sys_s032': '计费数',
     'sys_s033': '未知数',
+    'sys_s034': 'RCS单价',
 
     'sys_r001': 'RCS管理',
     'sys_r002': 'RCS任务',

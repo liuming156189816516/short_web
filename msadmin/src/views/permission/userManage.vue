@@ -37,6 +37,11 @@
           <el-tag size="small" :type="scope.row.status==1?'success':'warning'"> {{ statusOption[scope.row.status] }}</el-tag>
         </template>
       </el-table-column>
+      <el-table-column prop="rcs_price" :label="$t('sys_s034')" minWidth="100">
+        <template slot-scope="scope">
+          {{ scope.row.rcs_price>0?scope.row.rcs_price:"-" }}
+        </template>
+      </el-table-column>
       <!-- <el-table-column prop="port_num" :label="$t('sys_c007')" minWidth="100" /> -->
       <el-table-column prop="itime" :label="$t('sys_c008')" minWidth="100">
         <template slot-scope="scope">
@@ -105,10 +110,13 @@
             <el-radio :label="idx" v-for="(item,idx) in statusOption" :key="idx" v-show="item!=''">{{ item }}</el-radio>
           </el-radio-group>
         </el-form-item>
+        <el-form-item :label="$t('sys_s034')" prop="rcs_price">
+            <el-input clearable v-model="userForm.rcs_price" oninput="value=value.replace(/[\u4E00-\u9FA5]/g,'')" :placeholder="$t('sys_mat061',{value: $t('sys_s034')})" />
+        </el-form-item>
         
         <el-form-item label-width="0" style="text-align:center;" class="el-item-bottom">
-            <el-button @click="userModel=false">{{ $t('sys_c023') }}</el-button>
-            <el-button :loading="isLoading" type="primary" @click="creatBtn('userForm')">{{ $t('sys_c024') }}</el-button>
+          <el-button @click="userModel=false">{{ $t('sys_c023') }}</el-button>
+          <el-button :loading="isLoading" type="primary" @click="creatBtn('userForm')">{{ $t('sys_c024') }}</el-button>
         </el-form-item>
 			</el-form>
 		</el-dialog>
@@ -145,6 +153,7 @@ export default {
         portNum:"",
         sureTime:"",
         pwd_str:"",
+        rcs_price:"",
         status:1,
       }
     }
@@ -159,7 +168,8 @@ export default {
         portNum: [{ required: true, message:this.$t('sys_c019'), trigger: 'blur' }],
         pwd_str: [{ required: true, message:this.$t('sys_mat061',{value:this.$t('sys_q130')}), trigger: 'blur' }],
         sureTime: [{ required: true, message:this.$t('sys_c021'), trigger: 'change' }],
-        status: [{ required: true, message:this.$t('sys_c029'), trigger: 'change' }]
+        status: [{ required: true, message:this.$t('sys_c029'), trigger: 'change' }],
+        rcs_price: [{ required: true, message:this.$t('sys_mat061',{value:this.$t('sys_s034')}), trigger: 'blur' }]
       }
     },
     statusOption(){
@@ -244,6 +254,7 @@ export default {
         // this.userForm.portNum=row.port_num;
         this.userForm.password=row.pwd_str;
         this.userForm.pwd_str=row.two_pwd;
+        this.userForm.rcs_price=row.rcs_price;
         // this.userForm.sureTime=row.valid_time>0?row.valid_time*1000:"";
       })
     },
@@ -262,6 +273,7 @@ export default {
             valid_time:Date.parse(this.userForm.sureTime)/1000,
             port_num:Number(this.userForm.portNum),
             status:this.userForm.status,
+            rcs_price:Number(this.userForm.rcs_price)
           }
           this.userForm.type==0?delete params.uid:"";
           this.isLoading=true;
