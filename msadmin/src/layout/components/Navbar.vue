@@ -4,6 +4,12 @@
     <div class="change_name" v-if="goods_name">产品: {{goods_name.name}}</div>
     <div class="right-menu">
       <div class="goods_menu">
+        <div class="set_time">
+          <span class="time_name">系统时区：</span>
+          <el-select size="small" v-model="currentTime" placeholder="请选择" @change="changeTIme" style="width: 160px;">
+            <el-option v-for="(item,idx) in timeOption" :key="idx" :label="item.label" :value="item.value" />
+          </el-select>
+        </div>
         <el-button icon="iconfont icon-chanpinyuyue" @click.stop="shwo_goods=!shwo_goods">产品</el-button>
         <transition name="el-zoom-in-top">
           <div class="good_warp" v-if="shwo_goods">
@@ -52,7 +58,7 @@ import Screenfull from '@/components/Screenfull'
 import SizeSelect from '@/components/SizeSelect'
 import Search from '@/components/HeaderSearch'
 import { changechannel,getuidchannel} from "@/api/config"
-import { setGoodName,getGoodName,getChannel,removeGoodName } from '@/utils/auth'
+import { setGoodName,getGoodName,getChannel,removeGoodName,setTimeZone,getTimeZone } from '@/utils/auth'
 
 export default {
   components: {
@@ -66,6 +72,7 @@ export default {
   data() {
     return {
       langeIdx: 0,
+      currentTime:"Asia/Shanghai",
       activeIndex:0,
       goods_list:[],
       goods_name:null,
@@ -83,7 +90,31 @@ export default {
         return true;
       }
       return false;
+    },
+    timeOption(){
+      return [
+        {
+          label:"中国/北京",
+          value:"Asia/Shanghai",
+        },
+        {
+          label:"巴西",
+          value:"America/Sao_Paulo",
+        },
+        {
+          label:"阿尔巴尼亚",
+          value:"Europe/Tirane",
+        },
+        {
+          label:"尼日尼亚",
+          value:"Africa/Lagos",
+        }
+      ]
     }
+  },
+  created(){
+    this.currentTime = getTimeZone();
+    console.log(this.currentTime);
   },
   mounted() {
     this.EventBus.$on('message', (data) => {
@@ -98,7 +129,11 @@ export default {
     async logout() {
       await this.$store.dispatch('user/logout');
       // this.$router.replace('/login')
-      location.reload();
+      window.location.reload();
+    },
+    changeTIme(){
+      setTimeZone(this.currentTime);
+      window.location.reload();
     },
     async getUserGood(){
       this.checkChannel( async(value) => {
@@ -267,6 +302,15 @@ export default {
     height: 100%;
     align-items: center;
     line-height: 50px;
+    .set_time{
+      display: flex;
+      flex-shrink: 0;
+      margin-right: 20px;
+      .time_name{
+        display: flex;
+        flex-shrink: 0;
+      }
+    }
 
     &:focus {
       outline: none;

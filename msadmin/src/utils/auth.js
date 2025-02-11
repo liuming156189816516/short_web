@@ -39,10 +39,19 @@ export function removeGoodName() {
 export function getChannel() {
   return JSON.parse(localStorage.getItem("channel"))
 }
+
 export function setChannel(list) {
   return localStorage.setItem("channel",JSON.stringify(list))
 }
 
 export function removeChannel() {
   return localStorage.removeItem("channel")
+}
+
+export function getTimeZone() {
+  return localStorage.getItem("timeZone")||"Asia/Shanghai";
+}
+
+export function setTimeZone(val) {
+  return localStorage.setItem("timeZone",val);
 }

@@ -6,6 +6,7 @@
  */
 import i18n from '@/locale'
 import { Number } from 'core-js'
+import { getTimeZone } from '@/utils/auth'
 const { DateTime } = require("luxon");
 export function resetPage(page) {
   return [10, 20, 50, 100, 200, 500, 1000]
@@ -403,18 +404,18 @@ export function mexicoTime(date, type){
   }else if(type == 2){
     Time = `${Year}-${Month}-${Dates} 23:59:59`;
   }else if(type == 3){
-    let Afr_time = date.toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" });
+    let Afr_time = date.toLocaleString("zh-CN", { timeZone:getTimeZone()});
     let formatMexico = (Date.parse(Afr_time)/1000) + (5 * 3600);
     return formatMexico;
   }
-  let Afr_time = DateTime.fromFormat(Time, "yyyy-MM-dd HH:mm:ss", { zone: "Asia/Shanghai" }).toMillis()/1000;
+  let Afr_time = DateTime.fromFormat(Time, "yyyy-MM-dd HH:mm:ss", { zone:getTimeZone()}).toMillis()/1000;
   return Afr_time
 }
 
 //将时间戳转成年月日时分秒
 export function resetTime(date, type) {
-  let Afr_time = new Date().toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" });
-  const newYork = date? new Date(type == 4 ? date * 1000 : date).toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" }):Afr_time;
+  let Afr_time = new Date().toLocaleString("zh-CN", { timeZone:getTimeZone()});
+  const newYork = date? new Date(type == 4 ? date * 1000 : date).toLocaleString("zh-CN", { timeZone:getTimeZone()}):Afr_time;
   let myDate = new Date(newYork);
   var Year = myDate.getFullYear(); //获取年
   var Month = myDate.getMonth() + 1; //获取月，默认从0开始，所以要加一
