@@ -114,7 +114,6 @@ export default {
   },
   created(){
     this.currentTime = getTimeZone();
-    console.log(this.currentTime);
   },
   mounted() {
     this.EventBus.$on('message', (data) => {
