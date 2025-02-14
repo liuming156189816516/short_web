@@ -279,8 +279,7 @@ export default {
             getrcsrcsapistatislist(params).then(res => {
                 this.loading = false;
                 this.total = res.data.total;
-                this.accountDataList = [{}];
-                // this.accountDataList = res.data.list || [{}];
+                this.accountDataList = res.data.list || [{}];
                 this.$nextTick(()=>{
                     if (this.$refs.serveTable) {
                         this.$refs.serveTable.doLayout(); 
