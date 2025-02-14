@@ -973,4 +973,6 @@ export default {
     'sys_r003': 'RCS任务详情',
     'sys_r004': 'RCS数据统计',
     'sys_r005': 'RCS消息',
+    'sys_r006': 'RCS任务统计',
+    'sys_r007': '消耗',
 }

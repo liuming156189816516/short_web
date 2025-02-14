@@ -161,6 +161,14 @@ export let asyncRoutes = [
         meta: {
           title:i18n.t('sys_r004'),
         }
+      },
+      {
+        path: '/task-statistics',
+        component: () => import('@/views/rcsMessage/task-statistics'),
+        name: 'task-statistics',
+        meta: {
+          title:i18n.t('sys_r006'),
+        }
       }
     ]
   },
