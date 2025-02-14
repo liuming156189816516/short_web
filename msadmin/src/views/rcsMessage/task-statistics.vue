@@ -330,8 +330,10 @@ export default {
 		},
         async handleCommand(row,command){
             // const {data:{url}} = await exportsmstaskinfolist({task_id:row.id,type:command.idx});
-            window.location.href = row.url;
-            successTips(this)
+            if(row.url){
+                window.location.href = row.url;
+                successTips(this)
+            }
         }
     },
     watch:{
