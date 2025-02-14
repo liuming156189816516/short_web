@@ -44,7 +44,7 @@
                             <el-button @click.stop type="text" size="mini">
                                 <el-dropdown @command="(command)=>{handleCommand(scope.row,command)}" trigger="click">
                                     <span class="el-dropdown-link">
-                                    <el-button type="warning" size="mini" :disabled="checkIdArry.length>0">
+                                    <el-button type="warning" size="mini" :disabled="checkIdArry.length>0||!scope.row.url">
                                         {{ $t('sys_c080') }}
                                         <i class="el-icon-arrow-down el-icon--right"></i>
                                     </el-button>
@@ -279,7 +279,7 @@ export default {
             getrcsrcsapistatislist(params).then(res => {
                 this.loading = false;
                 this.total = res.data.total;
-                this.accountDataList = res.data.list || [{}];
+                this.accountDataList = res.data.list || [];
                 this.$nextTick(()=>{
                     if (this.$refs.serveTable) {
                         this.$refs.serveTable.doLayout(); 
