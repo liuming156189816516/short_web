@@ -976,4 +976,10 @@ export default {
     'sys_r006': 'RCS任务统计',
     'sys_r007': '消耗',
     'sys_r008': '数据统计',
+    'sys_r009': '{value}数据',
+    'sys_r010': '当天',
+    'sys_r011': '历史',
+    'sys_r012': '是否RCS-API',
+    'sys_r013': '是',
+    'sys_r014': '否',
 }

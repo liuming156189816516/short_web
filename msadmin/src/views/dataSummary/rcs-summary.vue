@@ -1,5 +1,10 @@
 <template>
     <div style="width:100%;height: 100%; float: left; position: relative;">
+        <div>
+            <el-tabs v-model="currentIdx" @tab-click="handleClick">
+                <el-tab-pane v-for="(item,idx) in tabOption" :label="item" :name="String(idx)" :key="item" />
+            </el-tabs>
+        </div>
         <div class="detail_card">
             <el-button v-if="isLoading" class="loading_icon" style="margin-top: 10px;" type="primary" :loading="true"></el-button>
             <template v-else>
@@ -84,6 +89,7 @@ export default {
             pixe_id: [],
             task_time: "",
             channel_id: "",
+            currentIdx:0,
             loading:false,
             isLoading:false,
             goodsList:[],
@@ -144,6 +150,12 @@ export default {
         },
         moreOption(){
             return  ["","全部数据"]
+        },
+        tabOption(){
+            return [
+                this.$t("sys_r009",{value:this.$t('sys_r011')}),
+                this.$t("sys_r009",{value:this.$t('sys_r010')}),
+            ]
         },
         cardOption() {
             return [
@@ -214,6 +226,9 @@ export default {
         this.initTaskList();
     },
     methods: {
+        handleClick(tab, event){
+            this.currentIdx = tab.index;
+        },
         getStatistics(){
             this.isLoading=true;
             getrcstodayrcsapistatisinfo().then(res=>{

@@ -37,6 +37,11 @@
           <el-tag size="small" :type="scope.row.status==1?'success':'warning'"> {{ statusOption[scope.row.status] }}</el-tag>
         </template>
       </el-table-column>
+      <el-table-column prop="rcs_price" :label="$t('sys_r012')" minWidth="100">
+        <template slot-scope="scope">
+          <el-tag size="small" :type="scope.row.is_rcs_api==0?'success':'warning'"> {{ apiOption[scope.row.is_rcs_api] }}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="rcs_price" :label="$t('sys_s034')" minWidth="100">
         <template slot-scope="scope">
           {{ scope.row.rcs_price>0?scope.row.rcs_price:"-" }}
@@ -68,8 +73,8 @@
     </div>
 
     <!-- 新增-->
-		<el-dialog :title="userForm.type==1?$t('sys_c012'):$t('sys_c013')" center :visible.sync="userModel" :close-on-click-modal="false" width="450px">
-			<el-form size="small" :model="userForm" label-width="90px" :rules="userRules" ref="userForm">
+		<el-dialog :title="userForm.type==1?$t('sys_c012'):$t('sys_c013')" center :visible.sync="userModel" :close-on-click-modal="false" width="520px">
+			<el-form size="small" :model="userForm" label-width="120px" :rules="userRules" ref="userForm">
         <el-form-item :label="$t('sys_c009')+':'" prop="account">
           <el-input v-model="userForm.account" :placeholder="$t('sys_l006')"></el-input>
         </el-form-item>
@@ -110,6 +115,11 @@
             <el-radio :label="idx" v-for="(item,idx) in statusOption" :key="idx" v-show="item!=''">{{ item }}</el-radio>
           </el-radio-group>
         </el-form-item>
+        <el-form-item :label="$t('sys_r012')+':'" prop="is_api">
+          <el-radio-group v-model="userForm.is_api">
+            <el-radio :label="idx" v-for="(item,idx) in apiOption" :key="idx">{{ item }}</el-radio>
+          </el-radio-group>
+        </el-form-item>
         <el-form-item :label="$t('sys_s034')" prop="rcs_price">
             <el-input clearable v-model="userForm.rcs_price" oninput="value=value.replace(/[\u4E00-\u9FA5]/g,'')" :placeholder="$t('sys_mat061',{value: $t('sys_s034')})" />
         </el-form-item>
@@ -136,7 +146,7 @@ export default {
       offest:1,
       total:0,
       status:"",
-      userList:[ ],
+      userList:[],
       roleOption:[],
       showEye:true,
       loading:false,
@@ -155,6 +165,7 @@ export default {
         pwd_str:"",
         rcs_price:"",
         status:1,
+        is_api:1
       }
     }
   },
@@ -169,11 +180,15 @@ export default {
         pwd_str: [{ required: true, message:this.$t('sys_mat061',{value:this.$t('sys_q130')}), trigger: 'blur' }],
         sureTime: [{ required: true, message:this.$t('sys_c021'), trigger: 'change' }],
         status: [{ required: true, message:this.$t('sys_c029'), trigger: 'change' }],
+        is_api: [{ required: true, message:this.$t('sys_c089',{value:this.$t('sys_r012')}), trigger: 'change' }],
         rcs_price: [{ required: true, message:this.$t('sys_mat061',{value:this.$t('sys_s034')}), trigger: 'blur' }]
       }
     },
     statusOption(){
       return ["",this.$t('sys_c043'),this.$t('sys_c044')]
+    },
+    apiOption(){
+      return [this.$t('sys_r013'),this.$t('sys_r014')]
     },
     genderOption(){
       return [this.$t('sys_c041'),this.$t('sys_c042'),this.$t('sys_c045')]
@@ -251,6 +266,7 @@ export default {
         this.userForm.status=row.status;
         this.userForm.account=row.account;
         this.userForm.role_id=row.role_id;
+        this.userForm.is_api=row.is_rcs_api;
         // this.userForm.portNum=row.port_num;
         this.userForm.password=row.pwd_str;
         this.userForm.pwd_str=row.two_pwd;
@@ -273,6 +289,7 @@ export default {
             valid_time:Date.parse(this.userForm.sureTime)/1000,
             port_num:Number(this.userForm.portNum),
             status:this.userForm.status,
+            is_rcs_api:this.userForm.is_api,
             rcs_price:Number(this.userForm.rcs_price)
           }
           this.userForm.type==0?delete params.uid:"";
