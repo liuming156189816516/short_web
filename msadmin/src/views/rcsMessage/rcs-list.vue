@@ -62,11 +62,11 @@
               </template>
             </el-table-column>
             <el-table-column prop="content" show-overflow-tooltip :label="$t('sys_s017')" minWidth="150" />
-            <el-table-column prop="data_pack_name" :label="$t('sys_rai090')" minWidth="120">
+            <!-- <el-table-column prop="data_pack_name" :label="$t('sys_rai090')" minWidth="120">
                 <template slot-scope="scope">
                   {{scope.row.data_pack_name||"-" }}
                 </template>
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column prop="total_num" :label="$t('sys_s027')" minWidth="100" />
             <el-table-column prop="not_start_num" :label="$t('sys_s015')" minWidth="100" />
             <el-table-column prop="sucess_num" :label="$t('sys_s019')" minWidth="100">

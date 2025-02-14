@@ -313,7 +313,7 @@
     },
     computed: {
         labelOption(){
-            return ["手动上传","文件导入","从数据包"]
+            return ["手动上传","文件导入"]
         },
         taskRules() {
             return {
