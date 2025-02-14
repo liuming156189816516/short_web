@@ -982,4 +982,5 @@ export default {
     'sys_r012': '是否RCS-API',
     'sys_r013': '是',
     'sys_r014': '否',
+    'sys_r015': 'RCS-API签名',
 }

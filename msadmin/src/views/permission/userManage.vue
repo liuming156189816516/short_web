@@ -22,7 +22,7 @@
       </el-table-column>
       <el-table-column prop="role_name" :label="$t('sys_c004')" minWidth="100" />
       <!-- <el-table-column prop="invite_code" :label="$t('sys_q133')" minWidth="100" /> -->
-      <el-table-column prop="status" :label="$t('sys_c005')" minWidth="100">
+      <el-table-column prop="status" :label="$t('sys_c005')" minWidth="80">
         <template slot="header">
           <el-dropdown trigger="click" size="medium " @command="(command) => handleNewwork(command)">
             <span style="color:#909399" :class="[status?'dropdown_title':'']"> {{ $t('sys_c005') }}
@@ -37,16 +37,21 @@
           <el-tag size="small" :type="scope.row.status==1?'success':'warning'"> {{ statusOption[scope.row.status] }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="rcs_price" :label="$t('sys_r012')" minWidth="100">
+      <el-table-column prop="is_rcs_api" :label="$t('sys_r012')" minWidth="80">
         <template slot-scope="scope">
           <el-tag size="small" :type="scope.row.is_rcs_api==0?'success':'warning'"> {{ apiOption[scope.row.is_rcs_api] }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="rcs_price" :label="$t('sys_s034')" minWidth="100">
+      <el-table-column prop="rcs_price" :label="$t('sys_s034')" minWidth="80">
         <template slot-scope="scope">
           {{ scope.row.rcs_price>0?scope.row.rcs_price:"-" }}
         </template>
       </el-table-column>
+      <!-- <el-table-column prop="rcs_api_secret" :label="$t('sys_r015')" minWidth="120">
+        <template slot-scope="scope">
+          {{ scope.row.rcs_api_secret||"-" }}
+        </template>
+      </el-table-column> -->
       <!-- <el-table-column prop="port_num" :label="$t('sys_c007')" minWidth="100" /> -->
       <el-table-column prop="itime" :label="$t('sys_c008')" minWidth="100">
         <template slot-scope="scope">
@@ -120,7 +125,7 @@
             <el-radio :label="idx" v-for="(item,idx) in apiOption" :key="idx">{{ item }}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item :label="$t('sys_s034')" prop="rcs_price">
+        <el-form-item :label="$t('sys_s034')">
             <el-input clearable v-model="userForm.rcs_price" oninput="value=value.replace(/[\u4E00-\u9FA5]/g,'')" :placeholder="$t('sys_mat061',{value: $t('sys_s034')})" />
         </el-form-item>
         
