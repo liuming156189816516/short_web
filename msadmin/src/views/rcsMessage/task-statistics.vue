@@ -330,11 +330,9 @@ export default {
 			return sums;
 		},
         async handleCommand(row,command){
-            const {data:{url}} = await exportsmstaskinfolist({task_id:row.id,type:command.idx});
-            if(url){
-                window.location.href = url;
-                successTips(this)
-            }
+            // const {data:{url}} = await exportsmstaskinfolist({task_id:row.id,type:command.idx});
+            window.location.href = row.url;
+            successTips(this)
         }
     },
     watch:{
