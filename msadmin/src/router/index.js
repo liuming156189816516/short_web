@@ -198,6 +198,30 @@ export let asyncRoutes = [
     ]
   },
   {
+    path: '/dataSummary',
+    component: Layout,
+    name: 'dataSummary',
+    meta: { title:"",icon: 'el-icon-folder-opened'},
+    children: [
+      {
+        path: '/smssummary',
+        component: () => import('@/views/dataSummary/sms-summary'),
+        name: 'smssummary',
+        meta: {
+          title: i18n.t('sys_m046'),
+        }
+      },
+      {
+        path: '/rcssummary',
+        component: () => import('@/views/dataSummary/rcs-summary'),
+        name: 'rcs1summary',
+        meta: {
+          title:""
+        }
+      }
+    ]
+  },
+  {
     path: '/permission',
     component: Layout,
     name: 'permission',

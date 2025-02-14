@@ -137,7 +137,7 @@ export default {
       goodsList:[],
       pageOption: resetPage(),
       taskDataList:[],
-      showNum: [8,9,10,11,12]
+      showNum: [8,9,10,11]
     }
   },
   computed: {
