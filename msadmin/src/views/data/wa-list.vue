@@ -6,7 +6,7 @@
                 <el-button type="primary" @click="pushDatabtn(0,1)">{{ $t('sys_c135') }}</el-button>
             </el-form-item>
             <el-form-item >
-                <el-input :placeholder="$t('sys_mat061',{value:$t('sys_mat027')})" v-model="model1.task_name" />
+                <el-input clearable :placeholder="$t('sys_mat061',{value:$t('sys_mat027')})" v-model="model1.task_name" />
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" @click="initDatalist(1)">{{ $t('sys_c002') }}</el-button>

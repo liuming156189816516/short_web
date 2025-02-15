@@ -16,11 +16,8 @@
             </template>
         </div> -->
         <el-form size="small" :inline="true" style="margin-top: 10px;">
-            <el-form-item v-if="task_id">
-                <el-button size="small" @click="$router.go(-1)">
-                    <i class="el-icon-back"></i>
-                    <span>{{$t('sys_q006')}}</span>
-                </el-button>
+            <el-form-item >
+                <el-input clearable :placeholder="$t('sys_mat061',{value:$t('sys_m068')})" v-model="affil_user" />
             </el-form-item>
             <el-form-item>
                 <el-date-picker v-model="task_time" type="daterange" :range-separator="$t('sys_c108')" :start-placeholder="$t('sys_c109')" :end-placeholder="$t('sys_c110')" />
@@ -35,6 +32,7 @@
             <div class="group_continer">
                 <el-table :data="accountDataList" row-key="id" use-virtual border height="680" v-loading="loading" ref="serveTable"
                     element-loading-spinner="el-icon-loading" style="width: 100%;" :summary-method="getSummaries" show-summary>
+                    <el-table-column prop="account" :label="$t('sys_m068')" width="120" />
                     <el-table-column prop="statis_time_str" :label="$t('sys_c134')" width="120" />
                     <el-table-column prop="total_num" :label="$t('sys_s018')" minWidth="100" />
                     <el-table-column prop="sucess_num" :label="$t('sys_s019')" minWidth="120">
@@ -88,6 +86,7 @@ export default {
             goodsList:[],
             pixe_id: [],
             task_time: "",
+            affil_user: "",
             channel_id: "",
             currentIdx:"0",
             loading:false,
@@ -199,7 +198,7 @@ export default {
         },
         restQueryBtn(){
             this.task_time="";
-            this.channel_id="";
+            this.affil_user="";
             this.checkAccount = [];
             this.initTaskList(1);
         },
@@ -209,7 +208,7 @@ export default {
             const params = {
                 page: this.page,
                 limit: this.limit,
-                channel_id:this.channel_id,
+                account:this.affil_user,
                 start_time: sTime ? this.$baseFun.mexicoTime(sTime[0], 1) : -1,
                 end_time: sTime ? this.$baseFun.mexicoTime(sTime[1], 2) : -1
             }
