@@ -6,7 +6,7 @@
             </el-tabs>
         </div>
         <!-- 筛选条件 -->
-        <div class="detail_card">
+        <!-- <div class="detail_card">
             <el-button v-if="isLoading" class="loading_icon" style="margin-top: 10px;" type="primary" :loading="true"></el-button>
             <template v-else>
                 <template v-if="statisticsList&&statisticsList.length>0">
@@ -23,7 +23,7 @@
                 </template>
                 <el-button v-else class="loading_icon" style="margin-top: 10px;" type="primary">暂无数据...</el-button>
             </template>
-        </div>
+        </div> -->
         <el-form size="small" :inline="true" style="margin-top: 10px;">
             <el-form-item v-if="task_id">
                 <el-button size="small" @click="$router.go(-1)">
@@ -85,56 +85,13 @@ export default {
             pixe_id: [],
             task_time: "",
             channel_id: "",
-            currentIdx:"1",
+            currentIdx:"0",
             loading:false,
             isLoading:false,
             goodsList:[],
             checkIdArry:[],
             checkAccount:[],
-            statisticsList:[
-                // {
-                //     channel_name:"测试001",
-                //     total_num:200,
-                //     sucess_num:50,
-                //     fail_num:10
-                // },
-                // {
-                //     channel_name:"测试001",
-                //     total_num:200,
-                //     sucess_num:50,
-                //     fail_num:10
-                // },
-                // {
-                //     channel_name:"测试001",
-                //     total_num:200,
-                //     sucess_num:50,
-                //     fail_num:10
-                // },
-                // {
-                //     channel_name:"测试001",
-                //     total_num:200,
-                //     sucess_num:50,
-                //     fail_num:10
-                // },
-                // {
-                //     channel_name:"测试001",
-                //     total_num:200,
-                //     sucess_num:50,
-                //     fail_num:10
-                // },
-                // {
-                //     channel_name:"测试001",
-                //     total_num:200,
-                //     sucess_num:50,
-                //     fail_num:10
-                // },
-                // {
-                //     channel_name:"测试001",
-                //     total_num:200,
-                //     sucess_num:50,
-                //     fail_num:10
-                // }
-            ],
+            statisticsList:[],
             accountDataList:[],
             pageOption: resetPage(),
             showNum: [2,3,4]
@@ -146,8 +103,8 @@ export default {
         },
         tabOption(){
             return [
-                this.$t("sys_r009",{value:this.$t('sys_r011')}),
                 this.$t("sys_r009",{value:this.$t('sys_r010')}),
+                this.$t("sys_r009",{value:this.$t('sys_r011')})
             ]
         },
         cardOption(){
@@ -196,26 +153,44 @@ export default {
         }
     },
     created() {
-        this.task_id = this.$route.query.id;
         this.getGoodsList();
         this.initTaskList();
     },
     methods: {
-        handleClick(tab, event){
+        handleClick(tab,event){
             this.currentIdx = tab.index;
+            this.initTaskList();
         },
-        getStatistics(){
-            this.isLoading=true;
-            gettodaystatisinfo().then(res=>{
-                this.statisticsList = res.data.list||[];
-                this.isLoading=false;
+        restQueryBtn(){
+            this.task_time="";
+            this.channel_id="";
+            this.checkAccount = [];
+            this.initTaskList(1);
+        },
+        initTaskList(num) {
+            this.page = num || this.page;
+            const sTime = this.task_time;
+            const params = {
+                page: this.page,
+                limit: this.limit,
+                channel_id:this.channel_id,
+                start_time: sTime ? this.$baseFun.mexicoTime(sTime[0], 1) : -1,
+                end_time: sTime ? this.$baseFun.mexicoTime(sTime[1], 2) : -1
+            }
+            this.loading = true;
+            let reqApi = this.currentIdx == 0?gettodaystatisinfo:getstatislist;
+            reqApi(params).then(res => {
+                this.loading = false;
+                this.total = res.data.total;
+                this.accountDataList = res.data.list || [];
+                this.$nextTick(()=>{
+                    if (this.$refs.serveTable) {
+                        this.$refs.serveTable.doLayout(); 
+                    }
+                })
             })
         },
-        getBgFun(){
-            const randomIndex = Math.floor(Math.random() * this.cardOption.length);
-            return this.cardOption[randomIndex];
-        },
-         //获取配置列表
+        //获取配置列表
         getGoodsList(){
             getchannellist().then(res =>{
                 this.goodsList = res.data.list || [];
@@ -233,36 +208,6 @@ export default {
                 return;
             }
             refsElTable.toggleRowSelection(row,true);
-        },
-        restQueryBtn(){
-            this.task_time="";
-            this.channel_id="";
-            this.checkAccount = [];
-            this.initTaskList(1);
-        },
-        initTaskList(num) {
-            this.loading = true;
-            this.page = num || this.page;
-            const sTime = this.task_time;
-            const params = {
-                page: this.page,
-                limit: this.limit,
-                channel_id:this.channel_id,
-                start_time: sTime ? this.$baseFun.mexicoTime(sTime[0], 1) : -1,
-                end_time: sTime ? this.$baseFun.mexicoTime(sTime[1], 2) : -1
-            }
-            this.task_id?params.uid=this.task_id:"";
-            this.getStatistics();
-            getstatislist(params).then(res => {
-                this.loading = false;
-                this.total = res.data.total;
-                this.accountDataList = res.data.list || [];
-                this.$nextTick(()=>{
-                    if (this.$refs.serveTable) {
-                        this.$refs.serveTable.doLayout(); 
-                    }
-                })
-            })
         },
         handleSizeFun(limit){
             this.limit = limit;

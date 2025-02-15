@@ -5,7 +5,7 @@
                 <el-tab-pane v-for="(item,idx) in tabOption" :label="item" :name="String(idx)" :key="item" />
             </el-tabs>
         </div>
-        <div class="detail_card">
+        <!-- <div class="detail_card">
             <el-button v-if="isLoading" class="loading_icon" style="margin-top: 10px;" type="primary" :loading="true"></el-button>
             <template v-else>
                 <div class="card_item" v-for="(item,idx) in cardOption" :key="idx" :style="{background:`${item.b_g}`}" @click="getStatistics">
@@ -14,7 +14,7 @@
                     <span class="card_num" :style="{color:`${item.t_c}`}" v-text="item.num" v-else></span>
                 </div>
             </template>
-        </div>
+        </div> -->
         <el-form size="small" :inline="true" style="margin-top: 10px;">
             <el-form-item v-if="task_id">
                 <el-button size="small" @click="$router.go(-1)">
@@ -89,56 +89,12 @@ export default {
             pixe_id: [],
             task_time: "",
             channel_id: "",
-            currentIdx:"1",
+            currentIdx:"0",
             loading:false,
             isLoading:false,
-            goodsList:[],
             checkIdArry:[],
             checkAccount:[],
-            statisticsList:[
-                // {
-                //     channel_name:"测试001",
-                //     total_num:200,
-                //     sucess_num:50,
-                //     fail_num:10
-                // },
-                // {
-                //     channel_name:"测试001",
-                //     total_num:200,
-                //     sucess_num:50,
-                //     fail_num:10
-                // },
-                // {
-                //     channel_name:"测试001",
-                //     total_num:200,
-                //     sucess_num:50,
-                //     fail_num:10
-                // },
-                // {
-                //     channel_name:"测试001",
-                //     total_num:200,
-                //     sucess_num:50,
-                //     fail_num:10
-                // },
-                // {
-                //     channel_name:"测试001",
-                //     total_num:200,
-                //     sucess_num:50,
-                //     fail_num:10
-                // },
-                // {
-                //     channel_name:"测试001",
-                //     total_num:200,
-                //     sucess_num:50,
-                //     fail_num:10
-                // },
-                // {
-                //     channel_name:"测试001",
-                //     total_num:200,
-                //     sucess_num:50,
-                //     fail_num:10
-                // }
-            ],
+            statisticsList:[],
             accountDataList:[],
             pageOption: resetPage(),
             showNum: [2,3,4]
@@ -153,8 +109,8 @@ export default {
         },
         tabOption(){
             return [
-                this.$t("sys_r009",{value:this.$t('sys_r011')}),
                 this.$t("sys_r009",{value:this.$t('sys_r010')}),
+                this.$t("sys_r009",{value:this.$t('sys_r011')})
             ]
         },
         cardOption() {
@@ -221,43 +177,12 @@ export default {
     }
     },
     created() {
-        this.task_id = this.$route.query.id;
-        // this.getGoodsList();
         this.initTaskList();
     },
     methods: {
         handleClick(tab, event){
             this.currentIdx = tab.index;
-        },
-        getStatistics(){
-            this.isLoading=true;
-            getrcstodayrcsapistatisinfo().then(res=>{
-                let vita = res.data;
-                for (let k = 0; k < this.cardOption.length; k++) {
-                    let item = this.cardOption[k];
-                    if (k == 0) {
-                        item.num = vita.total_num||0;
-                    }else if(k == 1){
-                        item.num = vita.sucess_num||0;
-                        item.num1 = vita.sucess_rate||0;
-                    }else if(k == 2){
-                       item.num = vita.fail_num||0;
-                    }else if(k == 3){
-                       item.num = vita.expend||0;
-                    }
-                }
-                this.isLoading=false;
-            })
-        },
-        getBgFun(){
-            const randomIndex = Math.floor(Math.random() * this.cardOption.length);
-            return this.cardOption[randomIndex];
-        },
-         //获取配置列表
-        getGoodsList(){
-            getchannellist().then(res =>{
-                this.goodsList = res.data.list || [];
-            })
+            this.initTaskList();
         },
         handleSelectionChange(row) {
             this.checkIdArry = row.map(item => { return item.id })
@@ -279,7 +204,6 @@ export default {
             this.initTaskList(1);
         },
         initTaskList(num) {
-            this.loading = true;
             this.page = num || this.page;
             const sTime = this.task_time;
             const params = {
@@ -289,9 +213,9 @@ export default {
                 start_time: sTime ? this.$baseFun.mexicoTime(sTime[0], 1) : -1,
                 end_time: sTime ? this.$baseFun.mexicoTime(sTime[1], 2) : -1
             }
-            this.task_id?params.uid=this.task_id:"";
-            this.getStatistics();
-            getrcsrcsapistatislist(params).then(res => {
+            this.loading = true;
+            let reqApi = this.currentIdx == 0?getrcstodayrcsapistatisinfo:getrcsrcsapistatislist;
+            reqApi(params).then(res => {
                 this.loading = false;
                 this.total = res.data.total;
                 this.accountDataList = res.data.list || [];
