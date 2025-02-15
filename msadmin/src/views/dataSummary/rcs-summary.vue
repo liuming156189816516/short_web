@@ -30,7 +30,7 @@
         <!-- 分组管理 -->
         <div class="continer_main">
             <div class="group_continer">
-                <el-table :data="accountDataList" row-key="id" use-virtual border height="680" v-loading="loading" ref="serveTable"
+                <el-table :data="accountDataList" row-key="id" use-virtual border height="750" v-loading="loading" ref="serveTable"
                     element-loading-spinner="el-icon-loading" style="width: 100%;" :summary-method="getSummaries" show-summary>
                     <el-table-column prop="account" :label="$t('sys_m068')" width="120" />
                     <el-table-column prop="statis_time_str" :label="$t('sys_c134')" width="120" />
@@ -96,7 +96,7 @@ export default {
             statisticsList:[],
             accountDataList:[],
             pageOption: resetPage(),
-            showNum: [2,3,4]
+            showNum: [2,3,4,5]
         }
     },
     computed: {
