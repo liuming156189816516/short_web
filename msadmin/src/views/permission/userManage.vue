@@ -39,7 +39,7 @@
       </el-table-column>
       <el-table-column prop="is_rcs_api" :label="$t('sys_r012')" minWidth="80">
         <template slot-scope="scope">
-          <el-tag size="small" :type="scope.row.is_rcs_api==0?'success':'warning'"> {{ apiOption[scope.row.is_rcs_api] }}</el-tag>
+          <el-tag size="small" :type="scope.row.is_rcs_api==1?'success':'warning'"> {{ apiOption[scope.row.is_rcs_api] }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="rcs_price" :label="$t('sys_s034')" minWidth="80">
