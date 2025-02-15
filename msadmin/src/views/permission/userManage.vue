@@ -170,7 +170,7 @@ export default {
         pwd_str:"",
         rcs_price:"",
         status:1,
-        is_api:1
+        is_api:0
       }
     }
   },
@@ -193,7 +193,7 @@ export default {
       return ["",this.$t('sys_c043'),this.$t('sys_c044')]
     },
     apiOption(){
-      return [this.$t('sys_r013'),this.$t('sys_r014')]
+      return [this.$t('sys_r014'),this.$t('sys_r013')]
     },
     genderOption(){
       return [this.$t('sys_c041'),this.$t('sys_c042'),this.$t('sys_c045')]

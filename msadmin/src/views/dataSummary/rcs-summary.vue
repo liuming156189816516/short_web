@@ -89,7 +89,7 @@ export default {
             pixe_id: [],
             task_time: "",
             channel_id: "",
-            currentIdx:0,
+            currentIdx:"1",
             loading:false,
             isLoading:false,
             goodsList:[],
