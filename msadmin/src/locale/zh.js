@@ -966,7 +966,7 @@ export default {
     'sys_s031': '已提交',
     'sys_s032': '计费数',
     'sys_s033': '未知数',
-    'sys_s034': 'RCS单价',
+    'sys_s034': 'RCS单价(USDT)',
 
     'sys_r001': 'RCS管理',
     'sys_r002': 'RCS任务',
@@ -983,4 +983,5 @@ export default {
     'sys_r013': '是',
     'sys_r014': '否',
     'sys_r015': 'RCS-API签名',
+    'sys_r016': 'RCS数据',
 }

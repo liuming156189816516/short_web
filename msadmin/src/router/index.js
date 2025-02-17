@@ -216,7 +216,7 @@ export let asyncRoutes = [
         component: () => import('@/views/dataSummary/rcs-summary'),
         name: 'rcs1summary',
         meta: {
-          title:""
+          title: i18n.t('sys_r016')
         }
       }
     ]

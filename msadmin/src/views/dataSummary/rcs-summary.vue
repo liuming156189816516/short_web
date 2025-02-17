@@ -5,16 +5,6 @@
                 <el-tab-pane v-for="(item,idx) in tabOption" :label="item" :name="String(idx)" :key="item" />
             </el-tabs>
         </div>
-        <!-- <div class="detail_card">
-            <el-button v-if="isLoading" class="loading_icon" style="margin-top: 10px;" type="primary" :loading="true"></el-button>
-            <template v-else>
-                <div class="card_item" v-for="(item,idx) in cardOption" :key="idx" :style="{background:`${item.b_g}`}" @click="getStatistics">
-                    <span>{{ item.label }}</span>
-                    <span class="card_num" :style="{color:`${item.t_c}`}" v-if="idx==1">{{item.num}} ({{ parseFloat((item.num1*100).toFixed(2))}}%)</span>
-                    <span class="card_num" :style="{color:`${item.t_c}`}" v-text="item.num" v-else></span>
-                </div>
-            </template>
-        </div> -->
         <el-form size="small" :inline="true" style="margin-top: 10px;">
             <el-form-item >
                 <el-input clearable :placeholder="$t('sys_mat061',{value:$t('sys_m068')})" v-model="affil_user" />
@@ -32,15 +22,14 @@
             <div class="group_continer">
                 <el-table :data="accountDataList" row-key="id" use-virtual border height="750" v-loading="loading" ref="serveTable"
                     element-loading-spinner="el-icon-loading" style="width: 100%;" :summary-method="getSummaries" show-summary>
-                    <el-table-column prop="account" :label="$t('sys_m068')" width="120" />
                     <el-table-column prop="statis_time_str" :label="$t('sys_c134')" width="120" />
+                    <el-table-column prop="account" :label="$t('sys_m068')" width="120" />
                     <el-table-column prop="total_num" :label="$t('sys_s018')" minWidth="100" />
                     <el-table-column prop="sucess_num" :label="$t('sys_s019')" minWidth="120">
                         <template slot-scope="scope">
                         {{ scope.row.sucess_num }} ({{ parseFloat((scope.row.sucess_rate*100).toFixed(2))}}%)
                         </template>
                     </el-table-column>
-                    <el-table-column prop="fail_num" :label="$t('sys_s020')" minWidth="100" />
                     <el-table-column prop="expend" :label="$t('sys_r007')" minWidth="100" />
                     <el-table-column fixed="right" :label="$t('sys_c010')" width="120">
                         <template slot-scope="scope">
@@ -74,7 +63,7 @@
 </template>
 <script>
 import { successTips, resetPage } from '@/utils/index'
-import { getchannellist,getrcsrcsapistatislist,getrcstodayrcsapistatisinfo} from "@/api/rcs"
+import { getrcsrcsapistatislist,getrcstodayrcsapistatisinfo} from "@/api/rcs"
 export default {
     data() {
         return {
@@ -83,11 +72,9 @@ export default {
             total: 0,
             account: "",
             task_id: "",
-            goodsList:[],
             pixe_id: [],
             task_time: "",
             affil_user: "",
-            channel_id: "",
             currentIdx:"0",
             loading:false,
             isLoading:false,
