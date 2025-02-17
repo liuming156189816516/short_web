@@ -236,12 +236,10 @@ export default {
 		},
         async exportBtn(row){
             let _this = this;
-            const sTime = _this.task_time;
             const params = {
                 ptype:Number(_this.currentIdx)+1,
                 account:row.account,
-                start_time: sTime ? _this.$baseFun.mexicoTime(sTime[0], 1) : -1,
-                end_time: sTime ? _this.$baseFun.mexicoTime(sTime[1], 2) : -1
+                statis_time_str:row.statis_time_str
             }
             const { data } = await exportsms(params);
             if(data.url){
