@@ -63,7 +63,7 @@
 </template>
 <script>
 import { successTips, resetPage } from '@/utils/index'
-import { getrcsrcsapistatislist,getrcstodayrcsapistatisinfo} from "@/api/rcs"
+import { getrcstotalstatislist,gettodayrcstotalstatislist} from "@/api/statistics"
 export default {
     data() {
         return {
@@ -200,7 +200,7 @@ export default {
                 end_time: sTime ? this.$baseFun.mexicoTime(sTime[1], 2) : -1
             }
             this.loading = true;
-            let reqApi = this.currentIdx == 0?getrcstodayrcsapistatisinfo:getrcsrcsapistatislist;
+            let reqApi = this.currentIdx == 0?gettodayrcstotalstatislist:getrcstotalstatislist;
             reqApi(params).then(res => {
                 this.loading = false;
                 this.total = res.data.total;

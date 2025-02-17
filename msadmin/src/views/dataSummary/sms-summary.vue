@@ -44,7 +44,7 @@
 </template>
 <script>
 import { resetPage } from '@/utils/index'
-import { getstatislist,gettodaystatisinfo } from '@/api/statistics'
+import { getsmstotalstatislist,gettodaysmstotalstatislist } from '@/api/statistics'
 export default {
     data() {
         return {
@@ -148,7 +148,7 @@ export default {
                 end_time: sTime ? this.$baseFun.mexicoTime(sTime[1], 2) : -1
             }
             this.loading = true;
-            let reqApi = this.currentIdx == 0?gettodaystatisinfo:getstatislist;
+            let reqApi = this.currentIdx == 0?gettodaysmstotalstatislist:getsmstotalstatislist;
             reqApi(params).then(res => {
                 this.loading = false;
                 this.total = res.data.total;
