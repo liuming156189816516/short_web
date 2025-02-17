@@ -63,7 +63,7 @@
     </div>
 </template>
 <script>
-import { resetPage } from '@/utils/index'
+import { successTips,resetPage } from '@/utils/index'
 import { getsmstotalstatislist,gettodaysmstotalstatislist,exportsms } from '@/api/statistics'
 export default {
     data() {
