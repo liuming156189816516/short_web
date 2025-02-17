@@ -69,7 +69,7 @@ export default {
             statisticsList:[],
             accountDataList:[],
             pageOption: resetPage(),
-            showNum: [2,3,4,5]
+            showNum: [2,3,4]
         }
     },
     computed: {
