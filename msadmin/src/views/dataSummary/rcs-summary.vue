@@ -9,7 +9,7 @@
             <el-form-item >
                 <el-input clearable :placeholder="$t('sys_mat061',{value:$t('sys_m068')})" v-model="affil_user" />
             </el-form-item>
-            <el-form-item>
+            <el-form-item v-if="currentIdx==1">
                 <el-date-picker v-model="task_time" type="daterange" :range-separator="$t('sys_c108')" :start-placeholder="$t('sys_c109')" :end-placeholder="$t('sys_c110')" />
             </el-form-item>
             <el-form-item>
@@ -30,7 +30,7 @@
                         {{ scope.row.sucess_num }} ({{ parseFloat((scope.row.sucess_rate*100).toFixed(2))}}%)
                         </template>
                     </el-table-column>
-                    <el-table-column prop="expend" :label="$t('sys_r007')" minWidth="100" />
+                    <el-table-column prop="expend" :label="$t('sys_s028')" minWidth="100" />
                     <el-table-column fixed="right" :label="$t('sys_c010')" width="120">
                         <template slot-scope="scope">
                             <el-button @click.stop type="text" size="mini">
