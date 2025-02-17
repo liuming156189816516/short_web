@@ -42,11 +42,4 @@ export const getrcstodaystatisinfo = (params)=> {
 export const getrcsstatislist = (params)=> {
   return request({url:'/statis/getrcsstatislist',method:'post',data:params})
 } 
-export const getrcstodayrcsapistatisinfo = (params)=> {
-  return request({url:'/statis/gettodayrcstotalstatislist',method:'post',data:params})
-} 
-export const getrcsrcsapistatislist = (params)=> {
-  return request({url:'/statis/getrcstotalstatislist',method:'post',data:params})
-} 
-
 

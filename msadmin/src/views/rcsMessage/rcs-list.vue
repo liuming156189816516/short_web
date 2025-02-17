@@ -129,12 +129,10 @@ export default {
         total: 0,
         status:"",
         task_time: "",
-        task_name: "",
-        channel_id:""
+        task_name: ""
       },
       loading:false,
       checkIdArry:[],
-      goodsList:[],
       pageOption: resetPage(),
       taskDataList:[],
       showNum: [5,6,7,8]
@@ -159,21 +157,13 @@ export default {
   },
   created() {
     this.getTaskList();
-    this.getGoodsList();
   },
   methods: {
       resetQuery(){
         this.model1.status="";
         this.model1.task_time="";
         this.model1.task_name="";
-        this.model1.channel_id="";
         this.getTaskList(1);
-      },
-      //获取配置列表
-      getGoodsList(){
-        getchannellist().then(res =>{
-          this.goodsList = res.data.list || [];
-        })
       },
       handleNewwork(status) {
         this.model1.status = status;
@@ -197,7 +187,7 @@ export default {
           this.taskDataList = res.data.list||[];
           this.$nextTick(()=>{
             if (this.$refs.serveTable) {
-                this.$refs.serveTable.doLayout(); 
+              this.$refs.serveTable.doLayout(); 
             }
           })
         })
