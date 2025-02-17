@@ -235,10 +235,11 @@ export default {
 			return sums;
 		},
         async exportBtn(row){
-            const { data } = await exportsms({ptype:Number(this.currentIdx)+1,account:row.account});
+            let _this = this;
+            const { data } = await exportsms({ptype:Number(_this.currentIdx)+1,account:row.account});
             if(data.url){
                 window.location.href = data.url;
-                successTips(this)
+                successTips(_this)
             }
         }
     },
