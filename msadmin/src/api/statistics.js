@@ -22,3 +22,12 @@ export const gettodayrcstotalstatislist = (params)=> {
 export const getrcstotalstatislist = (params)=> {
   return request({url:'/statis/getrcstotalstatislist',method:'post',data:params})
 }
+
+export const exportsms = (params)=> {
+  return request({url:'/statis/exportsms',method:'post',data:params})
+}
+
+export const exportrcs = (params)=> {
+  return request({url:'/statis/exportrcs',method:'post',data:params})
+}
+

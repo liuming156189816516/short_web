@@ -31,23 +31,9 @@
                         </template>
                     </el-table-column>
                     <el-table-column prop="expend" :label="$t('sys_s028')" minWidth="100" />
-                    <el-table-column fixed="right" :label="$t('sys_c010')" width="120">
+                    <el-table-column fixed="right" :label="$t('sys_c010')" width="100">
                         <template slot-scope="scope">
-                            <el-button @click.stop type="text" size="mini">
-                                <el-dropdown @command="(command)=>{handleCommand(scope.row,command)}" trigger="click">
-                                    <span class="el-dropdown-link">
-                                    <el-button type="warning" size="mini" :disabled="checkIdArry.length>0||!scope.row.url">
-                                        {{ $t('sys_c080') }}
-                                        <i class="el-icon-arrow-down el-icon--right"></i>
-                                    </el-button>
-                                    </span>
-                                    <el-dropdown-menu slot="dropdown">
-                                    <el-dropdown-item v-for="(item,idx) in moreOption" :key="idx" :command="{item,idx}" v-show="idx!=0">
-                                        {{ item }}
-                                    </el-dropdown-item>
-                                    </el-dropdown-menu>
-                                </el-dropdown>
-                            </el-button>
+                            <el-button type="warning" size="small" @click="exportBtn(scope.row)">{{ $t('sys_c080') }}</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -63,7 +49,7 @@
 </template>
 <script>
 import { successTips, resetPage } from '@/utils/index'
-import { getrcstotalstatislist,gettodayrcstotalstatislist} from "@/api/statistics"
+import { getrcstotalstatislist,gettodayrcstotalstatislist,exportrcs} from "@/api/statistics"
 export default {
     data() {
         return {
@@ -253,10 +239,10 @@ export default {
 			});
 			return sums;
 		},
-        async handleCommand(row,command){
-            // const {data:{url}} = await exportsmstaskinfolist({task_id:row.id,type:command.idx});
-            if(row.url){
-                window.location.href = row.url;
+        async exportBtn(row){
+            const { data } = await exportrcs({ptype:Number(this.currentIdx)+1,account:row.account});
+            if(data.url){
+                window.location.href = data.url;
                 successTips(this)
             }
         }
