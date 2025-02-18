@@ -153,6 +153,7 @@ export default {
     },
     methods: {
         handleClick(tab, event){
+            this.page = 1;
             this.currentIdx = tab.index;
             this.initTaskList();
         },
@@ -228,7 +229,7 @@ export default {
 					sums[index] = values.reduce((prev, curr) => {
 						const value = Number(curr);
 						if (!isNaN(value)) {
-							return prev+curr;
+                            return parseFloat((prev+curr).toFixed(2));
 						} else {
 							return prev;
 						}

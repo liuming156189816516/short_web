@@ -18,7 +18,7 @@
                         <template v-else >
                             <div class="carousel_main" v-if="goods_list&&goods_list.length>0">
                                 <h3>我的产品</h3>
-                                <el-carousel :interval="2000" indicator-position="none" trigger="click" height="150px">
+                                <el-carousel :interval="3000" indicator-position="none" trigger="click" height="150px">
                                     <el-carousel-item v-for="(item,i) in goods_list" :key="i">
                                         <div class="product_list" v-for="(val,idx) in item" :key="idx"> 
                                             <span class="left_icon" :style="{background:idx==0?'#C4CADA':idx==1?'#FFF8DD':idx==2?'#FFEEF3':'#DFFFEA'}">
