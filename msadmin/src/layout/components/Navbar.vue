@@ -511,10 +511,10 @@ export default {
           }
           .week_yushow{
             color: rgba($color: #67c23a, $alpha: .7);
-              .icon-yushouhuore{
-                color: rgba($color: red, $alpha: .3);
-              }
+            .icon-yushouhuore{
+              color: rgba($color: red, $alpha: .3);
             }
+          }
           i{
             color: #99A1B7;
             font-size: 28px;
