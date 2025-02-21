@@ -22,12 +22,17 @@
                     <el-table-column prop="channel_id" label="SenderId" minWidth="230" align="center" />
                     <!-- <el-table-column prop="user_account" label="user_account" minWidth="230" align="center" /> -->
                     <!-- <el-table-column prop="user_secret" label="user_secret" minWidth="230" align="center" /> -->
+                    <!-- <el-table-column prop="price" :label="$t('sys_s026')" minWidth="230" align="center" /> -->
+                    <el-table-column prop="channel_id" :label="$t('sys_s039')" minWidth="230" align="center">
+						<template slot-scope="scope">
+                            {{ recomOption[scope.row.channel_type]||"-" }}
+                        </template>
+					</el-table-column>
                     <el-table-column minWidth="160" :label="$t('sys_c005')" align="center" fixed="right">
 						<template slot-scope="scope">
                             <el-tag :type="scope.row.status==1?'success':'danger'">{{ scope.row.status==1?$t('sys_c025'):$t('sys_c026')}}</el-tag>
                         </template>
 					</el-table-column>
-                    <el-table-column prop="price" :label="$t('sys_s026')" minWidth="230" align="center" />
                     <el-table-column width="160" :label="$t('sys_c010')" align="center" fixed="right">
 						<template slot-scope="scope">
 							<el-button type="primary" size="mini" plain @click="addConfigBtn(scope.row,2)">{{ $t('sys_c027') }}</el-button>
@@ -51,13 +56,18 @@
                 <el-form-item label="user_secret" prop="good_secret">
                     <el-input clearable v-model="configForm.good_secret" oninput="value=value.replace(/[\u4E00-\u9FA5]/g,'')" :placeholder="$t('sys_mat061',{value:'user_secret'})" />
                 </el-form-item> -->
-                <el-form-item :label="$t('sys_s026')" prop="good_price">
+                <!-- <el-form-item :label="$t('sys_s026')" prop="good_price">
                     <el-input clearable v-model="configForm.good_price" oninput="value=value.replace(/[\u4E00-\u9FA5]/g,'')" :placeholder="$t('sys_mat061',{value: $t('sys_s012')})" />
-                </el-form-item>
+                </el-form-item> -->
                 <el-form-item :label="$t('sys_c005')" prop="status">
                     <el-radio-group v-model="configForm.status">
                         <el-radio :label="1">{{ $t('sys_c025') }}</el-radio>
                         <el-radio :label="2">{{ $t('sys_c026') }}</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item :label="$t('sys_s039')" prop="recom_good">
+                    <el-radio-group v-model="configForm.recom_good">
+                        <el-radio :label="idx" v-for="(item,idx) in recomOption" :key="idx" v-show="idx!=0">{{ item }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label-width="0" style="text-align:center;">
@@ -90,11 +100,15 @@ export default {
                 channel_id:"",
                 good_account:"",
                 good_secret:"",
-                good_price:""
+                good_price:"",
+                recom_good:1
             }
 		}
 	},
     computed: {
+        recomOption(){
+            return ["",this.$t('sys_s036'),this.$t('sys_s037'),this.$t('sys_s038')]
+        },
         configRules(){
             return{
                 good_name: [{ required: true, message:this.$t('sys_mat061',{value:this.$t('sys_s011')}), trigger: 'blur' }],
@@ -102,7 +116,8 @@ export default {
 				good_account: [{ required: true, message:this.$t('sys_mat061',{value:'user_account'}), trigger: 'blur' }],
                 good_secret: [{ required: true, message:this.$t('sys_mat061',{value:'user_secret'}), trigger: 'blur' }],
                 good_price: [{ required: true, message:this.$t('sys_mat061',{value:this.$t('sys_s012')}), trigger: 'blur' }],
-                status: [{ required: true, message: this.$t('sys_c089',{value:'SenderId'}), trigger: 'change' }]
+                status: [{ required: true, message: this.$t('sys_c089',{value:'SenderId'}), trigger: 'change' }],
+                recom_good: [{ required: true, message: this.$t('sys_c089',{value:'SenderId'}), trigger: 'change' }]
             }
         }
     },
@@ -132,7 +147,8 @@ export default {
             this.configForm.id=val.channel_id;
             this.configForm.good_name=val.name;
             this.configForm.channel_id=val.channel_id;
-            this.configForm.good_price=val.price;
+            // this.configForm.good_price=val.price;
+            this.configForm.recom_good=val.channel_type||3;
             this.configModel=true;
         },
         //提交
@@ -144,7 +160,8 @@ export default {
                         status:this.configForm.status,
                         name:this.configForm.good_name,
                         channel_id:this.configForm.channel_id,
-                        price:Number(this.configForm.good_price)
+                        // price:Number(this.configForm.good_price),
+                        channel_type:Number(this.configForm.recom_good)
 					}
 					this.type==2?data.channel_id=this.configForm.id:'',
                     this.isLoading = true;

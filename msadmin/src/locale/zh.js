@@ -967,6 +967,11 @@ export default {
     'sys_s032': '计费数',
     'sys_s033': '未知数',
     'sys_s034': 'RCS单价(USDT)',
+    'sys_s035': 'SMS单价(USDT)',
+    'sys_s036': '日推荐',
+    'sys_s037': '周推荐',
+    'sys_s038': '其他',
+    'sys_s039': '产品推荐',
 
     'sys_r001': 'RCS管理',
     'sys_r002': 'RCS任务',

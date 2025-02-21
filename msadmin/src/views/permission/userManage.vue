@@ -15,11 +15,11 @@
     element-loading-spinner="el-icon-loading" element-loading-background="rgba(255, 255, 255,1)">
       <el-table-column prop="account" :label="$t('sys_c003')" minWidth="100" />
       <el-table-column prop="pwd_str" :label="$t('sys_c016')" minWidth="80" />
-      <el-table-column prop="two_pwd" :label="$t('sys_q130')" minWidth="80" >
+      <!-- <el-table-column prop="two_pwd" :label="$t('sys_q130')" minWidth="80" >
         <template slot-scope="scope">
           {{ scope.row.two_pwd || "-" }}
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column prop="role_name" :label="$t('sys_c004')" minWidth="100" />
       <!-- <el-table-column prop="invite_code" :label="$t('sys_q133')" minWidth="100" /> -->
       <el-table-column prop="status" :label="$t('sys_c005')" minWidth="80">
@@ -45,6 +45,11 @@
       <el-table-column prop="rcs_price" :label="$t('sys_s034')" minWidth="80">
         <template slot-scope="scope">
           {{ scope.row.rcs_price>0?scope.row.rcs_price:"-" }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="sms_price" :label="$t('sys_s035')" minWidth="80">
+        <template slot-scope="scope">
+          {{ scope.row.sms_price>0?scope.row.sms_price:"-" }}
         </template>
       </el-table-column>
       <!-- <el-table-column prop="rcs_api_secret" :label="$t('sys_r015')" minWidth="120">
@@ -106,9 +111,9 @@
               </template>
             </el-input>
         </el-form-item>
-        <el-form-item :label="$t('sys_q130')+':'" prop="pwd_str">
+        <!-- <el-form-item :label="$t('sys_q130')+':'" prop="pwd_str">
           <el-input v-model="userForm.pwd_str" :placeholder="$t('sys_mat061',{value:$t('sys_q130')})"></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <!-- <el-form-item :label="$t('sys_c007')+':'" prop="portNum">
           <el-input v-model="userForm.portNum" :placeholder="$t('sys_c019')"></el-input>
         </el-form-item>
@@ -126,7 +131,10 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item :label="$t('sys_s034')">
-            <el-input clearable v-model="userForm.rcs_price" oninput="value=value.replace(/[\u4E00-\u9FA5]/g,'')" :placeholder="$t('sys_mat061',{value: $t('sys_s034')})" />
+          <el-input clearable v-model="userForm.rcs_price" oninput="value=value.replace(/[\u4E00-\u9FA5]/g,'')" :placeholder="$t('sys_mat061',{value: $t('sys_s034')})" />
+        </el-form-item>
+        <el-form-item :label="$t('sys_s035')">
+          <el-input clearable v-model="userForm.sms_price" oninput="value=value.replace(/[\u4E00-\u9FA5]/g,'')" :placeholder="$t('sys_mat061',{value: $t('sys_s035')})" />
         </el-form-item>
         
         <el-form-item label-width="0" style="text-align:center;" class="el-item-bottom">
@@ -169,6 +177,7 @@ export default {
         sureTime:"",
         pwd_str:"",
         rcs_price:"",
+        sms_price:"",
         status:1,
         is_api:0
       }
@@ -274,8 +283,9 @@ export default {
         this.userForm.is_api=row.is_rcs_api;
         // this.userForm.portNum=row.port_num;
         this.userForm.password=row.pwd_str;
-        this.userForm.pwd_str=row.two_pwd;
+        // this.userForm.pwd_str=row.two_pwd;
         this.userForm.rcs_price=row.rcs_price;
+        this.userForm.sms_price=row.sms_price;
         // this.userForm.sureTime=row.valid_time>0?row.valid_time*1000:"";
       })
     },
@@ -290,12 +300,13 @@ export default {
             role_id:this.userForm.role_id,
             pwd:md5(this.userForm.password),
             pwd_str:this.userForm.password,
-            two_pwd:this.userForm.pwd_str,
+            // two_pwd:this.userForm.pwd_str,
             valid_time:Date.parse(this.userForm.sureTime)/1000,
             port_num:Number(this.userForm.portNum),
             status:this.userForm.status,
             is_rcs_api:this.userForm.is_api,
-            rcs_price:Number(this.userForm.rcs_price)
+            rcs_price:Number(this.userForm.rcs_price),
+            sms_price:Number(this.userForm.sms_price)
           }
           this.userForm.type==0?delete params.uid:"";
           this.isLoading=true;

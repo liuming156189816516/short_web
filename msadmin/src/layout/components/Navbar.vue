@@ -17,6 +17,11 @@
             <div class="good_list">
               <!-- ,goods_name.channel_id||''==item.channel_id?'good_active':'' -->
               <div :class="['good_item',goods_name&&goods_name.channel_id==item.channel_id?'good_active':'']" v-for="(item,idx) in goods_list" v-if="item.status==1" @click.stop="changeGood(item,idx)">
+                <div :class="['lable_icon',item.channel_type==2?'week_yushow':'']" v-if="item.channel_type==1||item.channel_type==2">
+                 <i class="iconfont icon-yushouhuore"></i>
+                 {{ recomOption[item.channel_type] }}
+                  <!-- <span class="lable_text">日推荐</span> -->
+                </div>
                 <i class="iconfont icon-ui-checks-grid" />
                 <p>{{ item.name }}</p>
               </div>
@@ -90,6 +95,9 @@ export default {
         return true;
       }
       return false;
+    },
+    recomOption(){
+      return ["",this.$t('sys_s036'),this.$t('sys_s037'),this.$t('sys_s038')]
     },
     timeOption(){
       return [
@@ -460,10 +468,41 @@ export default {
           width: 33.33%;
           flex-shrink: 0;
           cursor: pointer;
+          position: relative;
           justify-content: center;
           flex-direction: column;
           border-bottom: 1px solid #F1F1F4;
           border-right: 1px solid #F1F1F4;
+          transition: all .3s ease;
+          .lable_icon{
+            display: flex;
+            width: 65px;
+            height: 22px;
+            font-size: 12px;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            flex-shrink: 0;
+            // color: #fff;
+            color: #67c23a;
+            // color: #c2e7b0;
+            background: #fbc4c4;
+            align-items: center;
+            font-weight: bold;
+            justify-content: center;
+            border-radius: 0 0 8px;
+            .icon-yushouhuore{
+              color: red;
+              font-size: 13px;
+              margin-right: 2px;
+            }
+          }
+          .week_yushow{
+            color: rgba($color: #67c23a, $alpha: .7);
+              .icon-yushouhuore{
+                color: rgba($color: red, $alpha: .3);
+              }
+            }
           i{
             color: #99A1B7;
             font-size: 28px;
