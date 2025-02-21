@@ -1,7 +1,12 @@
 <template>
   <div class="navbar">
     <hamburger id="hamburger-container" :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
-    <div class="change_name" v-if="goods_name">产品: {{goods_name.name}}</div>
+    <div class="change_name" v-if="goods_name">
+      产品: {{goods_name.name}}
+      <template v-if="goods_name.channel_type==1||goods_name.channel_type==2">
+        【<i class="iconfont icon-yushouhuore"></i><span>{{ recomOption[goods_name.channel_type] }}</span>】
+      </template>
+    </div>
     <div class="right-menu">
       <div class="goods_menu">
         <div class="set_time">
@@ -301,6 +306,13 @@ export default {
     float: left;
     font-size: 14px;
     align-items: center;
+    .icon-yushouhuore{
+      color: red;
+      font-size: 13px;
+    }
+    span{
+      color: #67c23a;
+    }
   }
 
   .right-menu {

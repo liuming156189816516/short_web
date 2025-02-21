@@ -26,7 +26,12 @@
                                             </span>
                                             <div class="right_desc">
                                                 <h4>{{ val.name }}</h4>
-                                                <p>SenderId: {{ val.channel_id }}</p>
+                                                <p :class="[val.channel_type==2?'week_yushow':val.channel_type==3?'week_yushow1':'']">
+                                                    <i class="iconfont icon-yushouhuore"></i>
+                                                    <span>
+                                                        {{ recomOption[val.channel_type] }}
+                                                    </span>
+                                                </p>
                                             </div>
                                         </div>
                                     </el-carousel-item>
@@ -59,7 +64,10 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['userInfo'])
+        ...mapGetters(['userInfo']),
+        recomOption(){
+            return ["",this.$t('sys_s036'),this.$t('sys_s037'),this.$t('sys_s038')]
+        }
     },
     created(){
         this.initChannel();
@@ -183,9 +191,31 @@ export default {
                                 align-self: flex-start; 
                             }
                             p{
-                                color: #C4CADA;
                                 margin-top: auto;  
                                 font-size: 13px;
+                                align-items: center;
+                                font-weight: bold;
+                                justify-content: center;
+                                border-radius: 0 0 8px;
+                                .icon-yushouhuore{
+                                    color: red;
+                                    font-size: 13px;
+                                    margin-right: 2px;
+                                }
+                                span{
+                                    color: #67c23a;
+                                }
+                            }
+                            .week_yushow{
+                                color: rgba($color: #67c23a, $alpha: .7);
+                                .icon-yushouhuore{
+                                    color: rgba($color: red, $alpha: .3);
+                                }
+                            }
+                            .week_yushow1{
+                                .icon-yushouhuore{
+                                    color: rgba($color: red, $alpha: .1);
+                                }
                             }
                         }
                     }
