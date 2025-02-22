@@ -2,10 +2,10 @@
   <div class="navbar">
     <hamburger id="hamburger-container" :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
     <div class="change_name" v-if="goods_name">
-      产品: {{goods_name.name}}
-      <template v-if="goods_name.channel_type==1||goods_name.channel_type==2">
-        【<i class="iconfont icon-yushouhuore"></i><span>{{ recomOption[goods_name.channel_type] }}</span>】
-      </template>
+      产品:{{goods_name.name}}
+      <div :class="['good_head',goods_name.channel_type==2?'week_yushow':goods_name.channel_type==3?'day_yushow':'']">
+      【<i class="iconfont icon-yushouhuore"></i>{{ recomOption[goods_name.channel_type] }}】
+      </div>
     </div>
     <div class="right-menu">
       <div class="goods_menu">
@@ -27,10 +27,9 @@
             <div class="good_list">
               <!-- ,goods_name.channel_id||''==item.channel_id?'good_active':'' -->
               <div :class="['good_item',goods_name&&goods_name.channel_id==item.channel_id?'good_active':'']" v-for="(item,idx) in goods_list" v-if="item.status==1" @click.stop="changeGood(item,idx)">
-                <div :class="['lable_icon',item.channel_type==2?'week_yushow':'']" v-if="item.channel_type==1||item.channel_type==2">
+                <div :class="['lable_icon',item.channel_type==2?'week_yushow':item.channel_type==3?'day_yushow':'']">
                  <i class="iconfont icon-yushouhuore"></i>
                  {{ recomOption[item.channel_type] }}
-                  <!-- <span class="lable_text">日推荐</span> -->
                 </div>
                 <i class="iconfont icon-ui-checks-grid" />
                 <p>{{ item.name }}</p>
@@ -321,12 +320,24 @@ export default {
     float: left;
     font-size: 14px;
     align-items: center;
-    .icon-yushouhuore{
-      color: red;
+    .good_head{
+      color: #FF0000;
+    }
+    i{
+      color: #FF0000;
       font-size: 13px;
     }
-    span{
-      color: #67c23a;
+  }
+  .week_yushow{
+    color: rgba($color: #3494ED, $alpha: .7) !important;
+    i{
+      color: rgba($color: #3494ED, $alpha: .7);
+    }
+  }
+  .day_yushow{
+    color: rgba($color: #324157, $alpha: .5) !important;
+    i{
+      color: rgba($color: #324157, $alpha: .5);
     }
   }
 
@@ -524,24 +535,28 @@ export default {
             top: 0px;
             left: 0px;
             flex-shrink: 0;
-            // color: #fff;
-            color: #67c23a;
-            // color: #c2e7b0;
+            color: #FF0000;
             background: #fbc4c4;
             align-items: center;
             font-weight: bold;
             justify-content: center;
             border-radius: 0 0 8px;
             .icon-yushouhuore{
-              color: red;
+              color: #FF0000;
               font-size: 13px;
               margin-right: 2px;
             }
           }
           .week_yushow{
-            color: rgba($color: #67c23a, $alpha: .7);
+            color: rgba($color: #3494ED, $alpha: .7);
             .icon-yushouhuore{
-              color: rgba($color: red, $alpha: .3);
+              color: rgba($color: #3494ED, $alpha: .7);
+            }
+          }
+          .day_yushow{
+            color: rgba($color: #324157, $alpha: .5);
+            .icon-yushouhuore{
+              color: rgba($color: #324157, $alpha: .5);
             }
           }
           i{

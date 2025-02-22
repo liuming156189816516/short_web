@@ -26,7 +26,7 @@
                                             </span>
                                             <div class="right_desc">
                                                 <h4>{{ val.name }}</h4>
-                                                <p :class="[val.channel_type==2?'week_yushow':val.channel_type==3?'week_yushow1':'']">
+                                                <p :class="[val.channel_type==2?'week_yushow':val.channel_type==3?'day_yushow':'']">
                                                     <i class="iconfont icon-yushouhuore"></i>
                                                     {{ recomOption[val.channel_type] }}
                                                 </p>
@@ -193,27 +193,26 @@ export default {
                                 font-size: 13px;
                                 align-items: center;
                                 font-weight: bold;
-                                color: #67c23a;
+                                color: #FF0000;
                                 justify-content: center;
                                 border-radius: 0 0 8px;
                                 .icon-yushouhuore{
-                                    color: red;
+                                    color: #FF0000;
                                     font-size: 13px;
                                     margin-right: 2px;
                                 }
                             }
                             .week_yushow{
-                                color: rgba($color: #67c23a, $alpha: .6);
+                                color: rgba($color: #3494ED, $alpha: .7);
                                 .icon-yushouhuore{
-                                    color: rgba($color: red, $alpha: .3);
+                                    color: rgba($color: #3494ED, $alpha: .7);
                                 }
                             }
-                            .week_yushow1{
-                                color: rgba($color: #67c23a, $alpha: .3);
+                            .day_yushow{
+                                color: rgba($color: #324157, $alpha: .5);
                                 .icon-yushouhuore{
-                                    color: rgba($color: red, $alpha: .2);
+                                color: rgba($color: #324157, $alpha: .5);
                                 }
-
                             }
                         }
                     }
