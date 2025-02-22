@@ -123,7 +123,7 @@ export default {
     },
     created() {
         this.uuid = this.$route.query._id;
-        this.userForm.account =this.$route.query.user;
+        this.userForm.account =this.$route.query._u;
         this.initAccount()
     },
     methods: {

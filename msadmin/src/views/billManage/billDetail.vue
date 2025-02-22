@@ -139,7 +139,6 @@ export default {
         this.user_role = this.userInfo.account;
         this.userForm.account = this.$route.query._u;
         this.uuid = u_id?u_id:this.userInfo.uid;
-        console.log(u_id);
         this.initAccount()
     },
     methods: {
