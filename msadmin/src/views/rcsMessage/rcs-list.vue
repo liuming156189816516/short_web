@@ -135,7 +135,7 @@ export default {
       checkIdArry:[],
       pageOption: resetPage(),
       taskDataList:[],
-      showNum: [5,6,7,8]
+      showNum: [4,6,7,8]
     }
   },
   computed: {
