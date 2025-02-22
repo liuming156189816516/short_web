@@ -109,14 +109,11 @@
       color: $subMenuActiveText !important;
     }
 
-    & .nest-menu .el-submenu>.el-submenu__title,
-    & .el-submenu .el-menu-item {
-      min-width: $sideBarWidth !important;
-      background-color: $subMenuBg !important;
-      // &:hover {
-      //   background-color: $subMenuHover !important;
-      // }
-    }
+    // & .nest-menu .el-submenu>.el-submenu__title,
+    // & .el-submenu {
+    //   min-width: $sideBarWidth !important;
+    //   background-color: $subMenuBg !important;
+    // }
 
     .el-menu-item:hover {
       color: $light-blue !important;

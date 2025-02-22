@@ -76,7 +76,7 @@
                 </template>
             </el-table-column>
             <el-table-column prop="fail_num" :label="$t('sys_s020')" minWidth="100" />
-            <el-table-column prop="expend_num" :label="$t('sys_s032')" minWidth="100" />
+            <!-- <el-table-column prop="expend_num" :label="$t('sys_s032')" minWidth="100" /> -->
             <el-table-column prop="unknown_num" :label="$t('sys_s033')" minWidth="100" />
             <el-table-column prop="expend" :label="$t('sys_s028')" width="100" />
             <el-table-column prop="itime" :label="$t('sys_c008')" minWidth="160">

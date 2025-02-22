@@ -52,6 +52,7 @@
           {{ scope.row.sms_price>0?scope.row.sms_price:"-" }}
         </template>
       </el-table-column>
+      <el-table-column prop="user_amount" :label="$t('sys_m099')" minWidth="80" />
       <!-- <el-table-column prop="rcs_api_secret" :label="$t('sys_r015')" minWidth="120">
         <template slot-scope="scope">
           {{ scope.row.rcs_api_secret||"-" }}
@@ -69,7 +70,7 @@
         </template>
       </el-table-column> -->
 
-      <el-table-column :label="$t('sys_c010')" minWidth="120">
+      <el-table-column :label="$t('sys_c010')" width="240">
         <template slot-scope="scope">
           <el-button size="small" type="primary" plain @click="showDetail(scope.row)">{{ $t('sys_m064') }}</el-button>
           <el-button size="small" type="primary" plain @click="addUser(scope.row,2)">{{ $t('sys_c027') }}</el-button>
@@ -231,7 +232,7 @@ export default {
       })
     },
     showDetail(row){
-      this.$router.push({path:'/bill-detail',query:{_id:row.uid}});
+      this.$router.push({path:'/user_bill',query:{user:row.account,_id:row.uid}});
     },
     handleNewwork(type){
       this.status = type;

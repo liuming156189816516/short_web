@@ -1,10 +1,10 @@
 <template>
     <div>
         <el-form size="small" :inline="true">
-            <!-- <el-form-item>
+            <el-form-item>
                 <el-button @click="$router.go(-1)" type="primary" plain
                     icon="el-icon-back">{{ $t('sys_q006') }}</el-button>
-            </el-form-item> -->
+            </el-form-item>
             <el-form-item>
                 <el-date-picker v-model="task_time" type="daterange" :range-separator="$t('sys_c108')"
                     :start-placeholder="$t('sys_c109')" :end-placeholder="$t('sys_c110')" style="width: 260px;" />
@@ -12,7 +12,7 @@
             <el-form-item>
                 <el-button icon="el-icon-search" type="primary" @click="initAccount(1)">{{ $t('sys_c002') }}</el-button>
             </el-form-item>
-            <el-form-item class="el-item-right" v-if="user_role=='admin'">
+            <el-form-item class="el-item-right">
                 <el-button type="primary" @click="addUser(0, 1)">{{ $t('sys_s045') }}</el-button>
             </el-form-item>
         </el-form>
@@ -68,8 +68,7 @@
         <el-dialog :title="$t('sys_s045')" center :visible.sync="userModel" :close-on-click-modal="false" width="500px">
             <el-form size="small" :model="userForm" label-width="90px" :rules="userRules" ref="userForm">
                 <el-form-item :label="$t('sys_c009') + ':'" prop="account">
-                    <el-input v-model="userForm.account"
-                        :placeholder="$t('sys_mat061', { value: $t('sys_c009') })"></el-input>
+                    <el-input disabled v-model="userForm.account" :placeholder="$t('sys_mat061', { value: $t('sys_c009') })"></el-input>
                 </el-form-item>
                 <el-form-item :label="$t('sys_s040') + ':'" prop="type">
                     <el-radio-group v-model="userForm.type">
@@ -138,8 +137,8 @@ export default {
         }
     },
     created() {
-        this.user_role = this.userInfo.account;
-        this.uuid = this.$route.query._id||this.userInfo.uid;
+        this.uuid = this.$route.query._id;
+        this.userForm.account =this.$route.query.user;
         this.initAccount()
     },
     methods: {

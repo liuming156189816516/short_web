@@ -277,6 +277,15 @@ export let asyncRoutes = [
         meta: {
           title: i18n.t('sys_l118')
         }
+      },
+      {
+        hidden: true,
+        path: '/user_bill',
+        component: () => import('@/views/permission/user_bill'),
+        name: 'user_bill',
+        meta: {
+          title: i18n.t('sys_m064')
+        }
       }
     ]
   },
