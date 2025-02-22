@@ -222,6 +222,22 @@ export let asyncRoutes = [
     ]
   },
   {
+    path: '/billManage',
+    component: Layout,
+    name: 'billManage',
+    meta: { title:i18n.t('sys_s047'),icon: 'el-icon-s-data' },
+    children: [
+      {
+        path: '/bill-detail',
+        component: () => import('@/views/billManage/billDetail'),
+        name: 'bill-detail',
+        meta: {
+          title:i18n.t('sys_m064'),
+        }
+      }
+    ]
+  },
+  {
     path: '/permission',
     component: Layout,
     name: 'permission',

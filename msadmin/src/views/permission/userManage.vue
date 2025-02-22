@@ -69,8 +69,9 @@
         </template>
       </el-table-column> -->
 
-      <el-table-column :label="$t('sys_c010')" minWidth="100">
+      <el-table-column :label="$t('sys_c010')" minWidth="120">
         <template slot-scope="scope">
+          <el-button size="small" type="primary" plain @click="showDetail(scope.row)">{{ $t('sys_m064') }}</el-button>
           <el-button size="small" type="primary" plain @click="addUser(scope.row,2)">{{ $t('sys_c027') }}</el-button>
           <el-button size="small" type="danger" plain @click="baseHandle(scope.row)">{{ $t('sys_c028') }}</el-button>
         </template>
@@ -228,6 +229,9 @@ export default {
       rolelist({page:-1,limit:200}).then(res=>{
         this.roleOption = res.data.list||[];
       })
+    },
+    showDetail(row){
+      this.$router.push({path:'/bill-detail',query:{_id:row.uid}});
     },
     handleNewwork(type){
       this.status = type;

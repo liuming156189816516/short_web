@@ -9,6 +9,11 @@
     </div>
     <div class="right-menu">
       <div class="goods_menu">
+        <div class="user_blame" v-if="userInfo.account !='admin'">
+          <span>账户余额：</span>
+          <span style="color: #67c23a;font-weight: bold;min-width: 40px;">{{ user_balance }}</span>
+          <el-button size="mini" type="primary" :loading="isLoading" plain icon="el-icon-refresh" @click.stop="initBalance">{{ isLoading?$t("sys_q040"):$t("sys_l095") }}</el-button>
+        </div>
         <div class="set_time">
           <span class="time_name">系统时区：</span>
           <el-select size="small" v-model="currentTime" placeholder="请选择" @change="changeTIme" style="width: 160px;">
@@ -67,7 +72,8 @@ import ErrorLog from '@/components/ErrorLog'
 import Screenfull from '@/components/Screenfull'
 import SizeSelect from '@/components/SizeSelect'
 import Search from '@/components/HeaderSearch'
-import { changechannel,getuidchannel} from "@/api/config"
+import { getuseramount } from "@/api/bill"
+import { changechannel,getuidchannel } from "@/api/config"
 import { setGoodName,getGoodName,getChannel,removeGoodName,setTimeZone,getTimeZone } from '@/utils/auth'
 
 export default {
@@ -82,11 +88,13 @@ export default {
   data() {
     return {
       langeIdx: 0,
-      currentTime:"Asia/Shanghai",
       activeIndex:0,
       goods_list:[],
       goods_name:null,
-      shwo_goods:false
+      shwo_goods:false,
+      isLoading:false,
+      user_balance:null,
+      currentTime:"Asia/Shanghai",
     }
   },
   computed: {
@@ -126,6 +134,7 @@ export default {
     }
   },
   created(){
+    this.initBalance();
     this.currentTime = getTimeZone();
   },
   mounted() {
@@ -146,6 +155,12 @@ export default {
     changeTIme(){
       setTimeZone(this.currentTime);
       window.location.reload();
+    },
+    async initBalance(){
+      this.isLoading = true;
+      const { data } = await getuseramount();
+      this.isLoading = false;
+      this.user_balance = data.user_amount
     },
     async getUserGood(){
       this.checkChannel( async(value) => {
@@ -421,6 +436,20 @@ export default {
     position: relative;
     margin-right: 20px;
     align-items: center;
+    .user_blame{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 20px;
+      .el-button{
+        height: 32px;
+        margin-left: 10px;
+        font-size: 12px;
+        ::v-deep i{
+          font-size: 18px;
+        }
+      }
+    }
     .el-button{
       display: flex;
       height: 36px;
