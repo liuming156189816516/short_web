@@ -2,12 +2,10 @@
     <div>
         <el-form size="small" :inline="true">
             <el-form-item>
-                <el-button @click="$router.go(-1)" type="primary" plain
-                    icon="el-icon-back">{{ $t('sys_q006') }}</el-button>
+                <el-button @click="$router.go(-1)" type="primary" plain icon="el-icon-back">{{ $t('sys_q006') }}</el-button>
             </el-form-item>
             <el-form-item>
-                <el-date-picker v-model="task_time" type="daterange" :range-separator="$t('sys_c108')"
-                    :start-placeholder="$t('sys_c109')" :end-placeholder="$t('sys_c110')" style="width: 260px;" />
+                <el-date-picker v-model="task_time" type="daterange" :range-separator="$t('sys_c108')" :start-placeholder="$t('sys_c109')" :end-placeholder="$t('sys_c110')" style="width: 260px;" />
             </el-form-item>
             <el-form-item>
                 <el-button icon="el-icon-search" type="primary" @click="initAccount(1)">{{ $t('sys_c002') }}</el-button>
