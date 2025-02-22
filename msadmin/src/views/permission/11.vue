@@ -1,16 +1,18 @@
 <template>
     <div>
         <el-form size="small" :inline="true">
-            <el-form-item v-if="$route.query._u">
-                <el-button @click="$router.go(-1)" type="primary" plain icon="el-icon-back">{{ $t('sys_q006') }}</el-button>
+            <el-form-item>
+                <el-button @click="$router.go(-1)" type="primary" plain
+                    icon="el-icon-back">{{ $t('sys_q006') }}</el-button>
             </el-form-item>
             <el-form-item>
-                <el-date-picker v-model="task_time" type="daterange" :range-separator="$t('sys_c108')" :start-placeholder="$t('sys_c109')" :end-placeholder="$t('sys_c110')" style="width: 260px;" />
+                <el-date-picker v-model="task_time" type="daterange" :range-separator="$t('sys_c108')"
+                    :start-placeholder="$t('sys_c109')" :end-placeholder="$t('sys_c110')" style="width: 260px;" />
             </el-form-item>
             <el-form-item>
                 <el-button icon="el-icon-search" type="primary" @click="initAccount(1)">{{ $t('sys_c002') }}</el-button>
             </el-form-item>
-            <el-form-item class="el-item-right" v-if="$route.query._u">
+            <el-form-item class="el-item-right">
                 <el-button type="primary" @click="addUser(0, 1)">{{ $t('sys_s045') }}</el-button>
             </el-form-item>
         </el-form>
@@ -18,7 +20,6 @@
             :header-cell-style="{ color: '#909399', textAlign: 'center' }" :cell-style="{ textAlign: 'center' }"
             v-loading="loading" element-loading-spinner="el-icon-loading"
             element-loading-background="rgba(255, 255, 255,1)">
-            <!-- <el-table-column prop="id" label="ID" minWidth="100" /> -->
             <el-table-column prop="type" :label="$t('sys_c005')" minWidth="80">
                 <template slot="header">
                     <el-dropdown trigger="click" size="medium " @command="(command) => handleNewwork(command)">
@@ -40,33 +41,21 @@
             <el-table-column prop="amount" :label="$t('sys_p016')" minWidth="80" />
             <el-table-column prop="before_balance" :label="$t('sys_m082')" minWidth="100" />
             <el-table-column prop="remark" :label="$t('sys_l062')" minWidth="80" show-overflow-tooltip />
-            <!-- <el-table-column prop="creator" :label="$t('sys_s044')" minWidth="80">
-          <template slot-scope="scope">
-            {{ scope.row.creator||"-" }}
-          </template>
-        </el-table-column> -->
             <el-table-column prop="itime" :label="$t('sys_c008')" minWidth="100">
                 <template slot-scope="scope">
                     {{ $baseFun.resetTime(scope.row.itime * 1000) }}
                 </template>
             </el-table-column>
-            <!-- <el-table-column :label="$t('sys_c010')" minWidth="100">
-          <template slot-scope="scope">
-            <el-button size="small" type="primary" plain @click="addUser(scope.row,2)">{{ $t('sys_c027') }}</el-button>
-            <el-button size="small" type="danger" plain @click="baseHandle(scope.row)">{{ $t('sys_c028') }}</el-button>
-          </template>
-        </el-table-column> -->
         </el-table>
         <div class="layui_page">
             <el-pagination background @size-change="setPageSize" @current-change="switchPage" :page-sizes="pageOption"
                 :page-size="limit" layout="total, sizes, prev, pager, next, jumper" :total="total" />
         </div>
 
-        <!-- 新增-->
         <el-dialog :title="$t('sys_s045')" center :visible.sync="userModel" :close-on-click-modal="false" width="500px">
             <el-form size="small" :model="userForm" label-width="90px" :rules="userRules" ref="userForm">
                 <el-form-item :label="$t('sys_c009') + ':'" prop="account">
-                    <el-input v-model="userForm.account" disabled :placeholder="$t('sys_mat061', { value: $t('sys_c009') })"></el-input>
+                    <el-input disabled v-model="userForm.account" :placeholder="$t('sys_mat061', { value: $t('sys_c009') })"></el-input>
                 </el-form-item>
                 <el-form-item :label="$t('sys_s040') + ':'" prop="type">
                     <el-radio-group v-model="userForm.type">
@@ -135,10 +124,8 @@ export default {
         }
     },
     created() {
-        const u_id = this.$route.query._id;
-        this.user_role = this.userInfo.account;
-        this.userForm.account = this.$route.query._u;
-        this.uuid = u_id?u_id:this.userInfo.uid;
+        this.uuid = this.$route.query._id;
+        this.userForm.account =this.$route.query.user;
         this.initAccount()
     },
     methods: {

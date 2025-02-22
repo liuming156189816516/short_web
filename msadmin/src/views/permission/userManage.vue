@@ -232,7 +232,7 @@ export default {
       })
     },
     showDetail(row){
-      this.$router.push({path:'/user_bill',query:{user:row.account,_id:row.uid}});
+      this.$router.push({path:'/user_bill',query:{_u:row.account,_id:row.uid}});
     },
     handleNewwork(type){
       this.status = type;
