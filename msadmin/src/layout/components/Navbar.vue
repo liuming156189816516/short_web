@@ -12,7 +12,7 @@
         <div class="user_blame" v-if="userInfo.account !='admin'">
           <span>账户余额：</span>
           <span style="color: #67c23a;font-weight: bold;min-width: 40px;">{{ user_balance }}</span>
-          <el-button size="mini" type="primary" :loading="isLoading" plain icon="el-icon-refresh" @click.stop="initBalance">{{ isLoading?$t("sys_q040"):$t("sys_l095") }}</el-button>
+          <el-button size="mini" type="primary" :loading="isLoading" plain icon="el-icon-refresh" @click.stop="initBalance">{{ isLoading?"加载":$t("sys_l095") }}</el-button>
         </div>
         <div class="set_time">
           <span class="time_name">系统时区：</span>
