@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="$route.name=='user_bill'">
     <billPage :key="$route.name" />
   </div>
 </template>
@@ -8,18 +8,7 @@
 import billPage from '../billManage/billDetail.vue'
 export default {
   name: 'user_bill',
-  mixins: [],
-  components: {billPage},
-  props: {},
-  data () {
-    return {
-    }
-  },
-  computed: {},
-  created () {},
-  mounted () {},
-  methods: {},
-  watch: {},
+  components: {billPage}
 }
 </script>
 
