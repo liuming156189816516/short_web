@@ -194,7 +194,7 @@ export default {
                                 align-items: center;
                                 font-weight: bold;
                                 color: #FF0000;
-                                justify-content: center;
+                                // justify-content: center;
                                 border-radius: 0 0 8px;
                                 .icon-yushouhuore{
                                     color: #FF0000;
