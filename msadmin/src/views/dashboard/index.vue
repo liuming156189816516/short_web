@@ -98,6 +98,7 @@ export default {
             if(list.length>0){
                 let r_list = list.filter(item=>item.status==1);
                 setChannel(list);
+                this.EventBus.$emit('channel',r_list);
                 this.goods_list = this.$baseFun.splitString(r_list,4);
             }
         }
