@@ -5,6 +5,7 @@
   "author": "lucky",
   "scripts": {
     "dev": "vue-cli-service serve",
+    "serve": "vue-cli-service serve  --ms_test",
     "lint": "eslint --ext .js,.vue src",
     "build:ms_prod": "vue-cli-service build --mode ms_prod",
     "build:ms_test": "vue-cli-service build --mode ms_test",
