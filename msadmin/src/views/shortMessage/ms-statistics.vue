@@ -54,7 +54,7 @@
         <el-button icon="el-icon-refresh-right" @click="restQueryBtn">{{ $t('sys_c049') }}</el-button>
       </el-form-item>
     </el-form>
-    <!-- 分组管理 -->
+    <!-- 列表 -->
     <div class="continer_main">
       <div class="group_continer">
         <el-table
@@ -71,7 +71,11 @@
           use-virtual
         >
           <el-table-column :label="$t('sys_c134')" prop="statis_time_str" width="120" />
-          <el-table-column label="发送方式" min-width="100" prop="channel_name" />
+          <el-table-column label="发送方式" min-width="100" prop="send_type" >
+            <template slot-scope="scope">
+              {{ sendingList[scope.row[scope.column.property]?Number(scope.row[scope.column.property]):0].label || '-' }}
+            </template>
+          </el-table-column>
           <el-table-column :label="$t('sys_s018')" min-width="100" prop="total_num" />
           <el-table-column :label="$t('sys_s019')" min-width="120" prop="sucess_num">
             <template slot-scope="scope">
