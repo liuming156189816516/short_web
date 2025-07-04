@@ -42,7 +42,7 @@
           </el-dropdown>
         </el-form-item> -->
     </el-form>
-    <!-- 分组管理 -->
+
     <div class="continer_main">
       <div class="tab_check_warp">
         <i slot="reference" class="el-icon-info" />
@@ -58,7 +58,7 @@
         border
         element-loading-background="rgba(255, 255, 255,1)"
         element-loading-spinner="el-icon-loading"
-        height="760"
+        height="650"
         show-summary
         style="width: 100%;"
         @selection-change="handleSelectionChange"
@@ -87,7 +87,6 @@
             {{ sendingList[scope.row[scope.column.property]?Number(scope.row[scope.column.property]):0].label || '-' }}
           </template>
         </el-table-column>
-
         <el-table-column :label="$t('sys_s011')" min-width="130" prop="channel_name" show-overflow-tooltip />
         <el-table-column :label="$t('sys_l059')" prop="status" width="120">
           <template slot="header">
@@ -116,11 +115,6 @@
           </template>
         </el-table-column>
         <el-table-column :label="$t('sys_s017')" min-width="150" prop="content" show-overflow-tooltip />
-        <!-- <el-table-column prop="data_pack_name" :label="$t('sys_rai090')" minWidth="120">
-                <template slot-scope="scope">
-                  {{scope.row.data_pack_name||"-" }}
-                </template>
-            </el-table-column> -->
         <el-table-column :label="$t('sys_s027')" min-width="100" prop="total_num" />
         <el-table-column :label="$t('sys_s015')" min-width="100" prop="not_start_num" />
         <el-table-column :label="$t('sys_s019')" min-width="100" prop="sucess_num">
@@ -130,7 +124,6 @@
           </template>
         </el-table-column>
         <el-table-column :label="$t('sys_s020')" min-width="100" prop="fail_num" />
-        <!-- <el-table-column prop="expend_num" :label="$t('sys_s032')" minWidth="100" /> -->
         <el-table-column :label="$t('sys_s033')" min-width="100" prop="unknown_num" />
         <el-table-column :label="$t('sys_s028')" prop="expend" width="100" />
         <el-table-column :label="$t('sys_c008')" min-width="160" prop="itime">
@@ -206,7 +199,7 @@ export default {
       goodsList: [],
       pageOption: resetPage(),
       taskDataList: [],
-      showNum: [5, 7, 8, 9, 10],
+      showNum: [6,7, 8, 9, 10],
       sendingList: [
         { label: '全部', value: 0 },
         { label: '方式1', value: 1 },
@@ -276,7 +269,7 @@ export default {
         status: this.model1.status || -1,
         name: this.model1.task_name,
         channel_id: this.model1.channel_id,
-        send_type: this.model1.send_type ||0,
+        send_type: this.model1.send_type || 0,
         start_time: sTime ? this.$baseFun.mexicoTime(sTime[0], 1) : -1,
         end_time: sTime ? this.$baseFun.mexicoTime(sTime[1], 2) : -1
       }
@@ -398,7 +391,6 @@ export default {
             if (!isNaN(value)) {
               return parseFloat((prev + curr).toFixed(3));
             } else {
-              console.log('011');
               return prev;
             }
           }, 0);
