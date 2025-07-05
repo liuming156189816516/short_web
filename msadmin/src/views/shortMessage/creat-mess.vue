@@ -441,7 +441,7 @@ export default {
         // { label: '全部',value: 0 },
         { label: '方式1',value: 1 },
         { label: '方式2',value: 2 },
-        { label: '方式3',value: 3 },
+        // { label: '方式3',value: 3 },
       ] // 发送方式
     }
   },
